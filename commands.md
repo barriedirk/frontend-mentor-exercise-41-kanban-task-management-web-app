@@ -10,6 +10,10 @@ pnpm add @tanstack/react-query-devtools
 
 pnpm add react-hook-form zod @hookform/resolvers
 
+pnpm dlx shadcn@latest init
+
+# read https://ui.shadcn.com/docs/installation/next
+
 
 
 pnpm dev	Levanta la app en modo desarrollo
