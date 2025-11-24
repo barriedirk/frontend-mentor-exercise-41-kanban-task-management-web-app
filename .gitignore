@@ -2,6 +2,9 @@ node_modules
 figma
 no_deploy
 .DS_Store
+.continue
+
+antigravity-figma-mcp
 
 ############################
 # OS X

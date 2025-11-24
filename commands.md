@@ -8,6 +8,9 @@ pnpm add -D @types/react
 
 pnpm add @tanstack/react-query-devtools
 
+pnpm add react-hook-form zod @hookform/resolvers
+
+
 
 pnpm dev	Levanta la app en modo desarrollo
 pnpm build	Compila la app para producción
@@ -20,11 +23,13 @@ pnpm format	Formatea el código (si tienes prettier configurado)
 backend
 -----------
 
-pnpm create strapi-app backend --quickstart #sqlite
+
+npx create-strapi-app@latest
+# pnpm create strapi-app backend --quickstart #sqlite
 
 pnpm rebuild better-sqlite3
 pnpm add pg
-pnpm run develo
+pnpm run develop
 
 http://localhost:1337/adminp
 
