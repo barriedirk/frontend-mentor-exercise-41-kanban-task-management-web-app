@@ -1,9 +1,9 @@
-@import '../styles/reset.css';
-@import '../styles/variables.css';
-@import '../styles/typography.css';
-@import '../styles/form.css';
-@import '../styles/button.css';
-@import '../styles/checkbox-toggle.css';
+@import "../styles/reset.css";
+@import "../styles/variables.css";
+@import "../styles/typography.css";
+@import "../styles/form.css";
+@import "../styles/button.css";
+@import "../styles/checkbox-toggle.css";
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -16,6 +16,7 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
+  --color-very-dark-gray: var(--color-very-dark-gray);
   --color-very-dark-grey-dark-bg: var(--color-very-dark-grey-dark-bg);
   --color-dark-grey: var(--color-dark-grey);
   --color-white: var(--color-white);
@@ -28,18 +29,27 @@
   --color-lines-light: var(--color-lines-light);
   --color-red-hover: var(--color-red-hover);
   --color-main-purple-hover: var(--color-main-purple-hover);
+  --color-very-light-gray: var(--color-very-light-gray);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #20212c;
-    --foreground: #ffffff;
+    --background: var(--color-dark-grey);
+    --foreground: var(--color-white);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: var(--color-very-light-gray);
+    --foreground: var(--color-black);
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-plus-jakarta-sans), sans-serif; 
-}
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
 
+  transition: background 0.3s ease, color 0.3s ease;
+}

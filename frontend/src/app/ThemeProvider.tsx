@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useThemeStore } from "@/store/useThemeStore";
+import { getThemeVariables } from "@/lib/getThemeVariables";
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const theme = useThemeStore((s) => s.theme);
@@ -9,16 +10,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (typeof document === "undefined") return;
 
+    const root = document.documentElement;
+    const variables = getThemeVariables()[theme];
+
+    Object.entries(variables).forEach(([key, value]) => {
+      root.style.setProperty(key, value);
+    });
+
     document.documentElement.classList.remove("light", "dark");
     document.documentElement.classList.add(theme);
-
-    if (theme === "light") {
-      document.documentElement.style.setProperty("--background", "#fff");
-      document.documentElement.style.setProperty("--foreground", "#000");
-    } else {
-      document.documentElement.style.setProperty("--background", "#20212c");
-      document.documentElement.style.setProperty("--foreground", "#fff");
-    }
   }, [theme]);
 
   return <>{children}</>;

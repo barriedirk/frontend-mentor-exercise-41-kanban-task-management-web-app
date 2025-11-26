@@ -1,6 +1,5 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-very-dark-gray: #171717;
   --color-very-dark-grey-dark-bg: #20212c;
   --color-dark-grey: #2b2c37;
   --color-white: #ffffff;
@@ -13,4 +12,9 @@
   --color-lines-light: #e4ebfa;
   --color-red-hover: #ff9898;
   --color-main-purple-hover: #a8a4ff;
+  --color-very-light-gray: #f2f2f2;
+  --c: #979797;
+
+  --foreground: var(--color-very-dark-gray);
+  --background: var(--color-very-light-gray);
 }
