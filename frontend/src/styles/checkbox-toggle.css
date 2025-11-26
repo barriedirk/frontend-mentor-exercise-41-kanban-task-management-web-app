@@ -1,0 +1,85 @@
+:root {
+  --bg-chk-switch: var(--background);
+  --bg-chk-round: var(--color-white);
+}
+
+.checkbox-switch .slider {
+  display: inline-block;
+  width: 33px;
+  height: 20px;
+}
+
+.checkbox-switch .switch {
+  display: inline-block;
+  position: relative;
+  width: 32px;
+  height: 20px;
+}
+
+.checkbox-switch .switch input {
+  display: none;
+}
+
+.checkbox-switch .slider {
+  background-color: var(--bg-chk-switch);
+  cursor: pointer;
+  position: absolute;
+  inset: 0; /* left: 0; right: 0; top: 0; bottom: 0; */
+  transition: 0.4s;
+}
+
+.checkbox-switch .slider:before {
+  background-color: var(--bg-chk-round);
+  filter: invert(1);
+  position: absolute;
+  content: "";
+  bottom: 4px;
+  left: 4px;
+  width: 12px;
+  height: 12px;
+  transition: 0.4s;
+}
+
+.checkbox-switch input:checked + .slider {
+  background-color: var(--bg-chk-switch);
+}
+
+.checkbox-switch input:checked + .slider:before {
+  transform: translateX(13px);
+}
+
+.checkbox-switch .slider.round {
+  border-radius: 34px;
+}
+
+.checkbox-switch .slider.round:before {
+  border-radius: 50%;
+}
+
+@media screen and (min-width: 768px) {
+  .checkbox-switch .switch {
+    width: 48px;
+    height: 28px;
+  }
+
+  .checkbox-switch .slider {
+    width: 48px;
+    height: 28px;
+  }
+
+  .checkbox-switch .slider:before {
+    bottom: 4px;
+    left: 4px;
+    height: 20px;
+    width: 20px;
+  }
+
+  .checkbox-switch input:checked + .slider::before {
+    transform: translateX(19px);
+  }
+
+  .wizard-header__toggle span {
+    width: 24px;
+    height: 24px;
+  }
+}

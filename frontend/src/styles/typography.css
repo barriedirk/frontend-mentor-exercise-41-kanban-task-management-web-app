@@ -1,0 +1,47 @@
+.text-heading-m {
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 18.899999618530273px;
+  letter-spacing: 0px;
+}
+
+.text-body-m {
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 15.119999885559082px;
+  letter-spacing: 0px;
+}
+
+.text-heading-s {
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 15.119999885559082px;
+  letter-spacing: 2.4000000953674316px;
+}
+
+.text-heading-xl {
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 30.239999771118164px;
+  letter-spacing: 0px;
+}
+
+.text-heading-l {
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22.68000030517578px;
+  letter-spacing: 0px;
+}
+
+.text-body-l {
+  font-family: var(--font-plus-jakarta-sans), sans-serif;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 23px;
+  letter-spacing: 0px;
+}

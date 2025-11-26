@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "./ThemeProvider";
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700", "800"], // choose what you need
+  weight: ["200", "300", "400", "500", "600", "700", "800"],
 });
 
-
-
-export const metadata:Metadata = {
+export const metadata: Metadata = {
   title: "Kanban App",
   description: "Kanban App Challenge",
   authors: [{ name: "Barrie Freyre" }],
@@ -25,14 +24,13 @@ export const metadata:Metadata = {
   },
 };
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={plusJakarta.className}>
       <head>
         <script
           type="application/ld+json"
@@ -56,8 +54,8 @@ export default function RootLayout({
           href="https://www.frontendmentor.io/profile/barriedirk"
         />
       </head>
-      <body className={plusJakarta.className}>
-        {children}
+      <body>
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );
