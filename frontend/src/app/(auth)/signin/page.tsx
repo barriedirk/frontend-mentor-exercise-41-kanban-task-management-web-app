@@ -1,7 +1,5 @@
 "use client";
 
-// import "./Login.css";
-
 import { toast } from "sonner";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -62,7 +60,7 @@ export default function SignInRoute() {
         id="login-heading"
         className="text-preset-2 md:text-preset-1 text-grey-900 mb-2.5"
       >
-        Login
+        Sign In
       </h1>
       <p className="text-preset-3-regular text-grey-500 mb-10">
         Add your details below to get back into the app
@@ -100,7 +98,7 @@ export default function SignInRoute() {
           aria-label="Log in to your account"
           disabled={!isValid || isSubmitting}
         >
-          Login
+          Sign In
         </button>
       </form>
 

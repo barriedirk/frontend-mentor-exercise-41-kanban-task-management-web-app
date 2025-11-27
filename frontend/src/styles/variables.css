@@ -4,17 +4,70 @@
   --color-dark-grey: #2b2c37;
   --color-white: #ffffff;
   --color-medium-grey: #828fa3;
-  --color-main-purple: #635fc7;
-  --color-red: #ea5555;
   --color-light-grey-light-bg: #f4f7fd;
   --color-black: #000112;
   --color-lines-dark: #3e3f4e;
   --color-lines-light: #e4ebfa;
-  --color-red-hover: #ff9898;
-  --color-main-purple-hover: #a8a4ff;
   --color-very-light-gray: #f2f2f2;
-  --c: #979797;
+
+  --color-red: #ea5555;
+  --color-red-hover: #ff9898;
+
+  --color-main-purple: #635fc7;
+  --color-main-purple-hover: #a8a4ff;
+
+  --color-main-stroke: #d9d9d9;
+  --color-very-light-bluish-lavender: #efeff8;
+  --color-purple-blue: #625fc0;
+  --color-soft-pastel-purple: #d8d7ef;
+
+  --color-muted-blue-gray: #848ea1;
+
+  --color-cool-desaturated-blue-gray: #949dac;
+
+  --color-very-light-neutral-gray: #e5e5e6;
+  --color-dark-cool-gray: #414551;
+  --color-very-light-cool-gray: #e0e3e7;
+
+  --color-very-dark-blue-black: #000111;
+
+  --color-cool-blue-gray: #f5f7fd;
+  --color-very-dark-gray: #20212b;
+
+  --color-dark-muted-blue-purple: #393959;
+  --color-very-dark-blue-gray: #2b2c36;
 
   --foreground: var(--color-very-dark-gray);
   --background: var(--color-very-light-gray);
+
+  --ff: var(--font-plus-jakarta-sans), sans-serif;
+
+  --fw-thin: 100;
+  --fw-extralight: 200;
+  --fw-light: 300;
+  --fw-normal: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+  --fw-extrabold: 800;
+  --fw-black: 900;
+
+  --fs-100: 6.25rem;
+  --fs-96: 6rem;
+  --fs-80: 5rem;
+  --fs-72: 4.5rem;
+  --fs-56: 3.5rem;
+  --fs-48: 3rem;
+  --fs-40: 2.5rem;
+  --fs-32: 2rem;
+  --fs-28: 1.75rem;
+  --fs-24: 1.5rem;
+  --fs-20: 1.25rem;
+  --fs-18: 1.125rem;
+  --fs-16: 1rem;
+  --fs-15: 0.9375rem;
+  --fs-14: 0.875rem;
+  --fs-13: 0.8125rem;
+  --fs-12: 0.75rem;
+  --fs-11: 0.6875rem;
 }

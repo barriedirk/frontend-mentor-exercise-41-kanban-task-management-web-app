@@ -36,6 +36,32 @@
   :root {
     --background: var(--color-dark-grey);
     --foreground: var(--color-white);
+
+    --heading-color: var(--color-muted-blue-gray);
+
+    --button-primary-bck: var(--color-main-purple);
+    --button-primary-color: var(--color-white);
+    --button-primary-bck-hover: var(--color-main-purple-hover);
+
+    --button-secundary-bck: var(--color-white);
+    --button-secundary-bck-hover: var(--color-white);
+    --button-secundary-color: var(--color-purple-blue);
+
+    --button-destructive-bck: var(--color-red);
+    --button-destructive-bck-hover: var(--color-red-hover);
+    --button-destructive-color: var(--color-white);
+
+    --color-error: var(--color-red);
+    --color-label: var(--color-cool-desaturated-blue-gray);
+
+    --input-border: var(--color-dark-cool-gray);
+    --input-color: var(--color-black);
+
+    --checkbox: var(--color-very-dark-blue-gray);
+    --checkbox-border: var(--color-very-dark-blue-gray);
+    --checbox-checked: var(--color-purple-blue);
+    --checkbox-bck: var(--color-very-dark-gray);
+    --checkbox-bck-hover: var(--color-soft-pastel-purple);
   }
 }
 
@@ -43,6 +69,32 @@
   :root {
     --background: var(--color-very-light-gray);
     --foreground: var(--color-black);
+
+    --heading-color: var(--color-muted-blue-gray);
+
+    --button-primary-bck: var(--color-main-purple);
+    --button-primary-color: var(--color-white);
+    --button-primary-bck-hover: var(--color-main-purple-hover);
+
+    --button-secundary-bck: var(--color-very-light-bluish-lavender);
+    --button-secundary-bck-hover: var(--color-soft-pastel-purple);
+    --button-secundary-color: var(--color-purple-blue);
+
+    --button-destructive-bck: var(--color-red);
+    --button-destructive-bck-hover: var(--color-red-hover);
+    --button-destructive-color: var(--color-white);
+
+    --color-error: var(--color-red);
+    --color-label: var(--color-very-light-neutral-gray);
+
+    --input-border: var(--color-very-light-cool-gray);
+    --input-color: var(--color-white);
+
+    --checkbox: var(--color-white);
+    --checkbox-border: var(--color-dark-cool-gray);
+    --checbox-checked: var(--color-purple-blue);
+    --checkbox-bck: var(--color-cool-blue-gray);
+    --checkbox-bck-hover: var(--color-dark-muted-blue-purple);
   }
 }
 
