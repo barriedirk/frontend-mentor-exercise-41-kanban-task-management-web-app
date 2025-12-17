@@ -36,14 +36,15 @@ export default function SignInRoute() {
     const toastId = toast.loading("Logging in...");
 
     const result = await signinAction(values);
+    const data = await result.json();
 
-    if (result?.success) {
+    if (data?.success) {
       toast.success("Login success!", { id: toastId });
       router.push("/");
       return;
     }
 
-    toast.error(result?.error ?? "Something went wrong", { id: toastId });
+    toast.error(data?.error ?? "Something went wrong", { id: toastId });
   };
 
   const loginWithDemoCredential = () => {

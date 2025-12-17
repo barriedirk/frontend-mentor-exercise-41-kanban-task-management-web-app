@@ -1,18 +1,17 @@
 "use server";
 
-import { cookies } from "next/headers";
-
 import { signinUser } from "@/features/auth/services/auth.service";
 import { signInSchema } from "@/schemas/signIn";
 import { getErrorMessage } from "@/lib/errors/getErrorMessage";
 
-export async function signinAction(
-  values: unknown
-): Promise<{ success?: true; error?: string }> {
+export async function signinAction(values: unknown): Promise<Response> {
   const parsed = signInSchema.safeParse(values);
 
   if (!parsed.success) {
-    return { error: "Invalid form data" };
+    return new Response(JSON.stringify({ error: "Invalid form data" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
   const { email, password } = parsed.data;
@@ -23,21 +22,17 @@ export async function signinAction(
       password,
     });
 
-    const cookieStore: ReturnType<typeof cookies> = cookies();
-
-    cookieStore.set({
-      name: "auth_token",
-      value: jwt,
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json",
+        "Set-Cookie": `auth_token=${jwt}; Path=/; HttpOnly; Secure; SameSite=Lax`,
+      },
     });
-
-    return { success: true };
   } catch (error) {
-    return {
-      error: getErrorMessage(error),
-    };
+    return new Response(JSON.stringify({ error: getErrorMessage(error) }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 }
