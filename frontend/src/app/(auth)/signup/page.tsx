@@ -1,18 +1,17 @@
 "use client";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 import { toast } from "sonner";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-
 import { signUpSchema, type SignUpValues } from "@/schemas/signUp";
-
 import InputForm from "@/components/forms/fields/InputForm";
-
 import { useFocusFirstInput } from "@/lib/hooks/useFocusFirstInput";
+import { signupAction } from "./actions";
 
 export default function SignUpRoute() {
   const router = useRouter();
@@ -28,27 +27,21 @@ export default function SignUpRoute() {
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
-  const onSubmit: SubmitHandler<SignUpValues> = async ({
-    email,
-    password,
-    confirmPassword,
-  }) => {
-    const toastId = toast.loading("Logging in...");
+  const onSubmit: SubmitHandler<SignUpValues> = async (values) => {
+    const toastId = toast.loading("Creating account...");
+    const result = await signupAction(values);
 
-    try {
-      toast.success("Success!", { id: toastId });
+    if (result?.success) {
+      toast.success("Account created!", { id: toastId });
       router.push("/");
-    } catch (err) {
-      const error =
-        (err as { message: string })["message"] ||
-        "Invalid credentials. Please try again.";
-
-      toast.error(error, { id: toastId });
-    } finally {
+      return;
     }
+
+    toast.error(result?.error ?? "Something went wrong", { id: toastId });
   };
 
   return (
