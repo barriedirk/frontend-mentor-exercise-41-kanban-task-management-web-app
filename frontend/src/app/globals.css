@@ -34,7 +34,11 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: var(--color-dark-grey);
+    --bg-chk-switch: var(--color-main-purple);
+    --bg-chk-round: var(--color-white);
+
+    --background: var(--color-black);
+    --background-secondary: var(--color-dark-grey);
     --foreground: var(--color-white);
 
     --heading-color: var(--color-muted-blue-gray);
@@ -52,10 +56,10 @@
     --button-destructive-color: var(--color-white);
 
     --color-error: var(--color-red);
-    --color-label: var(--color-cool-desaturated-blue-gray);
+    --color-label: var(--color-light-grey-light-bg);
 
-    --input-border: var(--color-dark-cool-gray);
-    --input-color: var(--color-black);
+    --input-border: var(--color-your-shadow);
+    --input-color: var(--color-white);
 
     --checkbox: var(--color-very-dark-blue-gray);
     --checkbox-border: var(--color-very-dark-blue-gray);
@@ -67,7 +71,11 @@
 
 @media (prefers-color-scheme: light) {
   :root {
-    --background: var(--color-very-light-gray);
+    --bg-chk-switch: var(--color-main-purple);
+    --bg-chk-round: var(--color-white);
+
+    --background: var(--color-white);
+    --background-secondary: var(--color-light-grey-light-bg);
     --foreground: var(--color-black);
 
     --heading-color: var(--color-muted-blue-gray);
@@ -85,9 +93,9 @@
     --button-destructive-color: var(--color-white);
 
     --color-error: var(--color-red);
-    --color-label: var(--color-very-light-neutral-gray);
+    --color-label: var(--color-medium-grey);
 
-    --input-border: var(--color-very-light-cool-gray);
+    --input-border: var(--color-medium-grey);
     --input-color: var(--color-white);
 
     --checkbox: var(--color-white);

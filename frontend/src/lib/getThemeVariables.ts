@@ -10,7 +10,11 @@ export function getThemeVariables(): Record<string, Record<string, string>> {
 
   return {
     light: {
-      "--background": getCssVar("--color-very-light-gray"),
+      "--bg-chk-switch": getCssVar("--color-main-purple"),
+      "--bg-chk-round": getCssVar("--color-white"),
+
+      "--background": getCssVar("--color-white"),
+      "--background-secondary": getCssVar("--color-light-grey-light-bg"),
       "--foreground": getCssVar("--color-black"),
       "--heading-color": getCssVar("--color-muted-blue-gray"),
 
@@ -27,9 +31,9 @@ export function getThemeVariables(): Record<string, Record<string, string>> {
       "--button-destructive-color": getCssVar("--color-white"),
 
       "--color-error": getCssVar("--color-red"),
-      "--color-label": getCssVar("--color-very-light-neutral-gray"),
+      "--color-label": getCssVar("--color-medium-grey"),
 
-      "--input-border": getCssVar("--color-very-light-cool-gray"),
+      "--input-border": getCssVar("--color-medium-grey"),
       "--input-color": getCssVar("--color-black"),
 
       "--checkbox": getCssVar("--color-white"),
@@ -39,7 +43,11 @@ export function getThemeVariables(): Record<string, Record<string, string>> {
       "--checkbox-bck-hover": getCssVar("--color-dark-muted-blue-purple"),
     },
     dark: {
-      "--background": getCssVar("--color-dark-grey"),
+      "--bg-chk-switch": getCssVar("--color-main-purple"),
+      "--bg-chk-round": getCssVar("--color-white"),
+
+      "--background": getCssVar("--color-black"),
+      "--background-secondary": getCssVar("--color-dark-grey"),
       "--foreground": getCssVar("--color-white"),
       "--heading-color": getCssVar("--color-muted-blue-gray"),
 
@@ -56,9 +64,9 @@ export function getThemeVariables(): Record<string, Record<string, string>> {
       "--button-destructive-color": getCssVar("--color-white"),
 
       "--color-error": getCssVar("--color-red"),
-      "--color-label": getCssVar("--color-cool-desaturated-blue-gray"),
+      "--color-label": getCssVar("--color-light-grey-light-bg"),
 
-      "--input-border": getCssVar("--color-dark-cool-gray"),
+      "--input-border": getCssVar("--color-your-shadow"),
       "--input-color": getCssVar("--color-white"), // optional fallback
 
       "--checkbox": getCssVar("--color-very-dark-blue-gray"),

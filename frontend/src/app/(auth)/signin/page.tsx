@@ -104,7 +104,7 @@ export default function SignInRoute() {
 
       <p className="text-preset-4 mt-3 flex justify-center items-center gap-2">
         <span className="text-white-custom">Don’t have an account?</span>
-        <Link className="link" href="/signup" aria-label="Sign Up">
+        <Link className="link underline" href="/signup" aria-label="Sign Up">
           Sign Up
         </Link>
       </p>
@@ -112,7 +112,7 @@ export default function SignInRoute() {
       <div className="text-preset-4 mt-3 flex justify-center items-center gap-2 text-white-custom">
         <span>Use</span>
         <button
-          className="link"
+          className="link underline"
           type="button"
           data-testid="button-login-demo-credentials"
           aria-label="Login with demo credentials"

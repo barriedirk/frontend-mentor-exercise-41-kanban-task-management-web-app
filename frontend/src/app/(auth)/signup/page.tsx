@@ -93,7 +93,7 @@ export default function SignUpRoute() {
         />
         <button
           data-testid="button-login-submit"
-          className="btn--submit mt-5 button button--primary"
+          className="btn--submit mt-5 button button--primary underline"
           type="submit"
           aria-label="Create an account"
           disabled={!isValid || isSubmitting}
@@ -104,7 +104,7 @@ export default function SignUpRoute() {
 
       <p className="text-preset-4 mt-3 flex justify-center items-center gap-2">
         <span className="text-white-custom">You have an account?</span>
-        <Link className="link" href="/signin" aria-label="Sign Up">
+        <Link className="link underline" href="/signin" aria-label="Sign Up">
           Sign In
         </Link>
       </p>

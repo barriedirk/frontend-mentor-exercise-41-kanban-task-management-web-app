@@ -4,13 +4,15 @@ import Image from "next/image";
 
 import { useThemeStore } from "@/store/useThemeStore";
 
+import "./switch-theme.css";
+
 export default function SwitchTheme() {
   const theme = useThemeStore((s) => s.theme);
   const toggleTheme = useThemeStore((s) => s.toggleTheme);
   const isLight = theme === "light";
 
   return (
-    <div className="switch-theme flex flex-row items-center gap-3">
+    <div className="switch-theme flex flex-row items-center gap-3 px-1.5 py-2">
       <span className="icon-sun">
         <Image
           src="/icon-light-theme.svg"
