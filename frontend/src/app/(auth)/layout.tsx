@@ -8,7 +8,7 @@ export default function AuthLayout({
 }) {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen ">
-      <div className="flex flex-row justify-between mb-12 w-[370px]">
+      <div className="flex flex-row items-center justify-between mb-12 w-92.5">
         <Logo />
         <SwitchTheme />
       </div>

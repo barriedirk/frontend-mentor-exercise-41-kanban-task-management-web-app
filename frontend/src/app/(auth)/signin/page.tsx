@@ -25,7 +25,7 @@ export default function SignInRoute() {
     formState: { errors, isValid, isSubmitting },
   } = useForm<SignInValues>({
     resolver: zodResolver(signInSchema),
-    mode: "onChange",
+    mode: "onTouched",
     defaultValues: {
       email: "",
       password: "",

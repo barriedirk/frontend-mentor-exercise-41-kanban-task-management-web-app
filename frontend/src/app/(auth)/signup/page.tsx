@@ -10,7 +10,9 @@ import { type SubmitHandler, useForm } from "react-hook-form";
 
 import { signUpSchema, type SignUpValues } from "@/schemas/signUp";
 import InputForm from "@/components/forms/fields/InputForm";
+
 import { useFocusFirstInput } from "@/lib/hooks/useFocusFirstInput";
+
 import { signupAction } from "./actions";
 
 export default function SignUpRoute() {
@@ -23,7 +25,7 @@ export default function SignUpRoute() {
     formState: { errors, isValid, isSubmitting },
   } = useForm<SignUpValues>({
     resolver: zodResolver(signUpSchema),
-    mode: "onChange",
+    mode: "onTouched",
     defaultValues: {
       email: "",
       password: "",

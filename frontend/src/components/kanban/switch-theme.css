@@ -1,3 +1,5 @@
 .switch-theme {
   background-color: var(--background-secondary);
+  line-height: 1;
+  border-radius: 8px;
 }
