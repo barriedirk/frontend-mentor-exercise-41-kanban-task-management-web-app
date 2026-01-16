@@ -1,0 +1,41 @@
+.board-header {
+  grid-area: board-header;
+}
+
+.board-menu {
+  grid-area: board-menu;
+  display: none;
+}
+
+.board-columns {
+  grid-area: board-columns;
+}
+
+.board {
+  min-width: 23.4375rem;
+  height: 100dvh;
+  max-width: 90rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 4rem 1fr;
+  grid-template-areas:
+    "board-header"
+    "board-columns";
+}
+
+@media screen and (min-width: 48em) {
+  .board-menu {
+    display: block;
+  }
+
+  .board {
+    min-width: 23.4375rem;
+    height: 100dvh;
+    max-width: 90rem;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 5.0625rem 1fr;
+    grid-template-areas:
+      "board-menu board-header"
+      "board-menu board-columns";
+  }
+}

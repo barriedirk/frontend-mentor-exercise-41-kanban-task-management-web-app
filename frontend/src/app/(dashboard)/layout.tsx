@@ -15,5 +15,5 @@ export default async function DashboardLayout({
   //   redirect("/signin");
   // }
 
-  return <div>{children}</div>;
+  return <div className="flex justify-center">{children}</div>;
 }

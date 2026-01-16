@@ -1,0 +1,34 @@
+.board-header {
+}
+
+.board-header__logo {
+  width: 25px;
+  height: 25px;
+}
+
+.board-header__ellipsis {
+  width: 3px;
+  height: 16px;
+}
+
+.board-header__add_task {
+  height: 2rem;
+}
+
+.board-header__add_task span:nth-of-type(2) {
+  display: none;
+}
+
+@media screen and (min-width: 48em) {
+  .board-header__add_task {
+    height: 3rem;
+  }
+
+  .board-header__add_task span:nth-of-type(2) {
+    display: inline-block;
+  }
+
+  .board-header__logo {
+    display: none;
+  }
+}
