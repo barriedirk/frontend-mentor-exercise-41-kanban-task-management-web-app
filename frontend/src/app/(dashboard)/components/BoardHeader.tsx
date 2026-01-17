@@ -3,12 +3,15 @@ import "./board-header.css";
 import Image from "next/image";
 
 import Button from "@/components/ui/Button";
+import BoardHeaderMenuOptions from "./BoardHeaderMenuOptions";
 
 export default function BoardHeader() {
+  const iconChevron = "/icon-chevron-down.svg";
+
   return (
-    <div className="board-header flex justify-center items-center gap-2">
+    <header className="board-header px-2.5 flex justify-center items-center gap-2">
       <Image
-        className="board-header__logo object-fit"
+        className="board-header__logo object-fit w-6.25 h-6.25"
         src="/logo-mobile.svg"
         alt="Kanban"
         width={24}
@@ -16,34 +19,30 @@ export default function BoardHeader() {
         priority
       />
 
-      <p className="">Platform Launch</p>
+      <h1 className="board-header__platform text-heading-l flex justify-center gap-2 items-center ">
+        Platform Launch
+        <button
+          type="button"
+          aria-label="Open board list"
+          aria-expanded="false"
+        >
+          <Image
+            className="board-header__chevron object-fit w-2 h-1"
+            src={iconChevron}
+            alt="Kanban"
+            width={8}
+            height={4}
+            priority
+          />
+        </button>
+      </h1>
 
       <Button className="board-header__add_task ml-auto text-preset-4">
         <span>+</span>
         <span>Add New Task</span>
       </Button>
 
-      <div className="board-header__menu">
-        <button aria-haspopup="menu" aria-expanded="false">
-          <Image
-            className="board-header__ellipsis object-fit"
-            src="/icon-vertical-ellipsis.svg"
-            alt="options"
-            width={3}
-            height={16}
-            priority
-          />
-        </button>
-
-        <ul className="board-header__menu-options" role="menu" hidden>
-          <li role="menuitem">
-            <button>Edit board</button>
-          </li>
-          <li role="menuitem">
-            <button>Delete board</button>
-          </li>
-        </ul>
-      </div>
-    </div>
+      <BoardHeaderMenuOptions />
+    </header>
   );
 }

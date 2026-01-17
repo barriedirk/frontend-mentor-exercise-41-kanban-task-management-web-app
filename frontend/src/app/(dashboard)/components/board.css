@@ -13,8 +13,9 @@
 
 .board {
   min-width: 23.4375rem;
-  height: 100dvh;
+  width: 100%;
   max-width: 90rem;
+  height: 100dvh;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 4rem 1fr;

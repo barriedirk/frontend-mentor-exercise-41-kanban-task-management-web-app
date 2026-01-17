@@ -1,14 +1,10 @@
+@reference "tailwindcss";
+
 .board-header {
 }
 
-.board-header__logo {
-  width: 25px;
-  height: 25px;
-}
-
-.board-header__ellipsis {
-  width: 3px;
-  height: 16px;
+.menu-item {
+  @apply w-full px-4 py-2 text-left hover:bg-gray-100;
 }
 
 .board-header__add_task {
@@ -20,6 +16,14 @@
 }
 
 @media screen and (min-width: 48em) {
+  .board-header__chevron {
+    display: none;
+  }
+
+  .board-header__platform {
+    font-size: 1.25rem;
+  }
+
   .board-header__add_task {
     height: 3rem;
   }
