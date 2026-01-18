@@ -1,0 +1,113 @@
+.text-very-dark-gray {
+  color: var(--color-very-dark-gray);
+}
+.text-dark-grey {
+  color: var(--color-dark-grey);
+}
+.text-medium-grey {
+  color: var(--color-medium-grey);
+}
+.text-white {
+  color: var(--color-white);
+}
+.text-black {
+  color: var(--color-black);
+}
+
+.text-red {
+  color: var(--color-red);
+}
+.text-red-hover {
+  color: var(--color-red-hover);
+}
+
+.text-main-purple {
+  color: var(--color-main-purple);
+}
+.text-main-purple-hover {
+  color: var(--color-main-purple-hover);
+}
+
+.text-muted-blue-gray {
+  color: var(--color-muted-blue-gray);
+}
+.text-cloak-grey {
+  color: var(--color-cloak-grey);
+}
+
+.text-foreground {
+  color: var(--foreground);
+}
+
+.bg-very-dark-gray {
+  background-color: var(--color-very-dark-gray);
+}
+.bg-dark-grey {
+  background-color: var(--color-dark-grey);
+}
+.bg-light-grey {
+  background-color: var(--color-light-grey-light-bg);
+}
+.bg-very-light-gray {
+  background-color: var(--color-very-light-gray);
+}
+
+.bg-white {
+  background-color: var(--color-white);
+}
+.bg-black {
+  background-color: var(--color-black);
+}
+
+.bg-main-purple {
+  background-color: var(--color-main-purple);
+}
+.bg-main-purple-hover {
+  background-color: var(--color-main-purple-hover);
+}
+
+.bg-red {
+  background-color: var(--color-red);
+}
+.bg-red-hover {
+  background-color: var(--color-red-hover);
+}
+
+.bg-soft-pastel-purple {
+  background-color: var(--color-soft-pastel-purple);
+}
+.bg-cool-blue-gray {
+  background-color: var(--color-cool-blue-gray);
+}
+
+.bg-background {
+  background-color: var(--background);
+}
+
+.border-lines-dark {
+  border-color: var(--color-lines-dark);
+}
+.border-lines-light {
+  border-color: var(--color-lines-light);
+}
+.border-main-stroke {
+  border-color: var(--color-main-stroke);
+}
+
+.border-muted-blue-gray {
+  border-color: var(--color-muted-blue-gray);
+}
+.border-dark-cool-gray {
+  border-color: var(--color-dark-cool-gray);
+}
+.border-very-light-cool-gray {
+  border-color: var(--color-very-light-cool-gray);
+}
+
+.hover-bg-main-purple:hover {
+  background-color: var(--color-main-purple-hover);
+}
+
+.hover-text-red:hover {
+  color: var(--color-red-hover);
+}

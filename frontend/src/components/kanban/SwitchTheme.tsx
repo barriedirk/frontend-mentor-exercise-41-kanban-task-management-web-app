@@ -2,23 +2,34 @@
 
 import "./switch-theme.css";
 
+import clsx from "clsx";
+
 import Image from "next/image";
 
 import { useThemeStore } from "@/store/useThemeStore";
 
-export default function SwitchTheme() {
+interface SwitchThemeProps {
+  className?: string;
+}
+
+export default function SwitchTheme({ className }: SwitchThemeProps) {
   const theme = useThemeStore((s) => s.theme);
   const toggleTheme = useThemeStore((s) => s.toggleTheme);
   const isLight = theme === "light";
 
   return (
-    <div className="switch-theme flex flex-row items-center gap-3 p-2">
+    <div
+      className={clsx(
+        "switch-theme flex flex-row justify-center items-center gap-7 p-2",
+        className,
+      )}
+    >
       <span className="icon-sun">
         <Image
           src="/icon-light-theme.svg"
           alt="icon Light"
-          width={20}
-          height={20}
+          width={18}
+          height={18}
         />
       </span>
 
@@ -42,8 +53,8 @@ export default function SwitchTheme() {
         <Image
           src="/icon-dark-theme.svg"
           alt="icon Light"
-          width={20}
-          height={20}
+          width={18}
+          height={18}
         />
       </span>
     </div>

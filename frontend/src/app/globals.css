@@ -4,6 +4,7 @@
 @import "../styles/form.css";
 @import "../styles/button.css";
 @import "../styles/checkbox-toggle.css";
+@import "../styles/utilities.css";
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -113,5 +114,7 @@ body {
   color: var(--foreground);
   font-family: var(--font-plus-jakarta-sans), sans-serif;
 
-  transition: background 0.3s ease, color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
