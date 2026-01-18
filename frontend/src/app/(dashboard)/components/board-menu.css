@@ -1,0 +1,13 @@
+.board-menu {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.board-menu__logo {
+  height: var(--header-heigth-tablet);
+}
+
+.board-menu__switch-theme {
+  margin-top: auto;
+}

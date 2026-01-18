@@ -18,7 +18,7 @@
   height: 100dvh;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 4rem 1fr;
+  grid-template-rows: var(--header-heigth-mobile) 1fr;
   grid-template-areas:
     "board-header"
     "board-columns";
@@ -34,7 +34,7 @@
     height: 100dvh;
     max-width: 90rem;
     grid-template-columns: auto 1fr;
-    grid-template-rows: 5.0625rem 1fr;
+    grid-template-rows: var(--header-heigth-tablet) 1fr;
     grid-template-areas:
       "board-menu board-header"
       "board-menu board-columns";

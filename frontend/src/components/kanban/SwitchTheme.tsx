@@ -1,10 +1,10 @@
 "use client";
 
+import "./switch-theme.css";
+
 import Image from "next/image";
 
 import { useThemeStore } from "@/store/useThemeStore";
-
-import "./switch-theme.css";
 
 export default function SwitchTheme() {
   const theme = useThemeStore((s) => s.theme);

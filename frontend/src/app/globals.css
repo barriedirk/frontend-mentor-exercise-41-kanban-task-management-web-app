@@ -11,6 +11,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
+  --header-heigth-mobile: 4rem;
+  --header-heigth-tablet: 5.0625rem;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
