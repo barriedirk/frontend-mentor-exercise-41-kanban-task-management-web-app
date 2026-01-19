@@ -7,6 +7,12 @@
   @apply w-full px-4 py-2 text-left hover:bg-gray-100;
 }
 
+.board-header__logo {
+  width: 16.3125rem;
+  height: 6rem;
+  display: none;
+}
+
 .board-header__add_task {
   height: 2rem;
 }
@@ -32,7 +38,11 @@
     display: inline-block;
   }
 
-  .board-header__logo {
+  .board-header__logo-mobile {
     display: none;
+  }
+
+  .board-header__logo {
+    display: flex;
   }
 }

@@ -1,0 +1,4 @@
+.board-columns {
+  background: var(--background-secondary);
+  color: var(--foreground);
+}

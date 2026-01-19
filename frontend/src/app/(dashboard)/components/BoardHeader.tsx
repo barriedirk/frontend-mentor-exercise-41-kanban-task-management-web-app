@@ -2,6 +2,7 @@ import "./board-header.css";
 
 import Image from "next/image";
 
+import Logo from "@/components/kanban/Logo";
 import Button from "@/components/ui/Button";
 import BoardHeaderMenuOptions from "./BoardHeaderMenuOptions";
 
@@ -10,8 +11,11 @@ export default function BoardHeader() {
 
   return (
     <header className="board-header px-2.5 flex justify-center items-center gap-2">
+      <div className="board-header__logo flex items-center">
+        <Logo className="w-38 h-6.25" />
+      </div>
       <Image
-        className="board-header__logo object-fit w-6.25 h-6.25"
+        className="board-header__logo-mobile object-fit w-6.25 h-6.25"
         src="/logo-mobile.svg"
         alt="Kanban"
         width={24}

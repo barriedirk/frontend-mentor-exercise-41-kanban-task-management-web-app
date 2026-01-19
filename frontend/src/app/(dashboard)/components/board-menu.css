@@ -1,13 +1,40 @@
 .board-menu {
+  display: none;
+  position: relative;
+}
+
+.board-menu__main {
+  width: 16.25rem;
+  min-width: 0;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  overflow: hidden;
+  transition: width 0.3s ease;
 }
 
-.board-menu__logo {
-  height: var(--header-heigth-tablet);
-}
+@media screen and (min-width: 48em) {
+  .board-menu {
+    display: flex;
+    flex-direction: column;
+  }
 
-.board-menu__switch-theme {
-  margin-top: auto;
+  .board-menu__logo {
+    height: var(--header-heigth-tablet);
+  }
+
+  .board-menu__switch-theme {
+    margin-top: auto;
+  }
+
+  .board-menu.is-collapsed .board-menu__main {
+    width: 0;
+  }
+
+  .board-menu.is-collapsed .board-menu__hide-sidebar {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    transform: translateX(-10px);
+  }
 }

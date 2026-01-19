@@ -4,7 +4,6 @@
 
 .board-menu {
   grid-area: board-menu;
-  display: none;
 }
 
 .board-columns {
@@ -25,10 +24,6 @@
 }
 
 @media screen and (min-width: 48em) {
-  .board-menu {
-    display: block;
-  }
-
   .board {
     min-width: 23.4375rem;
     height: 100dvh;
@@ -36,7 +31,7 @@
     grid-template-columns: auto 1fr;
     grid-template-rows: var(--header-heigth-tablet) 1fr;
     grid-template-areas:
-      "board-menu board-header"
+      "board-header board-header"
       "board-menu board-columns";
   }
 }
