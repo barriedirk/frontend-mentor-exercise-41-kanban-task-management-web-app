@@ -111,3 +111,27 @@
 .hover-text-red:hover {
   color: var(--color-red-hover);
 }
+
+.text-background {
+  color: var(--background);
+}
+
+.text-background-secondary {
+  color: var(--background-secondary);
+}
+
+.text-foreground {
+  color: var(--foreground);
+}
+
+.bg-background {
+  background-color: var(--background);
+}
+
+.bg-background-secondary {
+  background-color: var(--background-secondary);
+}
+
+.bg-foreground {
+  background-color: var(--foreground);
+}

@@ -8,10 +8,13 @@ import Button from "@/components/ui/Button";
 import BoardColumn from "./BoardColumn";
 
 export default function BoardColumns() {
-  const [hasColumns, setHasColumns] = useState(false);
+  const [hasColumns, setHasColumns] = useState(true);
 
   return (
-    <div className="board-columns p-2" aria-labelledby="board-columns-title">
+    <div
+      className="board-columns pt-2 px-2 overflow-x-scroll [scrollbar-width:none] "
+      aria-labelledby="board-columns-title"
+    >
       <h2 id="board-columns-title" className="sr-only">
         Board columns
       </h2>
@@ -29,7 +32,7 @@ export default function BoardColumns() {
         </div>
       )}
       {hasColumns && (
-        <section className="board-columns__content">
+        <section className="board-columns__content h-full">
           <BoardColumn />
           <BoardColumn />
           <BoardColumn />
