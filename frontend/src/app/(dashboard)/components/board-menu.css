@@ -32,9 +32,22 @@
   }
 
   .board-menu.is-collapsed .board-menu__hide-sidebar {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    transform: translateX(-10px);
+    animation: btnShowSidebar 0.4s ease forwards;
+    animation-delay: 0.1s;
+    pointer-events: auto;
+  }
+
+  @keyframes btnShowSidebar {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(-10px);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      transform: translateX(-10px);
+    }
   }
 }

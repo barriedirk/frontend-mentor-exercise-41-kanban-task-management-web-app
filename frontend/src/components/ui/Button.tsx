@@ -3,7 +3,7 @@ import clsx from "clsx";
 interface ButtonProps {
   children: React.ReactNode;
   className?: string;
-  click?: () => void;
+  onClick?: () => void;
   title?: string;
   type?: "button" | "submit" | "reset" | undefined;
 }
@@ -11,7 +11,7 @@ interface ButtonProps {
 export default function Button({
   children,
   className,
-  click,
+  onClick,
   title,
   type = "button",
 }: ButtonProps) {
@@ -21,9 +21,9 @@ export default function Button({
       type={type}
       className={clsx(
         "flex justify-center items-center gap-2 px-6 py-3 rounded-full bg-main-purple text-white",
-        className
+        className,
       )}
-      onClick={click}
+      onClick={onClick}
     >
       {children}
     </button>

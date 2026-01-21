@@ -2,3 +2,10 @@
   background: var(--background-secondary);
   color: var(--foreground);
 }
+
+.board-columns__content {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 18rem;
+  overflow-x: auto;
+}

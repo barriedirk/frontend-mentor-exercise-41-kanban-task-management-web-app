@@ -8,9 +8,10 @@
 }
 
 .board-header__logo {
-  width: 16.3125rem;
+  width: calc(16.3125rem - 8px);
   height: 6rem;
   display: none;
+  border-right: 3px solid var(--background-secondary);
 }
 
 .board-header__add_task {
