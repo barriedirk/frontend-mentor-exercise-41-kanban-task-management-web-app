@@ -6,13 +6,14 @@ import { useState } from "react";
 
 import Button from "@/components/ui/Button";
 import BoardColumn from "./BoardColumn";
+import BoardAddColumn from "./BoardAddColumn";
 
 export default function BoardColumns() {
   const [hasColumns, setHasColumns] = useState(true);
 
   return (
     <div
-      className="board-columns pt-2 px-2 overflow-x-scroll [scrollbar-width:none] "
+      className="board-columns pt-2 px-2 overflow-x-scroll"
       aria-labelledby="board-columns-title"
     >
       <h2 id="board-columns-title" className="sr-only">
@@ -32,11 +33,11 @@ export default function BoardColumns() {
         </div>
       )}
       {hasColumns && (
-        <section className="board-columns__content h-full">
+        <section className="board-columns__content scrollbar-width-none">
           <BoardColumn />
           <BoardColumn />
           <BoardColumn />
-          <BoardColumn />
+          <BoardAddColumn />
         </section>
       )}
     </div>

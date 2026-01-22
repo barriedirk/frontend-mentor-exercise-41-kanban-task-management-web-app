@@ -1,11 +1,9 @@
-.board-column__tasks {
+.board-column__add-new {
   max-height: calc(100vh - var(--header-heigth-mobile) - 80px);
-  overflow-y: auto;
 }
 
 @media screen and (min-width: 48em) {
-  .board-column__tasks {
+  .board-column__add-new {
     max-height: calc(100vh - var(--header-heigth-tablet) - 80px);
-    overflow-y: auto;
   }
 }

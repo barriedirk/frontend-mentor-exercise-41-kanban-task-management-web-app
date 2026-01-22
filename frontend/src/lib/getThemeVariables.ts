@@ -15,6 +15,8 @@ export function getThemeVariables(): Record<string, Record<string, string>> {
 
       "--background": getCssVar("--color-white"),
       "--background-secondary": getCssVar("--color-light-grey-light-bg"),
+      "--background-tertiary": getCssVar("--color-cotton-boll"),
+
       "--foreground": getCssVar("--color-black"),
       "--heading-color": getCssVar("--color-muted-blue-gray"),
 
@@ -48,6 +50,7 @@ export function getThemeVariables(): Record<string, Record<string, string>> {
 
       "--background": getCssVar("--color-black"),
       "--background-secondary": getCssVar("--color-dark-grey"),
+      "--background-tertiary": getCssVar("--color-black-veltet"),
       "--foreground": getCssVar("--color-white"),
       "--heading-color": getCssVar("--color-muted-blue-gray"),
 

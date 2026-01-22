@@ -19,7 +19,10 @@ export default function BoardColumn() {
         ></span>
         TODO (4)
       </h3>
-      <ul className="board-column__tasks overflow-y-auto flex flex-col gap-6">
+      <ul
+        className="board-column__tasks flex flex-col gap-6
+        overflow-y-auto scrollbar-width-none"
+      >
         <li>
           <button className="board-column__task flex flex-col gap-3 text-left p-4 bg-background rounded-2xl shadow-[0_4px_4px_0_rgba(0,0,0,0.25)] w-full">
             <h4

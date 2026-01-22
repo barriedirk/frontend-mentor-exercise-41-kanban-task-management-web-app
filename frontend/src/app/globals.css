@@ -42,6 +42,7 @@
 
     --background: var(--color-black);
     --background-secondary: var(--color-dark-grey);
+    --background-tertiary: var(--color-black-veltet);
     --foreground: var(--color-white);
 
     --heading-color: var(--color-muted-blue-gray);
@@ -79,6 +80,7 @@
 
     --background: var(--color-white);
     --background-secondary: var(--color-light-grey-light-bg);
+    --background-tertiary: var(--color-cotton-boll);
     --foreground: var(--color-black);
 
     --heading-color: var(--color-muted-blue-gray);

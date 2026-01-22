@@ -132,6 +132,14 @@
   background-color: var(--background-secondary);
 }
 
+.bg-background-tertiary {
+  background-color: var(--background-tertiary);
+}
+
 .bg-foreground {
   background-color: var(--foreground);
+}
+
+.scrollbar-width-none {
+  scrollbar-width: none;
 }
