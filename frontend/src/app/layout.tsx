@@ -3,7 +3,9 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 import { Plus_Jakarta_Sans } from "next/font/google";
+
 import { ThemeProvider } from "./ThemeProvider";
+import PortalRoot from "@/components/ui/PortalRoot";
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -61,7 +63,10 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          {children}
+          <PortalRoot />
+        </ThemeProvider>
       </body>
     </html>
   );
