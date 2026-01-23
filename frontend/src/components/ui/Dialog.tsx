@@ -2,12 +2,19 @@
 
 import { ReactNode } from "react";
 
+import clsx from "clsx";
+
 interface DialogProps {
   title?: string;
+  titleClassName?: string;
   children: ReactNode;
 }
 
-export default function Dialog({ title, children }: DialogProps) {
+export default function Dialog({
+  title,
+  children,
+  titleClassName,
+}: DialogProps) {
   return (
     <div
       role="dialog"
@@ -24,7 +31,10 @@ export default function Dialog({ title, children }: DialogProps) {
       "
     >
       {title && (
-        <h2 id="dialog-title" className="text-heading-l text-foreground mb-4">
+        <h2
+          id="dialog-title"
+          className={clsx("text-heading-l mb-4", titleClassName)}
+        >
           {title}
         </h2>
       )}

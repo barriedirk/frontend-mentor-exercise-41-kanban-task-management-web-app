@@ -4,8 +4,19 @@ import { useState } from "react";
 
 import Image from "next/image";
 
+import DeleteBoardFeature from "@/features/board/components/DeleteBoardFeature";
+
 export default function BoardHeaderMenuOptions() {
   const [open, setOpen] = useState<boolean>(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
+  const [openEditModal, setOpenEditModal] = useState<boolean>(false);
+
+  const openModal = (modal: "delete" | "edit") => {
+    setOpenDeleteModal(modal === "delete");
+    setOpenEditModal(modal === "edit");
+
+    setOpen(false);
+  };
 
   return (
     <div className="board-header__menu">
@@ -25,6 +36,14 @@ export default function BoardHeaderMenuOptions() {
           priority
         />
       </button>
+      {openDeleteModal && (
+        <DeleteBoardFeature
+          boardId={"asess"}
+          boardName={"TEST ACME"}
+          open={true}
+          onClose={() => {}}
+        />
+      )}
       {open && (
         <div
           className="board-header__menu-options-wrapper fixed inset-0 z-40 bg-black/50"
@@ -36,15 +55,19 @@ export default function BoardHeaderMenuOptions() {
           >
             <ul
               id="board-header__menu-options"
-              className="min-w-40 py-2 p-3 flex flex-col gap-2"
+              className="min-w-40 py-2 p-3 flex flex-col gap-2 text-dark-grey"
               role="menu"
               aria-controls="board-options-menu"
             >
               <li role="none">
-                <button role="menuitem">Edit board</button>
+                <button role="menuitem" onClick={() => openModal("edit")}>
+                  Edit board
+                </button>
               </li>
               <li role="none">
-                <button role="menuitem">Delete board</button>
+                <button role="menuitem" onClick={() => openModal("delete")}>
+                  Delete board
+                </button>
               </li>
             </ul>
           </div>

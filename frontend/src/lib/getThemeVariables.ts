@@ -10,6 +10,12 @@ export function getThemeVariables(): Record<string, Record<string, string>> {
 
   return {
     light: {
+      "--bg-destructive": getCssVar("--color-red"),
+      "--text-destructive": getCssVar("--color-white"),
+
+      "--bg-secondary": getCssVar("--color-soft-pastel-purple"),
+      "--text-secondary": getCssVar("--color-main-purple"),
+
       "--bg-chk-switch": getCssVar("--color-main-purple"),
       "--bg-chk-round": getCssVar("--color-white"),
 
@@ -45,6 +51,12 @@ export function getThemeVariables(): Record<string, Record<string, string>> {
       "--checkbox-bck-hover": getCssVar("--color-dark-muted-blue-purple"),
     },
     dark: {
+      "--bg-destructive": getCssVar("--color-red"),
+      "--text-destructive": getCssVar("--color-white"),
+
+      "--bg-secondary": getCssVar("--color-white"),
+      "--text-secondary": getCssVar("--color-main-purple"),
+
       "--bg-chk-switch": getCssVar("--color-main-purple"),
       "--bg-chk-round": getCssVar("--color-white"),
 

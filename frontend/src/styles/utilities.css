@@ -143,3 +143,13 @@
 .scrollbar-width-none {
   scrollbar-width: none;
 }
+
+.destructive {
+  background: var(--bg-destructive);
+  color: var(--text-destructive);
+}
+
+.secondary {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+}

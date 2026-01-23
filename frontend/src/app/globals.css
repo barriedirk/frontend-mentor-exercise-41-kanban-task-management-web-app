@@ -37,6 +37,12 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --bg-destructive: var(--color-red);
+    --text-destructive: var(--color-white);
+
+    --bg-secondary: var(--color-white);
+    --text-secondary: var(--color-main-purple);
+
     --bg-chk-switch: var(--color-main-purple);
     --bg-chk-round: var(--color-white);
 
@@ -75,6 +81,12 @@
 
 @media (prefers-color-scheme: light) {
   :root {
+    --bg-destructive: var(--color-red);
+    --text-destructive: var(--color-white);
+
+    --bg-secondary: var(--color-soft-pastel-purple);
+    --text-secondary: var(--color-main-purple);
+
     --bg-chk-switch: var(--color-main-purple);
     --bg-chk-round: var(--color-white);
 
