@@ -11,14 +11,18 @@ interface ModalProps {
   titleClassName?: string;
   onClose: () => void;
   children: ReactNode;
+  titleId?: string;
+  size?: "small" | "large" | null;
 }
 
 export default function Modal({
   open,
   title,
+  titleId,
   titleClassName,
   onClose,
   children,
+  size,
 }: ModalProps) {
   if (!open) return null;
 
@@ -26,7 +30,12 @@ export default function Modal({
     <Portal>
       <Overlay onClick={onClose}>
         <div onClick={(e) => e.stopPropagation()}>
-          <Dialog title={title} titleClassName={titleClassName}>
+          <Dialog
+            title={title}
+            titleClassName={titleClassName}
+            titleId={titleId}
+            size={size}
+          >
             {children}
           </Dialog>
         </div>

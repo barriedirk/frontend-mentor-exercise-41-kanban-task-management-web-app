@@ -7,3 +7,9 @@ export async function deleteBoard(boardId: string) {
     method: "DELETE",
   });
 }
+
+export async function editBoard(boardId: string) {
+  await strapiFetch<void>(`boards/${boardId}`, {
+    method: "PUT",
+  });
+}

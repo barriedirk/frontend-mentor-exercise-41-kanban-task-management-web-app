@@ -6,6 +6,21 @@ import Image from "next/image";
 
 import DeleteBoardFeature from "@/features/board/components/DeleteBoardFeature";
 
+import EditBoardFeature from "@/features/board/components/EditBoardFeature";
+import { BoardModel } from "@/features/board/types/board.types";
+
+const boardMockup: BoardModel = {
+  id: "232",
+  name: "Platform Launch",
+  shareToken: null,
+  shareMode: null,
+  columns: [
+    { id: "0", name: "TODO", position: 0 },
+    { id: "1", name: "DOING", position: 1 },
+    { id: "2", name: "DONE", position: 2 },
+  ],
+};
+
 export default function BoardHeaderMenuOptions() {
   const [open, setOpen] = useState<boolean>(false);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
@@ -36,10 +51,13 @@ export default function BoardHeaderMenuOptions() {
           priority
         />
       </button>
+      {openEditModal && (
+        <EditBoardFeature board={boardMockup} open={true} onClose={() => {}} />
+      )}
       {openDeleteModal && (
         <DeleteBoardFeature
-          boardId={"asess"}
-          boardName={"TEST ACME"}
+          boardId={boardMockup.id}
+          boardName={boardMockup.name}
           open={true}
           onClose={() => {}}
         />
