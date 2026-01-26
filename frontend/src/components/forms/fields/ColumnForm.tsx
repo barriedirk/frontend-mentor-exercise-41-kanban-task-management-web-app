@@ -1,5 +1,7 @@
 import { useId } from "react";
 
+import Image from "next/image";
+
 import {
   type Control,
   Controller,
@@ -13,27 +15,25 @@ import clsx from "clsx";
 interface Props<T extends FieldValues> {
   name: Path<T>;
   control: Control<T>;
-  label: string;
   type?: string;
   error?: FieldError;
   autoComplete?: string;
   placeholder?: string;
   styleName?: "column" | "row" | undefined;
-  helperText?: string;
   dataTestid?: string;
+  onRemove: () => void;
 }
 
-const InputForm = <T extends FieldValues>({
+const ColumnForm = <T extends FieldValues>({
   name,
   control,
-  label,
   type = "text",
   error,
   autoComplete,
   placeholder,
   styleName,
-  helperText,
   dataTestid,
+  onRemove,
 }: Props<T>) => {
   const elemId = useId();
   const inputId = `${elemId}-input`;
@@ -42,25 +42,13 @@ const InputForm = <T extends FieldValues>({
   return (
     <fieldset
       className={clsx(
-        "form-group input-text",
+        "form-group form-group--row input-text flex flex-row items-center",
         styleName,
         error && "form-group--error",
       )}
       role="group"
       aria-labelledby={`${name}-label`}
     >
-      <label
-        id={`${name}-label`}
-        className={clsx(
-          "form-label",
-          !error && "text-grey-900",
-          error && "text-error",
-        )}
-        htmlFor={inputId}
-      >
-        {label}
-      </label>
-
       <div
         className={clsx(
           "form-input-group text-body-l relative",
@@ -90,9 +78,18 @@ const InputForm = <T extends FieldValues>({
           </span>
         )}
       </div>
-      {helperText && <p className="text-body-l text-grey-500">{helperText}</p>}
+      <button type="button" className="w-3.5 h-3.5 " onClick={onRemove}>
+        <Image
+          className="w-3.5 h-3.5 object-fit"
+          src="/icon-cross.svg"
+          alt="Remove column"
+          width={14}
+          height={14}
+          priority
+        />
+      </button>
     </fieldset>
   );
 };
 
-export default InputForm;
+export default ColumnForm;

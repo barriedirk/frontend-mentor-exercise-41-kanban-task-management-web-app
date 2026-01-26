@@ -25,7 +25,7 @@ export default function Dialog({
       aria-modal="true"
       aria-labelledby={titleId}
       className={clsx(
-        "relative z-50 w-full max-w-md rounded-xl bg-background p-6 shadow-lg focus:outline-none",
+        "relative z-50 w-full rounded-xl bg-background p-6 shadow-lg focus:outline-none",
         !size && "max-w-md",
         size === "small" && "max-w-md",
         size === "large" && "max-w-120",
