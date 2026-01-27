@@ -96,8 +96,8 @@ export default function EditBoardModal({
         <h3 className="form-label text-grey-900">Board Columns</h3>
         <div
           className={clsx(
-            "flex flex-col gap-3 max-h-30",
-            fields.length > 3 && "overflow-x-hidden overflow-y-auto pr-2",
+            "flex flex-col gap-2.5 max-h-35 overflow-y-auto overflow-x-hidden px-1",
+            fields.length > 2 && "pr-1",
           )}
         >
           {fields.map((column, index) => {
