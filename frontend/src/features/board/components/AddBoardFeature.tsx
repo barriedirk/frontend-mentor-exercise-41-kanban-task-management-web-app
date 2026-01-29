@@ -9,17 +9,17 @@ import { editBoard } from "../services/board.service";
 
 import { Toaster } from "@/components/ui/sonner";
 
-interface EditBoardFeatureProps {
+interface AddBoardFeatureProps {
   board: BoardModel;
   open: boolean;
   onClose: () => void;
 }
 
-export default function EditBoardFeature({
+export default function AddBoardFeature({
   board,
   open,
   onClose,
-}: EditBoardFeatureProps) {
+}: AddBoardFeatureProps) {
   const [loading, setLoading] = useState(false);
 
   async function handleDelete() {

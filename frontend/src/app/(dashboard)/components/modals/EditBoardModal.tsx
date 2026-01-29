@@ -12,31 +12,30 @@ import { toast } from "sonner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SubmitHandler, useForm, useFieldArray } from "react-hook-form";
 
-import {
-  editBoardSchema,
-  type EditBoardValues,
-} from "@/schemas/editBoard.schema";
+import { editBoardSchema, type EditBoardValues } from "@/schemas/board.schema";
 import InputForm from "@/components/forms/fields/InputForm";
 import ColumnForm from "@/components/forms/fields/ColumnForm";
 
 import { useFocusFirstInput } from "@/lib/hooks/useFocusFirstInput";
 import clsx from "clsx";
 
-interface EditBoardModalProps {
+interface BoardModalProps {
   open: boolean;
   board: BoardModel;
   loading?: boolean;
+  action: "edit" | "add";
   onCancel: () => void;
   onConfirm: () => void;
 }
 
-export default function EditBoardModal({
+export default function BoardModal({
   open,
   board,
   loading = false,
   onCancel,
+  action,
   onConfirm,
-}: EditBoardModalProps) {
+}: BoardModalProps) {
   const containerRef = useFocusFirstInput<HTMLFormElement>();
   const formTitleId = useId();
 
@@ -87,7 +86,7 @@ export default function EditBoardModal({
           name="name"
           control={control}
           label="Board Name"
-          type="email"
+          type="text"
           error={errors.name}
           autoComplete="name"
           placeholder="e.g. ACME"
