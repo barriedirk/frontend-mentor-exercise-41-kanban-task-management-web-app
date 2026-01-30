@@ -5,16 +5,6 @@ import { useState } from "react";
 
 import AddBoardFeature from "@/features/board/components/AddBoardFeature";
 
-import { BoardModel } from "@/features/board/types/board.types";
-
-const boardMockup: BoardModel = {
-  id: "",
-  name: "",
-  shareToken: null,
-  shareMode: null,
-  columns: [],
-};
-
 export default function BoardList() {
   const [openAddModal, setOpenAddModal] = useState(false);
 
@@ -24,9 +14,7 @@ export default function BoardList() {
 
   return (
     <>
-      {openAddModal && (
-        <AddBoardFeature board={boardMockup} open={true} onClose={() => {}} />
-      )}
+      {openAddModal && <AddBoardFeature open={true} onClose={() => {}} />}
       <div className="board-list">
         <h2 className="board-list__header text-heading-s text-medium-grey mb-5">
           All Boards (3)

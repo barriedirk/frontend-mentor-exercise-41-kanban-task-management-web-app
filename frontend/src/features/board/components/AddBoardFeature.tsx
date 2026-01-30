@@ -1,31 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
-import BoardModal from "@/app/(dashboard)/components/modals/EditBoardModal";
+import AddBoardModal from "@/app/(dashboard)/components/modals/AddBoardModal";
 
 import { BoardModel } from "../types/board.types";
-import { editBoard } from "../services/board.service";
+import { addBoard } from "../services/board.service";
 
 import { Toaster } from "@/components/ui/sonner";
+import { boardToForm } from "../mappers/board.mapper";
 
 interface AddBoardFeatureProps {
-  board: BoardModel;
   open: boolean;
   onClose: () => void;
 }
 
+const emptyBoard: BoardModel = {
+  id: "",
+  name: "",
+  shareToken: null,
+  shareMode: null,
+  columns: [{ id: crypto.randomUUID(), name: "" }],
+};
+
 export default function AddBoardFeature({
-  board,
   open,
   onClose,
 }: AddBoardFeatureProps) {
   const [loading, setLoading] = useState(false);
+  const defaultValues = useMemo(() => boardToForm(emptyBoard), []);
 
   async function handleDelete() {
     try {
       setLoading(true);
-      await editBoard(board.id);
+      // await editBoard(board.id);
       // toast.success("Board deleted");
       onClose();
       // later: router.push("/boards") or refresh
@@ -37,11 +45,10 @@ export default function AddBoardFeature({
   }
 
   return (
-    <BoardModal
+    <AddBoardModal
       open={open}
-      board={board}
+      board={defaultValues}
       loading={loading}
-      action="edit"
       onCancel={onClose}
       onConfirm={handleDelete}
     />

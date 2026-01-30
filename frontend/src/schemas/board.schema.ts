@@ -20,7 +20,7 @@ export const editBoardColumnSchema = boardColumnBaseSchema.extend({
  * Column schema used inside Add Board
  */
 export const addBoardColumnSchema = boardColumnBaseSchema.extend({
-  id: z.string().optional(), // or omit entirely
+  id: z.string().min(1).optional(), // or omit entirely
 });
 
 const boardBaseSchema = z.object({

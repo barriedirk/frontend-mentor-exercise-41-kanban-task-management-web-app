@@ -6,10 +6,15 @@ import {
   Resolver,
 } from "react-hook-form";
 
+import clsx from "clsx";
+
 import InputForm from "@/components/forms/fields/InputForm";
 import ColumnForm from "@/components/forms/fields/ColumnForm";
 import Button from "@/components/ui/Button";
-import { BoardFormBase } from "../types/board-form.types";
+
+import { BoardFormBase } from "@//features/board/types/board-form.types";
+
+const createEmptyColumn = () => ({ id: crypto.randomUUID(), name: "" });
 
 interface BoardFormProps {
   defaultValues: BoardFormBase;
@@ -31,7 +36,13 @@ export function BoardForm({
     reset,
   } = useForm<BoardFormBase>({
     resolver,
-    defaultValues,
+    defaultValues: {
+      ...defaultValues,
+      columns:
+        defaultValues.columns && defaultValues.columns.length > 0
+          ? defaultValues.columns
+          : [createEmptyColumn()],
+    },
     mode: "onTouched",
   });
 
@@ -39,10 +50,6 @@ export function BoardForm({
     control,
     name: "columns",
   });
-
-  useEffect(() => {
-    reset(defaultValues);
-  }, [defaultValues, reset]);
 
   return (
     <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
@@ -56,7 +63,12 @@ export function BoardForm({
 
       <h3 className="form-label text-grey-900">Board Columns</h3>
 
-      <div className="flex flex-col gap-2.5 max-h-35 overflow-y-auto">
+      <div
+        className={clsx(
+          "flex flex-col gap-2.5 max-h-35 overflow-y-auto overflow-x-hidden px-1",
+          fields.length > 2 && "pr-1",
+        )}
+      >
         {fields.map((field, index) => (
           <ColumnForm
             key={field.id}
@@ -65,6 +77,7 @@ export function BoardForm({
             error={errors.columns?.[index]?.name}
             placeholder="Column name"
             onRemove={() => remove(index)}
+            disabled={fields.length === 1}
           />
         ))}
       </div>
@@ -73,12 +86,7 @@ export function BoardForm({
         type="button"
         size="small"
         variant="secondary"
-        onClick={() =>
-          append({
-            id: crypto.randomUUID(),
-            name: "",
-          })
-        }
+        onClick={() => append(createEmptyColumn())}
       >
         + Add New Column
       </Button>

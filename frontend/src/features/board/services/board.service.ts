@@ -13,3 +13,9 @@ export async function editBoard(boardId: string) {
     method: "PUT",
   });
 }
+
+export async function addBoard(boardId: string) {
+  await strapiFetch<void>(`boards/${boardId}`, {
+    method: "POST",
+  });
+}

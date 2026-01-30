@@ -21,6 +21,7 @@ interface Props<T extends FieldValues> {
   placeholder?: string;
   styleName?: "column" | "row" | undefined;
   dataTestid?: string;
+  disabled?: boolean;
   onRemove: () => void;
 }
 
@@ -33,6 +34,7 @@ const ColumnForm = <T extends FieldValues>({
   placeholder,
   styleName,
   dataTestid,
+  disabled,
   onRemove,
 }: Props<T>) => {
   const elemId = useId();
@@ -78,7 +80,12 @@ const ColumnForm = <T extends FieldValues>({
           </span>
         )}
       </div>
-      <button type="button" className="w-3.5 h-3.5 " onClick={onRemove}>
+      <button
+        type="button"
+        className="w-3.5 h-3.5 disabled:opacity-50 disabled:cursor-not-allowed"
+        onClick={onRemove}
+        disabled={disabled}
+      >
         <Image
           className="w-3.5 h-3.5 object-fit"
           src="/icon-cross.svg"
