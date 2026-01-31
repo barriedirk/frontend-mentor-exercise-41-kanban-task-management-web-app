@@ -1,16 +1,19 @@
 export type ShareMode = "read" | "edit" | null;
 
-export interface BoardEditColumn {
+export interface BoardModelBase {
   id?: string;
   name: string;
-  position?: number;
 }
 
-export interface BoardModel {
-  id?: string;
-  name: string;
-  columns: BoardEditColumn[];
+export interface BoardModel extends BoardModelBase {
+  columns: BoardColumn[];
   // @todo, shareToken and shareMode will be implemented later
   shareToken?: string | null;
   shareMode?: ShareMode;
+}
+
+export interface BoardColumn {
+  id?: string;
+  name: string;
+  position?: number;
 }

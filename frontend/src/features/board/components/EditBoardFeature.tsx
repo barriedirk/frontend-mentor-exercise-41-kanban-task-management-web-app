@@ -24,7 +24,7 @@ export default function EditBoardFeature({
   const [loading, setLoading] = useState(false);
   const defaultValues = useMemo(() => boardToForm(board), [board]);
 
-  async function handleDelete() {
+  async function handleConfirm() {
     try {
       setLoading(true);
       // await editBoard(board.id);
@@ -44,7 +44,7 @@ export default function EditBoardFeature({
       board={defaultValues}
       loading={loading}
       onCancel={onClose}
-      onConfirm={handleDelete}
+      onConfirm={handleConfirm}
     />
   );
 }

@@ -3,8 +3,9 @@ import "./board-header.css";
 import Image from "next/image";
 
 import Logo from "@/components/kanban/Logo";
-import Button from "@/components/ui/Button";
+
 import BoardHeaderMenuOptions from "./BoardHeaderMenuOptions";
+import BoardHeaderAddNewTask from "./modals/BoardHeaderAddNewTask";
 
 export default function BoardHeader() {
   const iconChevron = "/icon-chevron-down.svg";
@@ -41,10 +42,7 @@ export default function BoardHeader() {
         </button>
       </h1>
 
-      <Button className="board-header__add_task ml-auto text-preset-4">
-        <span>+</span>
-        <span>Add New Task</span>
-      </Button>
+      <BoardHeaderAddNewTask />
 
       <BoardHeaderMenuOptions />
     </header>

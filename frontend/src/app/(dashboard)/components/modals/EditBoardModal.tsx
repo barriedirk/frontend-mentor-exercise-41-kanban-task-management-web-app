@@ -9,7 +9,7 @@ import Modal from "@/components/ui/Modal";
 import { BoardForm } from "./BoardForm";
 import { BoardFormBase } from "@//features/board/types/board-form.types";
 
-interface BoardModalProps {
+interface EditBoardModalProps {
   open: boolean;
   board: BoardFormBase;
   loading?: boolean;
@@ -17,13 +17,13 @@ interface BoardModalProps {
   onConfirm: () => void;
 }
 
-export default function BoardModal({
+export default function EditBoardModal({
   open,
   board,
   loading = false,
   onCancel,
   onConfirm,
-}: BoardModalProps) {
+}: EditBoardModalProps) {
   const formTitleId = useId();
 
   return (
