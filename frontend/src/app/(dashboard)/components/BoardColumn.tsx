@@ -15,9 +15,9 @@ export const mockTasks: TaskModel[] = [
       "Implement login, logout, and token refresh using Strapi authentication.",
     columnId: "todo",
     subTasks: [
-      { id: "st-1-1", name: "Create login page UI", checked: true },
-      { id: "st-1-2", name: "Connect login API", checked: false },
-      { id: "st-1-3", name: "Handle auth errors", checked: false },
+      { id: "st-1-1", name: "Create login page UI", completed: true },
+      { id: "st-1-2", name: "Connect login API", completed: false },
+      { id: "st-1-3", name: "Handle auth errors", completed: false },
     ],
   },
   {
@@ -26,9 +26,9 @@ export const mockTasks: TaskModel[] = [
     description: "Create the main board UI with columns and draggable tasks.",
     columnId: "doing",
     subTasks: [
-      { id: "st-2-1", name: "Column layout", checked: true },
-      { id: "st-2-2", name: "Task card component", checked: true },
-      { id: "st-2-3", name: "Empty state design", checked: false },
+      { id: "st-2-1", name: "Column layout", completed: true },
+      { id: "st-2-2", name: "Task card component", completed: true },
+      { id: "st-2-3", name: "Empty state design", completed: false },
     ],
   },
   {
@@ -38,9 +38,9 @@ export const mockTasks: TaskModel[] = [
       "Allow tasks to be dragged between columns with smooth animations.",
     columnId: "doing",
     subTasks: [
-      { id: "st-3-1", name: "Choose DnD library", checked: true },
-      { id: "st-3-2", name: "Move tasks between columns", checked: false },
-      { id: "st-3-3", name: "Persist column change", checked: false },
+      { id: "st-3-1", name: "Choose DnD library", completed: true },
+      { id: "st-3-2", name: "Move tasks between columns", completed: false },
+      { id: "st-3-3", name: "Persist column change", completed: false },
     ],
   },
   {
@@ -49,9 +49,9 @@ export const mockTasks: TaskModel[] = [
     description: "Show success and error notifications for all CRUD actions.",
     columnId: "todo",
     subTasks: [
-      { id: "st-4-1", name: "Install notification library", checked: true },
-      { id: "st-4-2", name: "Success messages", checked: false },
-      { id: "st-4-3", name: "Error handling", checked: false },
+      { id: "st-4-1", name: "Install notification library", completed: true },
+      { id: "st-4-2", name: "Success messages", completed: false },
+      { id: "st-4-3", name: "Error handling", completed: false },
     ],
   },
   {
@@ -61,8 +61,8 @@ export const mockTasks: TaskModel[] = [
       "Reduce unnecessary renders and improve overall app performance.",
     columnId: "review",
     subTasks: [
-      { id: "st-5-1", name: "Memoize heavy components", checked: false },
-      { id: "st-5-2", name: "Audit re-renders", checked: false },
+      { id: "st-5-1", name: "Memoize heavy components", completed: false },
+      { id: "st-5-2", name: "Audit re-renders", completed: false },
     ],
   },
   {
@@ -72,9 +72,9 @@ export const mockTasks: TaskModel[] = [
       "Prepare production build and deploy the app to hosting provider.",
     columnId: "done",
     subTasks: [
-      { id: "st-6-1", name: "Environment variables", checked: true },
-      { id: "st-6-2", name: "Production build", checked: true },
-      { id: "st-6-3", name: "Verify deployment", checked: true },
+      { id: "st-6-1", name: "Environment variables", completed: true },
+      { id: "st-6-2", name: "Production build", completed: true },
+      { id: "st-6-3", name: "Verify deployment", completed: true },
     ],
   },
 ];

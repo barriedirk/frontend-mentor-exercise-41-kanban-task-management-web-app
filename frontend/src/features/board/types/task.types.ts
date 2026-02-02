@@ -9,5 +9,5 @@ export interface TaskModel {
 export interface SubTaskModel {
   id?: string;
   name: string;
-  checked: boolean;
+  completed: boolean;
 }

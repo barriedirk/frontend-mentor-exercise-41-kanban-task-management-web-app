@@ -2,6 +2,7 @@ export interface StrapiSubTask {
   id: number;
   attributes: {
     name: string;
+    completed: boolean;
   };
 }
 

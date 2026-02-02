@@ -11,7 +11,7 @@ interface BoardColumnTaskProps {
 export function BoardColumnTask({ task }: BoardColumnTaskProps) {
   const [openSubTaskModal, setOpenTaskModal] = useState(false);
   const totalChecked = task.subTasks.reduce(
-    (acc, subTask) => acc + (subTask.checked === true ? 1 : 0),
+    (acc, subTask) => acc + (subTask.completed === true ? 1 : 0),
     0,
   );
 

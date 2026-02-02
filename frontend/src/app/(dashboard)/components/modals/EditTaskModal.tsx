@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import Modal from "@/components/ui/Modal";
 import { TaskFormBase } from "@/features/board/types/task-form.types";
+import TaskForm from "./TaskForm";
 
 interface EditTaskModalProps {
   open: boolean;
@@ -30,7 +31,15 @@ export default function EditTaskModal({
       onClose={onCancel}
       size="large"
     >
-      <h1>Edit Task</h1>
+      <TaskForm
+        defaultValues={task}
+        submitLabel="Create Task"
+        onSubmit={async (values) => {
+          // const parsed = addBoardSchema.parse(values);
+
+          onConfirm();
+        }}
+      />
     </Modal>
   );
 }

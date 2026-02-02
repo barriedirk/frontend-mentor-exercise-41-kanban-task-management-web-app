@@ -25,7 +25,7 @@ interface Props<T extends FieldValues> {
   onRemove: () => void;
 }
 
-const ColumnForm = <T extends FieldValues>({
+const InputOptionForm = <T extends FieldValues>({
   name,
   control,
   type = "text",
@@ -99,4 +99,4 @@ const ColumnForm = <T extends FieldValues>({
   );
 };
 
-export default ColumnForm;
+export default InputOptionForm;

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import {
   useForm,
   useFieldArray,
@@ -9,7 +8,7 @@ import {
 import clsx from "clsx";
 
 import InputForm from "@/components/forms/fields/InputForm";
-import ColumnForm from "@/components/forms/fields/ColumnForm";
+import InputOptionForm from "@/components/forms/fields/InputOptionForm";
 import Button from "@/components/ui/Button";
 
 import { BoardFormBase } from "@//features/board/types/board-form.types";
@@ -70,7 +69,7 @@ export function BoardForm({
         )}
       >
         {fields.map((field, index) => (
-          <ColumnForm
+          <InputOptionForm
             key={field.id}
             name={`columns.${index}.name`}
             control={control}

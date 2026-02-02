@@ -1,59 +1,60 @@
 import { useId } from "react";
-import {
-  Control,
-  Controller,
-  FieldError,
-  FieldValues,
-  Path,
-} from "react-hook-form";
-import clsx from "clsx";
 
-export interface SelectOption {
-  value: string;
-  label: string;
-}
+import {
+  type Control,
+  Controller,
+  type FieldError,
+  type FieldValues,
+  type Path,
+} from "react-hook-form";
+
+import clsx from "clsx";
 
 interface Props<T extends FieldValues> {
   name: Path<T>;
   control: Control<T>;
   label: string;
-  options: SelectOption[];
   error?: FieldError;
+  autoComplete?: string;
   placeholder?: string;
-  styleName?: "column" | "row";
+  styleName?: "column" | "row" | undefined;
   helperText?: string;
   dataTestid?: string;
 }
 
-const SelectForm = <T extends FieldValues>({
+const TextareaForm = <T extends FieldValues>({
   name,
   control,
   label,
-  options,
   error,
+  autoComplete,
   placeholder,
   styleName,
   helperText,
   dataTestid,
 }: Props<T>) => {
   const elemId = useId();
-  const selectId = `${elemId}-select`;
+  const inputId = `${elemId}-input`;
   const errorId = `${elemId}-error`;
 
   return (
     <fieldset
-      className={clsx("form-group", styleName, error && "form-group--error")}
+      className={clsx(
+        "form-group input-text",
+        styleName,
+        error && "form-group--error",
+      )}
       role="group"
       aria-labelledby={`${name}-label`}
     >
       <label
         id={`${name}-label`}
-        htmlFor={selectId}
         className={clsx(
           "form-label",
           !error && "text-grey-900",
           error && "text-error",
         )}
+        htmlFor={inputId}
       >
         {label}
       </label>
@@ -68,39 +69,27 @@ const SelectForm = <T extends FieldValues>({
           name={name}
           control={control}
           render={({ field }) => (
-            <select
-              {...field}
-              id={selectId}
+            <textarea
               data-testid={dataTestid}
+              id={inputId}
+              {...field}
+              autoComplete={autoComplete}
+              placeholder={placeholder}
               className={`form-control ${error ? "is-invalid" : ""}`}
               aria-invalid={!!error}
               aria-describedby={error ? errorId : undefined}
-            >
-              {placeholder && (
-                <option value="" disabled>
-                  {placeholder}
-                </option>
-              )}
-
-              {options.map((option: SelectOption) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+            />
           )}
         />
-
         {error && (
           <span id={errorId} role="alert" className="text-body-l error">
             {error.message}
           </span>
         )}
       </div>
-
       {helperText && <p className="text-body-l text-grey-500">{helperText}</p>}
     </fieldset>
   );
 };
 
-export default SelectForm;
+export default TextareaForm;
