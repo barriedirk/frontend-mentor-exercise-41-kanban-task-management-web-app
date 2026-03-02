@@ -11,7 +11,10 @@
 }
 
 .form-control {
-  line-height: 1;
+  line-height: 1.5;
+  font-family: var(--ff);
+  font-weight: var(--fw-bold§);
+  font-size: var(--fs-12);
 }
 
 .form-input-group {
@@ -71,10 +74,10 @@
 .form-group input[type="text"],
 .form-group input[type="password"],
 .form-group input[type="file"] {
+  outline: none;
+  flex-grow: 1;
   border: none;
   color: var(--clr-grey-900);
-  flex-grow: 1;
-  outline: none;
   width: 100%;
 }
 

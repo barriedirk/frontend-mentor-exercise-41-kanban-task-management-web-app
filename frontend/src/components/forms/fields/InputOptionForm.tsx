@@ -53,7 +53,7 @@ const InputOptionForm = <T extends FieldValues>({
     >
       <div
         className={clsx(
-          "form-input-group text-body-l relative",
+          "form-input-group text-body-l relative w-full",
           error && "is-invalid",
         )}
       >

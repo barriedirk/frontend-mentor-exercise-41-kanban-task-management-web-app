@@ -4,6 +4,7 @@ import { ReactNode } from "react";
 import Overlay from "./Overlay";
 import Dialog from "./Dialog";
 import Portal from "./Portal";
+import clsx from "clsx";
 
 interface ModalProps {
   open: boolean;
@@ -22,19 +23,26 @@ export default function Modal({
   titleClassName,
   onClose,
   children,
-  size,
+  size = "small",
 }: ModalProps) {
   if (!open) return null;
 
   return (
     <Portal>
       <Overlay onClick={onClose}>
-        <div onClick={(e) => e.stopPropagation()}>
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className={clsx(
+            "w-full max-w-120 mx-auto",
+            !size && "max-w-md",
+            size === "small" && "max-w-md",
+            size === "large" && "max-w-120",
+          )}
+        >
           <Dialog
             title={title}
             titleClassName={titleClassName}
             titleId={titleId}
-            size={size}
           >
             {children}
           </Dialog>

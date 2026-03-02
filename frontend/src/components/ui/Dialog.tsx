@@ -9,7 +9,6 @@ interface DialogProps {
   title?: string;
   titleClassName?: string;
   children: ReactNode;
-  size?: "small" | "large" | null;
 }
 
 export default function Dialog({
@@ -17,7 +16,6 @@ export default function Dialog({
   title,
   children,
   titleClassName,
-  size = "small",
 }: DialogProps) {
   return (
     <div
@@ -25,10 +23,7 @@ export default function Dialog({
       aria-modal="true"
       aria-labelledby={titleId}
       className={clsx(
-        "relative z-50 w-full rounded-xl bg-background p-6 shadow-lg focus:outline-none",
-        !size && "max-w-md",
-        size === "small" && "max-w-md",
-        size === "large" && "max-w-120",
+        "relative z-50 rounded-xl bg-background p-6 shadow-lg focus:outline-none w-full",
       )}
     >
       {title && (

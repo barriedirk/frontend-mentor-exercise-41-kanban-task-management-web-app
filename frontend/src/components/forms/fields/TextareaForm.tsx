@@ -75,7 +75,10 @@ const TextareaForm = <T extends FieldValues>({
               {...field}
               autoComplete={autoComplete}
               placeholder={placeholder}
-              className={`form-control ${error ? "is-invalid" : ""}`}
+              className={clsx(
+                "form-control w-full h-31.25 resize-none ",
+                error && "is-invalid",
+              )}
               aria-invalid={!!error}
               aria-describedby={error ? errorId : undefined}
             />

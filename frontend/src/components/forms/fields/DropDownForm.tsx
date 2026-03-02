@@ -6,7 +6,7 @@ import {
   type Path,
 } from "react-hook-form";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useId } from "react";
 
 import clsx from "clsx";
 
@@ -74,7 +74,7 @@ const DropDownForm = <T extends FieldValues>({
     }
   }, [highlightedIndex, isOpen]);
 
-  const inputId = `${name}-input`;
+  const inputId = useId();
   const errorId = `${name}-error`;
   const listboxId = `${name}-listbox`;
 
@@ -143,7 +143,7 @@ const DropDownForm = <T extends FieldValues>({
             <label
               id={`${name}-label`}
               className={clsx(
-                "text-preset-4",
+                "form-label",
                 !error && "text-grey-900",
                 error && "text-error",
               )}
@@ -166,7 +166,7 @@ const DropDownForm = <T extends FieldValues>({
               tabIndex={0}
               onKeyDown={handleKeyDown}
               className={clsx(
-                "form-input-group text-preset-3 relative cursor-pointer",
+                "form-input-group relative cursor-pointer",
                 error && "is-invalid",
               )}
               onClick={toggleDropdown}
@@ -186,6 +186,7 @@ const DropDownForm = <T extends FieldValues>({
                 {selected?.icon}
                 <span
                   className={clsx(
+                    "form-control",
                     !selected?.label ? "text-grey-200" : "txt-grey-900",
                   )}
                 >
@@ -210,7 +211,7 @@ const DropDownForm = <T extends FieldValues>({
                 onClick={toggleDropdown}
                 aria-label="Show options"
                 className={clsx(
-                  "button--simple text-purple-600 hover:text-purple-950 h-[12px] w-[12px]",
+                  "button--simple text-purple-600 hover:text-purple-950 h-3 w-3",
                   !selected && "ml-auto",
                 )}
                 data-testid={
@@ -259,7 +260,7 @@ const DropDownForm = <T extends FieldValues>({
                         dataTestid ? `${dataTestid}-option-${index}` : null
                       }
                       className={clsx(
-                        "flex cursor-pointer items-center gap-2 px-4 py-2",
+                        "flex cursor-pointer items-center gap-2 px-4 py-2 form-control",
                         isSelected && "bg-purple-600 text-white font-semibold",
                         isHighlighted && "bg-purple-950 text-white",
                       )}
