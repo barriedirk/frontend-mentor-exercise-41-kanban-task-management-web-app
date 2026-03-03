@@ -12,9 +12,6 @@
     "frontend/**/*.{ts,tsx}": [
       "pnpm --filter frontend exec tsc --noEmit",
       "prettier --write"
-    ],
-    "backend/**/*.ts": [
-      "prettier --write"
     ]
   },
   "keywords": [],
