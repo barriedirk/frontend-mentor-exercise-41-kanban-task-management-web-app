@@ -1,0 +1,23 @@
+# Secretos y credenciales
+.env
+.env.local
+.env.production
+.env.development
+*.pem
+*.key
+
+# Dependencias (para que no pierda tiempo leyéndolas)
+node_modules/
+pnpm-lock.yaml
+
+# Datos de Figma o archivos binarios pesados
+figma/
+*.fig
+*.jpg
+*.png
+*.pdf
+
+# Logs y basura
+.logs/
+*.log
+npm-debug.log*

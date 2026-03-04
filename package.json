@@ -11,7 +11,7 @@
   "lint-staged": {
     "frontend/**/*.{ts,tsx}": [
       "pnpm --filter frontend exec tsc --noEmit",
-      "prettier --write"
+      "pnpm --filter frontend exec prettier --write"
     ]
   },
   "keywords": [],
