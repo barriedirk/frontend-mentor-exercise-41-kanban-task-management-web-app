@@ -1,26 +1,24 @@
 "use client";
 
+import UpdateTaskModal from "@/app/(dashboard)/components/modals/UpdateTaskModal";
+
 import { useMemo, useState } from "react";
 import { TaskModel } from "../types/task.types";
 import { taskToForm } from "../mappers/task.mapper";
-import AddTaskModal from "@/app/(dashboard)/components/modals/AddTaskModal";
 
-interface AddTaskFeatureProps {
+interface UpdateTaskFeatureProps {
+  task: TaskModel;
   open: boolean;
   onClose: () => void;
 }
 
-const emptyTask: TaskModel = {
-  id: "",
-  name: "",
-  description: "",
-  columnId: "",
-  subTasks: [{ id: crypto.randomUUID(), name: "", completed: false }],
-};
-
-export default function AddTaskFeature({ open, onClose }: AddTaskFeatureProps) {
+export default function UpdateTaskFeature({
+  task,
+  open,
+  onClose,
+}: UpdateTaskFeatureProps) {
   const [loading, setLoading] = useState(false);
-  const defaultValues = useMemo(() => taskToForm(emptyTask), []);
+  const defaultValues = useMemo(() => taskToForm(task), [task]);
 
   async function handleConfirm() {
     try {
@@ -37,7 +35,7 @@ export default function AddTaskFeature({ open, onClose }: AddTaskFeatureProps) {
   }
 
   return (
-    <AddTaskModal
+    <UpdateTaskModal
       task={defaultValues}
       open={open}
       onCancel={onClose}

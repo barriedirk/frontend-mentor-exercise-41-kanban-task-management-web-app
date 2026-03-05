@@ -1,6 +1,7 @@
 "use client";
 
-import EditTaskFeature from "@/features/board/components/EditTaskFeature";
+// import EditTaskFeature from "@/features/board/components/EditTaskFeature";
+import UpdateTaskFeature from "@/features/board/components/UpdateTaskFeature";
 import { TaskModel } from "@/features/board/types/task.types";
 import { useState } from "react";
 
@@ -18,7 +19,7 @@ export function BoardColumnTask({ task }: BoardColumnTaskProps) {
   return (
     <>
       {openSubTaskModal && (
-        <EditTaskFeature
+        <UpdateTaskFeature
           task={task}
           open={openSubTaskModal}
           onClose={() => setOpenTaskModal(false)}

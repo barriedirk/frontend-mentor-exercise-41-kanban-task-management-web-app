@@ -20,7 +20,7 @@ export const editBoardColumnSchema = boardColumnBaseSchema.extend({
  * Column schema used inside Add Board
  */
 export const addBoardColumnSchema = boardColumnBaseSchema.extend({
-  id: z.string().min(1).optional(), // or omit entirely
+  id: z.string().min(1),
 });
 
 const boardBaseSchema = z.object({
@@ -37,7 +37,7 @@ const boardBaseSchema = z.object({
  * Edit Board schema
  */
 export const editBoardSchema = boardBaseSchema.extend({
-  id: z.string().min(1),
+  id: z.string().min(1).optional(),
   columns: z
     .array(editBoardColumnSchema)
     .min(1, "At least one column is required"),

@@ -56,7 +56,7 @@ export default function BoardHeaderMenuOptions() {
       )}
       {openDeleteModal && (
         <DeleteBoardFeature
-          boardId={boardMockup.id}
+          boardId={boardMockup.id!}
           boardName={boardMockup.name}
           open={true}
           onClose={() => {}}

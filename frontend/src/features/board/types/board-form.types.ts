@@ -5,7 +5,7 @@
 export type BoardFormBase = {
   name: string;
   columns: {
-    id?: string;
+    id: string;
     name: string;
     position?: number;
   }[];

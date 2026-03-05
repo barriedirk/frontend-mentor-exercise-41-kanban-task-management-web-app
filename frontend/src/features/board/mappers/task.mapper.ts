@@ -22,6 +22,7 @@ export function formToTask(form: TaskFormBase, taskId: string): TaskModel {
     subTasks: form.subTasks.map((c) => ({
       id: c.id ?? crypto.randomUUID(),
       name: c.name,
+      completed: false,
     })),
   };
 }

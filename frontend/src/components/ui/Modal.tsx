@@ -5,6 +5,7 @@ import Overlay from "./Overlay";
 import Dialog from "./Dialog";
 import Portal from "./Portal";
 import clsx from "clsx";
+import { SubMenuItem } from "@/features/board/types/sub-menu-item";
 
 interface ModalProps {
   open: boolean;
@@ -13,6 +14,7 @@ interface ModalProps {
   onClose: () => void;
   children: ReactNode;
   titleId?: string;
+  subMenus?: SubMenuItem[];
   size?: "small" | "large" | null;
 }
 
@@ -23,6 +25,7 @@ export default function Modal({
   titleClassName,
   onClose,
   children,
+  subMenus,
   size = "small",
 }: ModalProps) {
   if (!open) return null;
@@ -43,6 +46,7 @@ export default function Modal({
             title={title}
             titleClassName={titleClassName}
             titleId={titleId}
+            subMenus={subMenus}
           >
             {children}
           </Dialog>

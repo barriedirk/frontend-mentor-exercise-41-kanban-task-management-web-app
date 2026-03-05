@@ -1,25 +1,19 @@
-
 import { BoardModel } from "../types/board.types";
 import { BoardFormBase } from "../types/board-form.types";
 
-export function boardToForm(
-  board: BoardModel,
-): BoardFormBase {
+export function boardToForm(board: BoardModel): BoardFormBase {
   return {
     name: board.name,
     columns:
       board.columns?.map((c) => ({
-        id: c.id,
+        id: c.id!,
         name: c.name,
         position: c.position,
-      })) ?? [{ name: "" }],
+      })) ?? [],
   };
 }
 
-export function formToBoard(
-  form: BoardFormBase,
-  boardId?: string,
-): BoardModel {
+export function formToBoard(form: BoardFormBase, boardId?: string): BoardModel {
   return {
     id: boardId ?? crypto.randomUUID(),
     name: form.name,
