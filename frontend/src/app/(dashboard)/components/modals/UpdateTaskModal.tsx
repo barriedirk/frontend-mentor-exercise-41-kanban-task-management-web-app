@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Modal from "@/components/ui/Modal";
 import { TaskFormBase } from "@/features/board/types/task-form.types";
 import UpdateTaskForm from "./UpdateTaskForm";
+import { SubMenuItem } from "@/features/board/types/sub-menu-item";
 
 interface UpdateTaskModalProps {
   open: boolean;
@@ -24,6 +25,21 @@ export default function UpdateTaskModal({
 }: UpdateTaskModalProps) {
   const formTitleId = useId();
 
+  const subMenus: SubMenuItem[] = [
+    {
+      label: "Edit Task",
+      onClick: () => {
+        console.log("Edit Task ", task.columnId);
+      },
+    },
+    {
+      label: "Delete Task",
+      onClick: () => {
+        console.log("Delete Task ", task.columnId);
+      },
+    },
+  ];
+
   return (
     <Modal
       open={open}
@@ -31,6 +47,7 @@ export default function UpdateTaskModal({
       title={task.description}
       onClose={onCancel}
       size="large"
+      subMenus={subMenus}
     >
       <UpdateTaskForm
         defaultValues={task}

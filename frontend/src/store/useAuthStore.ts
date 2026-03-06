@@ -2,10 +2,16 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { storage } from "./utils";
 
+interface User {
+  id: string;
+  name: string;
+  email?: string; // Puedes añadir campos opcionales si Strapi los envía
+}
+
 type AuthState = {
-  user: null | { id: string; name: string };
+  user: null | User;
   token: string | null;
-  login: (user: any, token: string) => void;
+  login: (user: User, token: string) => void;
   logout: () => void;
 };
 
@@ -20,6 +26,6 @@ export const useAuthStore = create<AuthState>()(
     {
       name: "auth-storage",
       storage: storage(),
-    }
-  )
+    },
+  ),
 );

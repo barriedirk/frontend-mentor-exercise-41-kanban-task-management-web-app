@@ -1,6 +1,5 @@
 "use client";
 
-// import EditTaskFeature from "@/features/board/components/EditTaskFeature";
 import UpdateTaskFeature from "@/features/board/components/UpdateTaskFeature";
 import { TaskModel } from "@/features/board/types/task.types";
 import { useState } from "react";
