@@ -66,7 +66,9 @@ export default function UpdateTaskForm({
 
   return (
     <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
-      <p className="text-body-l">{defaultValues.description}</p>
+      <p className="text-body-l text-medium-grey">
+        {defaultValues.description}
+      </p>
 
       <h3 className="form-label text-grey-900">Subtasks</h3>
 

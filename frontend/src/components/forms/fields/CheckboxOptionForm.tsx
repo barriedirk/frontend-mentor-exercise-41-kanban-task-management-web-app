@@ -44,6 +44,7 @@ const CheckboxOptionForm = <T extends FieldValues>({
       <div
         className={clsx(
           "form-input-group flex items-center gap-2 w-full",
+          "bg-background",
           error && "is-invalid",
         )}
       >

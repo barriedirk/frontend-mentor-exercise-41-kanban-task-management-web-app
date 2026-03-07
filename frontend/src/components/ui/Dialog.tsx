@@ -46,14 +46,14 @@ export default function Dialog({
       aria-modal="true"
       aria-labelledby={titleId}
       className={clsx(
-        "relative z-50 rounded-xl bg-background p-6 shadow-lg focus:outline-none w-full",
+        "relative z-50 rounded-xl bg-background-secondary p-6 shadow-lg focus:outline-none w-full",
       )}
     >
-      <header className="flex">
+      <header className="flex justify-between">
         {title && (
           <h2
             id={titleId}
-            className={clsx("text-heading-l mb-4", titleClassName)}
+            className={clsx("text-heading-l leading-1.5 mb-4", titleClassName)}
           >
             {title}
           </h2>
@@ -78,7 +78,7 @@ export default function Dialog({
               />
             </button>
             {openMenu && (
-              <div className="absolute right-0 mt-2 w-40 rounded-lg bg-white shadow-xlborder z-50">
+              <div className="absolute right-0 mt-2 w-40 rounded-lg shadow-xl border-main-stroke z-50 bg-background">
                 {subMenus.map((item, idx) => (
                   <button
                     key={idx}
@@ -88,7 +88,9 @@ export default function Dialog({
                       setOpenMenu(false);
                     }}
                     className={clsx(
-                      "block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 transition",
+                      "block w-full text-left px-4 py-2 transition",
+                      "text-body-l text-foreground",
+                      "hover:text-red!",
                       item.className,
                     )}
                   >
