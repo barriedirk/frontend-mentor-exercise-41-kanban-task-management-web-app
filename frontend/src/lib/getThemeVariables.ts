@@ -12,7 +12,6 @@ export function getThemeVariables(): Record<string, Record<string, string>> {
     light: {
       "--bg-destructive": getCssVar("--color-red"),
       "--text-destructive": getCssVar("--color-white"),
-
       "--bg-secondary": getCssVar("--color-soft-pastel-purple"),
       "--text-secondary": getCssVar("--color-main-purple"),
 

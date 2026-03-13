@@ -80,10 +80,6 @@
   background-color: var(--color-cool-blue-gray);
 }
 
-.bg-background {
-  background-color: var(--background);
-}
-
 .border-lines-dark {
   border-color: var(--color-lines-dark);
 }

@@ -5,6 +5,22 @@
   gap: 10px;
 }
 
+.form-dropdown {
+  background: var(--background);
+}
+
+.form-dropdown--selected {
+  background: var(--background-tertiary);
+}
+
+.form-checkbox-group {
+  background: var(--background-tertiary);
+}
+
+.form-checkbox-group:has(input:checked) {
+  background: var(--background);
+}
+
 .form-group--row {
   flex-direction: row;
   align-items: center;

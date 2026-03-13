@@ -34,7 +34,8 @@ const CheckboxOptionForm = <T extends FieldValues>({
   return (
     <fieldset
       className={clsx(
-        "form-group flex items-center",
+        "form-group form-checkbox-group",
+        "flex items-center",
         styleName,
         error && "form-group--error",
       )}
@@ -44,7 +45,6 @@ const CheckboxOptionForm = <T extends FieldValues>({
       <div
         className={clsx(
           "form-input-group flex items-center gap-2 w-full",
-          "bg-background",
           error && "is-invalid",
         )}
       >
@@ -65,7 +65,10 @@ const CheckboxOptionForm = <T extends FieldValues>({
               />
 
               {label && (
-                <label htmlFor={inputId} className="text-body-l cursor-pointer">
+                <label
+                  htmlFor={inputId}
+                  className={clsx("text-body-l cursor-pointer")}
+                >
                   {label}
                 </label>
               )}

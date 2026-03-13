@@ -70,7 +70,7 @@ export default function UpdateTaskForm({
         {defaultValues.description}
       </p>
 
-      <h3 className="form-label text-grey-900">Subtasks</h3>
+      <h3 className="form-label">Subtasks</h3>
 
       <div
         className={clsx(

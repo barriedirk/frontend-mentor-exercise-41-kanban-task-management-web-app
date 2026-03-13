@@ -6,6 +6,8 @@ import {
   type Path,
 } from "react-hook-form";
 
+import Image from "next/image";
+
 import React, { useState, useRef, useEffect, useId } from "react";
 
 import clsx from "clsx";
@@ -51,6 +53,9 @@ const DropDownForm = <T extends FieldValues>({
     setIsOpen(false);
     setHighlightedIndex(-1);
   };
+
+  const iconChevron = "/icon-chevron-down.svg";
+  const iconCross = "/icon-cross.svg";
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -167,6 +172,9 @@ const DropDownForm = <T extends FieldValues>({
               onKeyDown={handleKeyDown}
               className={clsx(
                 "form-input-group relative cursor-pointer",
+                "text-body-l",
+                !selected && "bg-background-tertiary",
+                selected && "bg-background",
                 error && "is-invalid",
               )}
               onClick={toggleDropdown}
@@ -187,7 +195,7 @@ const DropDownForm = <T extends FieldValues>({
                 <span
                   className={clsx(
                     "form-control",
-                    !selected?.label ? "text-grey-200" : "txt-grey-900",
+                    !selected?.label ? "text-grey-200" : "text-grey-900",
                   )}
                 >
                   {selected?.label || placeholder}
@@ -203,7 +211,16 @@ const DropDownForm = <T extends FieldValues>({
                   data-testid={
                     dataTestid ? `${dataTestid}-clear-selection` : null
                   }
-                ></button>
+                >
+                  <Image
+                    className="object-fit w-3 h-3"
+                    src={iconCross}
+                    alt=""
+                    width={15}
+                    height={15}
+                    priority
+                  />
+                </button>
               )}
 
               <button
@@ -211,7 +228,7 @@ const DropDownForm = <T extends FieldValues>({
                 onClick={toggleDropdown}
                 aria-label="Show options"
                 className={clsx(
-                  "button--simple text-purple-600 hover:text-purple-950 h-3 w-3",
+                  "button--simple w-3 h-2",
                   !selected && "ml-auto",
                 )}
                 data-testid={
@@ -219,7 +236,16 @@ const DropDownForm = <T extends FieldValues>({
                     ? `${dataTestid}-toggle-dropdown-show-options`
                     : null
                 }
-              ></button>
+              >
+                <Image
+                  className="object-fit w-3 h-2"
+                  src={iconChevron}
+                  alt=""
+                  width={8}
+                  height={4}
+                  priority
+                />
+              </button>
             </div>
 
             {error && (
@@ -237,7 +263,7 @@ const DropDownForm = <T extends FieldValues>({
                 id={listboxId}
                 role="listbox"
                 ref={dropdownRef}
-                className="select-dropdown"
+                className="select-dropdown bg-background"
                 data-testid={
                   dataTestid
                     ? `${dataTestid}-${listboxId}-select-dropdown`
@@ -261,8 +287,9 @@ const DropDownForm = <T extends FieldValues>({
                       }
                       className={clsx(
                         "flex cursor-pointer items-center gap-2 px-4 py-2 form-control",
-                        isSelected && "bg-purple-600 text-white font-semibold",
-                        isHighlighted && "bg-purple-950 text-white",
+                        isSelected &&
+                          "bg-soft-pastel-purple text-dark-grey font-semibold",
+                        isHighlighted && "bg-soft-pastel-purple text-dark-grey",
                       )}
                     >
                       {option.icon}
