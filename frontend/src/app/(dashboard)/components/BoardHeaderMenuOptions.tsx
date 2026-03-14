@@ -1,5 +1,7 @@
 "use client";
 
+import { logoutAction } from "@/features/auth/actions/logout";
+
 import { useState } from "react";
 
 import Image from "next/image";
@@ -8,6 +10,7 @@ import DeleteBoardFeature from "@/features/board/components/DeleteBoardFeature";
 
 import EditBoardFeature from "@/features/board/components/EditBoardFeature";
 import { BoardModel } from "@/features/board/types/board.types";
+import { toast } from "sonner";
 
 const boardMockup: BoardModel = {
   id: "232",
@@ -78,13 +81,37 @@ export default function BoardHeaderMenuOptions() {
               aria-controls="board-options-menu"
             >
               <li role="none">
-                <button role="menuitem" onClick={() => openModal("edit")}>
+                <button
+                  role="menuitem"
+                  className="text-preset-3"
+                  onClick={() => openModal("edit")}
+                >
                   Edit board
                 </button>
               </li>
               <li role="none">
-                <button role="menuitem" onClick={() => openModal("delete")}>
+                <button
+                  role="menuitem"
+                  className="text-preset-3"
+                  onClick={() => openModal("delete")}
+                >
                   Delete board
+                </button>
+              </li>
+              <li>
+                <hr className="text-main-purple my-3" />
+              </li>
+              <li role="none">
+                <button
+                  role="menuitem"
+                  className="text-preset-3 text-red hover:font-bold"
+                  onClick={async () => {
+                    toast.loading("Closing session...");
+
+                    await logoutAction();
+                  }}
+                >
+                  Logout
                 </button>
               </li>
             </ul>

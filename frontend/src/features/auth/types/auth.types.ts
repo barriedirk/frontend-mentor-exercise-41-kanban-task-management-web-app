@@ -9,7 +9,7 @@ export interface SigninPayload {
   password: string;
 }
 
-export interface SigninResponse {
+export interface AuthResponse {
   jwt: string;
   user: {
     id: number;

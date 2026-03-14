@@ -1,14 +1,16 @@
 import { fetcher } from "@/lib/strapi/fetcher";
 import {
   type SigninPayload,
-  type SigninResponse,
+  type AuthResponse,
   type SignupPayload,
 } from "../types/auth.types";
 
 const STRAPI_URL = process.env.STRAPI_URL!;
 
-export async function signupUser(payload: SignupPayload) {
-  return fetcher(`${STRAPI_URL}/api/auth/local/register`, {
+export async function signupUser(
+  payload: SignupPayload,
+): Promise<AuthResponse> {
+  return fetcher<AuthResponse>(`${STRAPI_URL}/api/auth/local/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -18,9 +20,9 @@ export async function signupUser(payload: SignupPayload) {
 }
 
 export async function signinUser(
-  payload: SigninPayload
-): Promise<SigninResponse> {
-  return fetcher(`${STRAPI_URL}/api/auth/local`, {
+  payload: SigninPayload,
+): Promise<AuthResponse> {
+  return fetcher<AuthResponse>(`${STRAPI_URL}/api/auth/local`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
