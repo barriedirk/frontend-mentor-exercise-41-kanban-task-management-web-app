@@ -3,6 +3,7 @@
 import { useId } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addBoardSchema } from "@/schemas/board.schema";
+import { Resolver } from "react-hook-form";
 
 import Modal from "@/components/ui/Modal";
 
@@ -14,7 +15,7 @@ interface AddBoardModalProps {
   board: BoardFormBase;
   loading?: boolean;
   onCancel: () => void;
-  onConfirm: () => void;
+  onConfirm: (values: BoardFormBase) => void;
 }
 
 export default function AddBoardModal({
@@ -36,12 +37,17 @@ export default function AddBoardModal({
     >
       <BoardForm
         defaultValues={board}
-        resolver={zodResolver(addBoardSchema)}
+        resolver={
+          zodResolver(addBoardSchema) as unknown as Resolver<BoardFormBase>
+        }
         submitLabel="Create Board"
         onSubmit={async (values) => {
-          const parsed = addBoardSchema.parse(values);
+          // console.log("onSubmit", values);
+          // const parsed: BoardFormBase = addBoardSchema.parse(values);
 
-          onConfirm();
+          console.log("parsed", values);
+
+          onConfirm(values);
         }}
       />
     </Modal>

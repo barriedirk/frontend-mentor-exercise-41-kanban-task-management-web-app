@@ -6,14 +6,13 @@ export default async function DashboardLayout({
 }: {
   readonly children: React.ReactNode;
 }) {
-  const isLoggedIn = (await cookies()).get("token");
-  const cookiesGetAll = (await cookies()).getAll();
+  const cookieStore = await cookies();
+  // const cookiesGetAll = (await cookies()).getAll(); // @todo, remove
+  const isLoggedIn = cookieStore.get("auth_token");
 
-  console.log("cookiesGetAll", cookiesGetAll);
-
-  // if (!isLoggedIn) {
-  //   redirect("/signin");
-  // }
+  if (!isLoggedIn) {
+    redirect("/signin");
+  }
 
   return <div className="flex justify-center">{children}</div>;
 }

@@ -1,6 +1,6 @@
 "use server";
 
-import { cookies } from "next/headers"; // Importante
+import { cookies } from "next/headers";
 import { signupUser } from "@/features/auth/services/auth.service";
 import { signUpSchema } from "@/schemas/signUp";
 import { getErrorMessage } from "@/lib/errors/getErrorMessage";

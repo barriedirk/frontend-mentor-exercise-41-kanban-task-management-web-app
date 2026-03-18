@@ -1,3 +1,9 @@
+export interface StrapiColumnComponent {
+  id: number;
+  name: string;
+  position: number;
+}
+
 export interface StrapiColumn {
   id: number;
   attributes: {
@@ -8,13 +14,13 @@ export interface StrapiColumn {
 
 export interface StrapiBoard {
   id: number;
+  documentId: string;
   attributes: {
     name: string;
-    // @todo, shareToken and shareMode will be implemented later
     shareToken?: string | null;
     shareMode?: "read" | "edit" | null;
-    columns: {
-      data: StrapiColumn[];
-    };
+    columns: StrapiColumnComponent[];
+    createdAt: string;
+    updatedAt: string;
   };
 }

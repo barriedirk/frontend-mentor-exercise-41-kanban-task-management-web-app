@@ -1,10 +1,12 @@
-import "./board-header.css";
+"use client";
 
-import Image from "next/image";
+import "./board-header.css";
 
 import Logo from "@/components/kanban/Logo";
 
-import BoardHeaderMenuOptions from "./BoardHeaderMenuOptions";
+import Image from "next/image";
+
+import BoardHeaderMenu from "./BoardHeaderMenu";
 import BoardHeaderAddNewTask from "./modals/BoardHeaderAddNewTask";
 
 export default function BoardHeader() {
@@ -44,7 +46,7 @@ export default function BoardHeader() {
 
       <BoardHeaderAddNewTask />
 
-      <BoardHeaderMenuOptions />
+      <BoardHeaderMenu />
     </header>
   );
 }

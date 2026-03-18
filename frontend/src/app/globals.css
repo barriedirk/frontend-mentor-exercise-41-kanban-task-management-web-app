@@ -1,3 +1,6 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
 @import "../styles/reset.css";
 @import "../styles/variables.css";
 @import "../styles/typography.css";
@@ -5,9 +8,6 @@
 @import "../styles/button.css";
 @import "../styles/checkbox-toggle.css";
 @import "../styles/utilities.css";
-
-@import "tailwindcss";
-@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 

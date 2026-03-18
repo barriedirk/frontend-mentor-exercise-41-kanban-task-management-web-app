@@ -1,123 +1,49 @@
-"use client";
-
 import { logoutAction } from "@/features/auth/actions/logout";
-
-import { useState } from "react";
-
-import Image from "next/image";
-
-import DeleteBoardFeature from "@/features/board/components/DeleteBoardFeature";
-
-import EditBoardFeature from "@/features/board/components/EditBoardFeature";
-import { BoardModel } from "@/features/board/types/board.types";
 import { toast } from "sonner";
 
-const boardMockup: BoardModel = {
-  id: "232",
-  name: "Platform Launch",
-  shareToken: null,
-  shareMode: null,
-  columns: [
-    { id: "0", name: "TODO", position: 0 },
-    { id: "1", name: "DOING", position: 1 },
-    { id: "2", name: "DONE", position: 2 },
-  ],
-};
+interface Props {
+  onEdit: () => void;
+  onDelete: () => void;
+  onClose: () => void;
+}
 
-export default function BoardHeaderMenuOptions() {
-  const [open, setOpen] = useState<boolean>(false);
-  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
-  const [openEditModal, setOpenEditModal] = useState<boolean>(false);
-
-  const openModal = (modal: "delete" | "edit") => {
-    setOpenDeleteModal(modal === "delete");
-    setOpenEditModal(modal === "edit");
-
-    setOpen(false);
-  };
-
+export function BoardHeaderMenuOptions({ onEdit, onDelete, onClose }: Props) {
   return (
-    <div className="board-header__menu">
-      <button
-        aria-haspopup="menu"
-        aria-expanded="false"
-        aria-controls="board-options-menu"
-        aria-label="Board options"
-        onClick={() => setOpen(true)}
+    <div className="fixed inset-0 z-40 bg-black/50" onClick={onClose}>
+      <div
+        className="absolute right-4 top-18 bg-white rounded-md shadow-lg py-2"
+        onClick={(e) => e.stopPropagation()}
       >
-        <Image
-          className="board-header__ellipsis object-fit w-0.75 h-4"
-          src="/icon-vertical-ellipsis.svg"
-          alt="options"
-          width={3}
-          height={16}
-          priority
-        />
-      </button>
-      {openEditModal && (
-        <EditBoardFeature board={boardMockup} open={true} onClose={() => {}} />
-      )}
-      {openDeleteModal && (
-        <DeleteBoardFeature
-          boardId={boardMockup.id!}
-          boardName={boardMockup.name}
-          open={true}
-          onClose={() => {}}
-        />
-      )}
-      {open && (
-        <div
-          className="board-header__menu-options-wrapper fixed inset-0 z-40 bg-black/50"
-          onClick={() => setOpen(false)}
+        <ul
+          className="min-w-40 py-2 p-3 flex flex-col gap-2 text-dark-grey"
+          role="menu"
         >
-          <div
-            className="absolute right-4 top-18 bg-white rounded-md shadow-lg"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <ul
-              id="board-header__menu-options"
-              className="min-w-40 py-2 p-3 flex flex-col gap-2 text-dark-grey"
-              role="menu"
-              aria-controls="board-options-menu"
+          <li>
+            <button className="text-preset-3" onClick={onEdit}>
+              Edit board
+            </button>
+          </li>
+          <li>
+            <button className="text-preset-3" onClick={onDelete}>
+              Delete board
+            </button>
+          </li>
+          <li>
+            <hr className="text-main-purple my-3 h-0.5" />
+          </li>
+          <li>
+            <button
+              className="text-preset-3 text-red hover:font-bold"
+              onClick={async () => {
+                toast.loading("Closing session...");
+                await logoutAction();
+              }}
             >
-              <li role="none">
-                <button
-                  role="menuitem"
-                  className="text-preset-3"
-                  onClick={() => openModal("edit")}
-                >
-                  Edit board
-                </button>
-              </li>
-              <li role="none">
-                <button
-                  role="menuitem"
-                  className="text-preset-3"
-                  onClick={() => openModal("delete")}
-                >
-                  Delete board
-                </button>
-              </li>
-              <li>
-                <hr className="text-main-purple my-3" />
-              </li>
-              <li role="none">
-                <button
-                  role="menuitem"
-                  className="text-preset-3 text-red hover:font-bold"
-                  onClick={async () => {
-                    toast.loading("Closing session...");
-
-                    await logoutAction();
-                  }}
-                >
-                  Logout
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-      )}
+              Logout
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }

@@ -1,9 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
+
 import DeleteBoardModal from "@/app/(dashboard)/components/modals/DeleteBoardModal";
+
 import { deleteBoard } from "../services/board.service";
-import { Toaster } from "@/components/ui/sonner";
+import { toast } from "sonner";
+import { useBoardStore } from "../store/useBoardStore";
 
 interface DeleteBoardFeatureProps {
   boardId: string;
@@ -18,27 +22,38 @@ export default function DeleteBoardFeature({
   open,
   onClose,
 }: DeleteBoardFeatureProps) {
-  const [loading, setLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+  const removeBoard = useBoardStore((state) => state.removeBoard);
 
-  async function handleDelete() {
-    try {
-      setLoading(true);
-      await deleteBoard(boardId);
-      // toast.success("Board deleted");
-      onClose();
-      // later: router.push("/boards") or refresh
-    } catch (error) {
-      // toast.error("Failed to delete board");
-    } finally {
-      setLoading(false);
-    }
+  function handleDelete() {
+    const toastId = toast.loading("Deleting board...");
+
+    startTransition(async () => {
+      const success = await deleteBoard(boardId);
+
+      console.log("to remove", { boardId, success });
+
+      if (success) {
+        toast.success("Board deleted!", { id: toastId });
+
+        removeBoard(boardId);
+
+        onClose();
+
+        router.refresh();
+        router.push("/dashboard");
+      } else {
+        toast.error("Something went wrong", { id: toastId });
+      }
+    });
   }
 
   return (
     <DeleteBoardModal
       open={open}
       boardName={boardName}
-      loading={loading}
+      loading={isPending}
       onCancel={onClose}
       onConfirm={handleDelete}
     />

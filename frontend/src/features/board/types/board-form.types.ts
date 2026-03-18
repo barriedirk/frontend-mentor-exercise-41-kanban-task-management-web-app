@@ -2,11 +2,16 @@
  * Base form type used by react-hook-form.
  * Compatible with BOTH addBoardSchema and editBoardSchema
  */
-export type BoardFormBase = {
+
+export interface BoardFormColumn {
+  id: string | number;
   name: string;
-  columns: {
-    id: string;
-    name: string;
-    position?: number;
-  }[];
-};
+  position?: number;
+}
+
+export interface BoardFormBase {
+  name: string;
+  columns: BoardFormColumn[];
+  shareMode?: "read" | "edit" | null;
+  shareToken?: string | null;
+}

@@ -31,8 +31,7 @@ export function BoardForm({
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
+    formState: { errors, isValid, isSubmitting },
   } = useForm<BoardFormBase>({
     resolver,
     defaultValues: {
@@ -90,7 +89,7 @@ export function BoardForm({
         + Add New Column
       </Button>
 
-      <Button size="small" disabled={isSubmitting}>
+      <Button size="small" type="submit" disabled={!isValid || isSubmitting}>
         {submitLabel}
       </Button>
     </form>

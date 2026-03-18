@@ -11,5 +11,11 @@ export async function fetcher<T>(
     throw new Error(`Fetch failed: ${res.status} - ${text}`);
   }
 
-  return res.json();
+  if (res.status === 204) {
+    return {} as T;
+  }
+
+  const text = await res.text();
+
+  return text ? JSON.parse(text) : ({} as T);
 }

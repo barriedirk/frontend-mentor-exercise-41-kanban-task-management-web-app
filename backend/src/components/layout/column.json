@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_layout_columns",
+  "info": {
+    "displayName": "Column"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "position": {
+      "type": "integer"
+    }
+  },
+  "config": {}
+}
