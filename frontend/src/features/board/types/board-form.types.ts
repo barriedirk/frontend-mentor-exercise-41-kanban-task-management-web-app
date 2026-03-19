@@ -10,6 +10,7 @@ export interface BoardFormColumn {
 }
 
 export interface BoardFormBase {
+  id?: string;
   name: string;
   columns: BoardFormColumn[];
   shareMode?: "read" | "edit" | null;

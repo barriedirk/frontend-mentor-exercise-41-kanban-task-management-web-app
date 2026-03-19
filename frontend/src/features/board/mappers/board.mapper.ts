@@ -22,6 +22,7 @@ interface BoardContent {
 
 export function boardToForm(board: BoardModel): BoardFormBase {
   return {
+    id: board.id,
     name: board.name,
     columns:
       board.columns?.map((c) => ({

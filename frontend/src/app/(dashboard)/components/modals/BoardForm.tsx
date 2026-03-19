@@ -3,9 +3,16 @@ import {
   useFieldArray,
   SubmitHandler,
   Resolver,
+  FieldValues,
+  Path,
+  ArrayPath,
+  DefaultValues,
+  FieldError,
 } from "react-hook-form";
 
 import clsx from "clsx";
+
+import { useMemo } from "react";
 
 import InputForm from "@/components/forms/fields/InputForm";
 import InputOptionForm from "@/components/forms/fields/InputOptionForm";
@@ -13,50 +20,66 @@ import Button from "@/components/ui/Button";
 
 import { BoardFormBase } from "@//features/board/types/board-form.types";
 
-const createEmptyColumn = () => ({ id: crypto.randomUUID(), name: "" });
+type ColumnError = {
+  name?: FieldError;
+};
 
-interface BoardFormProps {
-  defaultValues: BoardFormBase;
-  resolver: Resolver<BoardFormBase>;
-  onSubmit: SubmitHandler<BoardFormBase>;
+interface BoardFormProps<T extends FieldValues & BoardFormBase> {
+  defaultValues: T;
+  resolver: Resolver<T>;
+  onSubmit: SubmitHandler<T>;
   submitLabel: string;
 }
 
-export function BoardForm({
+const createEmptyColumn = () => ({
+  id: crypto.randomUUID(),
+  name: "",
+  position: 0,
+});
+
+export function BoardForm<T extends FieldValues & BoardFormBase>({
   defaultValues,
   resolver,
   onSubmit,
   submitLabel,
-}: BoardFormProps) {
+}: BoardFormProps<T>) {
+  const initialValues = useMemo(
+    () =>
+      ({
+        ...defaultValues,
+        columns:
+          defaultValues.columns && defaultValues.columns.length > 0
+            ? defaultValues.columns
+            : [createEmptyColumn()],
+      }) as T,
+    [defaultValues],
+  );
+
   const {
     control,
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
-  } = useForm<BoardFormBase>({
+  } = useForm<T>({
     resolver,
-    defaultValues: {
-      ...defaultValues,
-      columns:
-        defaultValues.columns && defaultValues.columns.length > 0
-          ? defaultValues.columns
-          : [createEmptyColumn()],
-    },
+    defaultValues: initialValues as DefaultValues<T>,
     mode: "onTouched",
   });
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "columns",
+    name: "columns" as ArrayPath<T>,
   });
+
+  const columnErrors = errors.columns as unknown as (ColumnError | undefined)[];
 
   return (
     <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
       <InputForm
-        name="name"
+        name={"name" as Path<T>}
         control={control}
         label="Board Name"
         placeholder="e.g. ACME"
-        error={errors.name}
+        error={errors.name as FieldError}
       />
 
       <h3 className="form-label text-grey-900">Board Columns</h3>
@@ -67,24 +90,30 @@ export function BoardForm({
           fields.length > 2 && "pr-1",
         )}
       >
-        {fields.map((field, index) => (
-          <InputOptionForm
-            key={field.id}
-            name={`columns.${index}.name`}
-            control={control}
-            error={errors.columns?.[index]?.name}
-            placeholder="Column name"
-            onRemove={() => remove(index)}
-            disabled={fields.length === 1}
-          />
-        ))}
+        {fields.map((field, index) => {
+          const currentColumnError = columnErrors?.[index]?.name;
+
+          return (
+            <InputOptionForm
+              key={field.id}
+              name={`columns.${index}.name` as Path<T>}
+              control={control}
+              error={currentColumnError}
+              placeholder="Column name"
+              onRemove={() => remove(index)}
+              disabled={fields.length === 1}
+            />
+          );
+        })}
       </div>
 
       <Button
         type="button"
         size="small"
         variant="secondary"
-        onClick={() => append(createEmptyColumn())}
+        onClick={() =>
+          append(createEmptyColumn() as Parameters<typeof append>[0])
+        }
       >
         + Add New Column
       </Button>

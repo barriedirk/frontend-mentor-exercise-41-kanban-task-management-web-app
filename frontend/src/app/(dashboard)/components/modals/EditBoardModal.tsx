@@ -2,7 +2,7 @@
 
 import { useId } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { editBoardSchema } from "@/schemas/board.schema";
+import { editBoardSchema, EditBoardValues } from "@/schemas/board.schema";
 
 import Modal from "@/components/ui/Modal";
 
@@ -14,7 +14,7 @@ interface EditBoardModalProps {
   board: BoardFormBase;
   loading?: boolean;
   onCancel: () => void;
-  onConfirm: () => void;
+  onConfirm: (values: EditBoardValues) => void;
 }
 
 export default function EditBoardModal({
@@ -34,14 +34,15 @@ export default function EditBoardModal({
       onClose={onCancel}
       size="large"
     >
-      <BoardForm
-        defaultValues={board}
+      <BoardForm<EditBoardValues>
+        defaultValues={board as EditBoardValues}
         resolver={zodResolver(editBoardSchema)}
-        submitLabel="Create Board"
+        submitLabel="Edit Board"
         onSubmit={async (values) => {
-          const parsed = editBoardSchema.parse(values);
+          // @todo, remove
+          console.log("Edit Board", values);
 
-          onConfirm();
+          onConfirm(values);
         }}
       />
     </Modal>

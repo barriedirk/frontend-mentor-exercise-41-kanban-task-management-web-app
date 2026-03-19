@@ -143,6 +143,10 @@
   top: 100%;
 }
 
+button:disabled {
+  opacity: 0.6;
+}
+
 @media screen and (min-width: 32em) {
   .form-group .error {
     top: 50%;

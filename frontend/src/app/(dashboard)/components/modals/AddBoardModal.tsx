@@ -42,10 +42,8 @@ export default function AddBoardModal({
         }
         submitLabel="Create Board"
         onSubmit={async (values) => {
-          // console.log("onSubmit", values);
-          // const parsed: BoardFormBase = addBoardSchema.parse(values);
-
-          console.log("parsed", values);
+          // @todo, remove
+          console.log("Create Board", values);
 
           onConfirm(values);
         }}

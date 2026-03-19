@@ -1,14 +1,18 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useTransition } from "react";
+import { useRouter } from "next/navigation";
 
 import EditBoardModal from "@/app/(dashboard)/components/modals/EditBoardModal";
 
 import { BoardModel } from "../types/board.types";
 import { editBoard } from "../services/board.service";
 
-import { Toaster } from "@/components/ui/sonner";
+import { EditBoardValues } from "@/schemas/board.schema";
+
 import { boardToForm } from "../mappers/board.mapper";
+import { toast } from "sonner";
+import { useBoardStore } from "../store/useBoardStore";
 
 interface EditBoardFeatureProps {
   board: BoardModel;
@@ -21,30 +25,47 @@ export default function EditBoardFeature({
   open,
   onClose,
 }: EditBoardFeatureProps) {
-  const [loading, setLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
   const defaultValues = useMemo(() => boardToForm(board), [board]);
 
-  async function handleConfirm() {
-    try {
-      setLoading(true);
-      // await editBoard(board.id);
-      // toast.success("Board deleted");
-      onClose();
-      // later: router.push("/boards") or refresh
-    } catch (error) {
-      // toast.error("Failed to delete board");
-    } finally {
-      setLoading(false);
-    }
+  async function handleEdit(values: EditBoardValues) {
+    const toastId = toast.loading("Editing board...");
+
+    startTransition(async () => {
+      const success = await editBoard(values);
+
+      if (success) {
+        toast.success("Board updated successfully!", { id: toastId });
+
+        useBoardStore.getState().updateBoard({
+          id: board.id,
+          name: values.name,
+          columns: values.columns.map((col) => ({
+            id: col.id.toString(),
+            name: col.name,
+            position: col.position ?? 0,
+          })),
+          shareToken: board.shareToken,
+          shareMode: board.shareMode,
+        });
+
+        onClose();
+        router.refresh();
+      } else {
+        toast.error("Failed to update board", { id: toastId });
+      }
+    });
   }
 
   return (
     <EditBoardModal
       open={open}
       board={defaultValues}
-      loading={loading}
+      loading={isPending}
       onCancel={onClose}
-      onConfirm={handleConfirm}
+      onConfirm={handleEdit}
     />
   );
 }

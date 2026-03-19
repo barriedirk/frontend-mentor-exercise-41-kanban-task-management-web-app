@@ -43,7 +43,7 @@ const boardBaseSchema = z.object({
  * Edit Board schema
  */
 export const editBoardSchema = boardBaseSchema.extend({
-  id: z.string().min(1).optional(),
+  id: z.string().min(1),
   columns: z
     .array(editBoardColumnSchema)
     .min(1, "At least one column is required"),

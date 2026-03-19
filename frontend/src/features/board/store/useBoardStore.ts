@@ -11,6 +11,8 @@ interface BoardState {
   removeBoard: (id: string) => void;
 
   getActiveBoard: () => BoardModel | undefined;
+
+  updateBoard: (updatedBoard: BoardModel) => void;
 }
 
 export const useBoardStore = create<BoardState>((set, get) => ({
@@ -43,5 +45,21 @@ export const useBoardStore = create<BoardState>((set, get) => ({
   getActiveBoard: () => {
     const { boards, activeBoardId } = get();
     return boards.find((board) => board.id === activeBoardId);
+  },
+
+  updateBoard: (updatedBoard) => {
+    const { boards, activeBoardId } = get();
+
+    const updatedBoards = boards.map((b) =>
+      b.id === updatedBoard.id ? updatedBoard : b,
+    );
+
+    set({
+      boards: updatedBoards,
+    });
+
+    if (activeBoardId === updatedBoard.id) {
+      set({ activeBoardId: updatedBoard.id });
+    }
   },
 }));

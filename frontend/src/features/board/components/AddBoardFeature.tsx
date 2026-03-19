@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useTransition } from "react";
 import { useRouter } from "next/navigation";
 
 import AddBoardModal from "@/app/(dashboard)/components/modals/AddBoardModal";
@@ -29,33 +29,35 @@ export default function AddBoardFeature({
   open,
   onClose,
 }: AddBoardFeatureProps) {
-  const [loading, setLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
   const router = useRouter();
   const defaultValues = useMemo(() => boardToForm(emptyBoard), []);
 
   async function handleAdd(values: AddBoardValues) {
-    try {
-      setLoading(true);
+    const toastId = toast.loading("Adding board...");
 
-      await addBoard(values);
+    startTransition(async () => {
+      const success = await addBoard(values);
 
-      toast.success("Board created successfully");
+      if (success) {
+        toast.success("Board created successfully", { id: toastId });
 
-      router.refresh();
-      onClose();
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to create board. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+        onClose();
+        router.refresh();
+      } else {
+        toast.error("Failed to create board. Please try again.", {
+          id: toastId,
+        });
+      }
+    });
   }
 
   return (
     <AddBoardModal
       open={open}
       board={defaultValues}
-      loading={loading}
+      loading={isPending}
       onCancel={onClose}
       onConfirm={handleAdd}
     />
