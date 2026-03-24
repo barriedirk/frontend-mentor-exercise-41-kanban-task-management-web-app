@@ -438,10 +438,10 @@ export interface ApiBoardBoard extends Struct.CollectionTypeSchema {
     singularName: 'board';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
-    columns: Schema.Attribute.Component<'layout.column', true>;
+    columns: Schema.Attribute.Relation<'oneToMany', 'api::column.column'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -462,6 +462,41 @@ export interface ApiBoardBoard extends Struct.CollectionTypeSchema {
       'oneToOne',
       'plugin::users-permissions.user'
     >;
+  };
+}
+
+export interface ApiColumnColumn extends Struct.CollectionTypeSchema {
+  collectionName: 'columns';
+  info: {
+    displayName: 'Column';
+    pluralName: 'columns';
+    singularName: 'column';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    board: Schema.Attribute.Relation<'manyToOne', 'api::board.board'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::column.column'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 50;
+        minLength: 1;
+      }>;
+    position: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<10>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -976,6 +1011,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::board.board': ApiBoardBoard;
+      'api::column.column': ApiColumnColumn;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

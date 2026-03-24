@@ -13,7 +13,8 @@ export interface BoardModel extends BoardModelBase {
 }
 
 export interface BoardColumn {
-  id?: string;
+  id?: number | string | undefined;
+  documentId?: string;
   name: string;
   position?: number;
 }

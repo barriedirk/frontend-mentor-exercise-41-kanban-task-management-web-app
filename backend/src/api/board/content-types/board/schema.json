@@ -7,7 +7,7 @@
     "displayName": "Board"
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -23,9 +23,10 @@
       "target": "plugin::users-permissions.user"
     },
     "columns": {
-      "type": "component",
-      "component": "layout.column",
-      "repeatable": true
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::column.column",
+      "mappedBy": "board"
     }
   }
 }

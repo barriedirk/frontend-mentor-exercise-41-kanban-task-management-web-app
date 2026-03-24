@@ -4,7 +4,8 @@
  */
 
 export interface BoardFormColumn {
-  id: string | number;
+  id?: string | number;
+  documentId?: string;
   name: string;
   position?: number;
 }

@@ -42,10 +42,10 @@ export default function AddBoardModal({
         }
         submitLabel="Create Board"
         onSubmit={async (values) => {
-          // @todo, remove
-          console.log("Create Board", values);
+          // @todo, need to imrpove
+          const updatePositions = {...values, columns: values.columns.map((c, i) => ({...c, position: (i + 1) * 10}))}
 
-          onConfirm(values);
+          onConfirm(updatePositions);
         }}
       />
     </Modal>

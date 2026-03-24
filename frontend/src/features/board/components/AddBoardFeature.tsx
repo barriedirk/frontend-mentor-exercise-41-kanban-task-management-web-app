@@ -22,7 +22,7 @@ const emptyBoard: BoardModel = {
   name: "",
   shareToken: null,
   shareMode: null,
-  columns: [{ id: crypto.randomUUID(), name: "" }],
+  columns: [{ id: crypto.randomUUID(), documentId: crypto.randomUUID(), name: "" }],
 };
 
 export default function AddBoardFeature({

@@ -1,24 +1,6 @@
 import { BoardModel } from "../types/board.types";
 import { BoardFormBase } from "../types/board-form.types";
-import {
-  StrapiBoard,
-  StrapiColumnComponent,
-} from "../types/StrapiBoardResponse";
-
-function getAttributes(data: StrapiBoard) {
-  // Usamos "in" para verificar si la propiedad existe sin castear a any
-  if ("attributes" in data && data.attributes) {
-    return data.attributes;
-  }
-  return data;
-}
-
-interface BoardContent {
-  name: string;
-  columns?: StrapiColumnComponent[];
-  shareToken?: string | null;
-  shareMode?: "read" | "edit" | null;
-}
+import { StrapiBoard } from "../types/StrapiBoardResponse";
 
 export function boardToForm(board: BoardModel): BoardFormBase {
   return {
@@ -26,46 +8,34 @@ export function boardToForm(board: BoardModel): BoardFormBase {
     name: board.name,
     columns:
       board.columns?.map((c) => ({
-        id: c.id!,
+        id: c.id || "",
+        documentId: c.documentId || "",
         name: c.name,
         position: c.position,
       })) ?? [],
   };
 }
 
-// export function formToBoard(form: BoardFormBase, boardId?: string): BoardModel {
-//   return {
-//     id: boardId ?? crypto.randomUUID(),
-//     name: form.name,
-//     columns: form.columns.map((c, index) => ({
-//       id: c.id ?? crypto.randomUUID(),
-//       name: c.name,
-//       position: index,
-//     })),
-//   };
-// }
-
 export const mapStrapiToBoard = (strapiBoard: StrapiBoard): BoardModel => {
-  const content = (
-    "attributes" in strapiBoard ? strapiBoard.attributes : strapiBoard
-  ) as BoardContent;
-
   return {
-    id: strapiBoard.documentId.toString(),
-    name: content.name || "Untitled Board",
-    columns: (content.columns || []).map((col) => ({
-      id: col.id.toString(),
+    id: strapiBoard.documentId,
+    name: strapiBoard.name || "Untitled Board",
+
+    columns: (strapiBoard.columns || []).map((col) => ({
+      id: col.id,
+      documentId: col.documentId,
       name: col.name,
       position: col.position || 0,
     })),
-    shareToken: content.shareToken ?? null,
-    shareMode: content.shareMode ?? null,
+    shareToken: strapiBoard.shareToken ?? null,
+    shareMode: strapiBoard.shareMode ?? null,
   };
 };
 
 export const mapStrapiToBoards = (strapiData: {
   data: StrapiBoard[];
 }): BoardModel[] => {
-  if (!strapiData?.data || !Array.isArray(strapiData.data)) return [];
+  if (!strapiData?.data) return [];
+
   return strapiData.data.map(mapStrapiToBoard);
 };

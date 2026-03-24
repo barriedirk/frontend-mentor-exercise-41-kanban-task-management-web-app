@@ -47,54 +47,69 @@ export async function deleteBoard(id: string): Promise<boolean> {
 }
 
 export async function editBoard(values: EditBoardValues): Promise<boolean> {
-  debugger;
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("auth_token")?.value;
 
     if (!token) throw new Error("No auth token found");
 
-    const { id, ...dataToUpdate } = values;
+    const { id: boardDocumentId, ...dataToUpdate } = values;
 
-    // const body = {
-    //   data: {
-    //     name: dataToUpdate.name,
-    //     // IMPORTANTE: En Strapi 5, para actualizar la lista de componentes,
-    //     // a menudo es mejor enviar solo los datos.
-    //     // Si quieres mantener el ID, debe ser estrictamente un número.
-    //     columns: dataToUpdate.columns.map((col) => {
-    //       const isNumericId =
-    //         !isNaN(Number(col.id)) && !String(col.id).includes("-");
+    const columnIdsFinales = await Promise.all(
+      dataToUpdate.columns.map(async (col) => {
+        if (col.documentId) {
+          return col.documentId;
+        }
 
-    //       return {
-    //         // Solo incluimos el ID si es numérico real
-    //         ...(isNumericId ? { id: Number(col.id) } : {}),
-    //         name: col.name,
-    //         position: col.position || 0,
-    //       };
-    //     }),
-    //   },
-    // };
+        const newColResponse = await strapiFetch<{
+          data: { documentId: string };
+        }>(`columns`, {
+          method: "POST",
+          token: token,
+          body: JSON.stringify({
+            data: {
+              name: col.name,
+              position: col.position ?? 0,
+              board: boardDocumentId,
+            },
+          }),
+        });
+        return newColResponse.data.documentId;
+      }),
+    );
 
-    const body = {
-      data: {
-        name: dataToUpdate.name,
-        // ELIMINAMOS LOS IDS: Enviamos solo la data limpia.
-        // Strapi 5 sobreescribirá la lista de columnas con este nuevo orden.
-        columns: dataToUpdate.columns.map((col, index) => ({
-          name: col.name,
-          position: col.position || index, // Usamos el index del map si no hay posición
-        })),
-      },
-    };
-
-    console.log("Payload final para Strapi:", JSON.stringify(body));
-
-    await strapiFetch<void>(`boards/${id}`, {
+    await strapiFetch<void>(`boards/${boardDocumentId}`, {
       method: "PUT",
       token: token,
-      body: JSON.stringify(body),
+      body: JSON.stringify({
+        data: {
+          name: dataToUpdate.name,
+          columns: columnIdsFinales,
+        },
+      }),
     });
+
+    // 3. ACTUALIZAR LOS ATRIBUTOS (Nombre/Posición) de las columnas que ya existían
+    const columnsToUpdate = dataToUpdate.columns.filter(
+      (col) => col.documentId,
+    );
+
+    if (columnsToUpdate.length > 0) {
+      await Promise.all(
+        columnsToUpdate.map((col) =>
+          strapiFetch<void>(`columns/${col.documentId}`, {
+            method: "PUT",
+            token: token,
+            body: JSON.stringify({
+              data: {
+                name: col.name,
+                position: col.position ?? 0,
+              },
+            }),
+          }),
+        ),
+      );
+    }
 
     return true;
   } catch (error) {
@@ -110,19 +125,50 @@ export async function addBoard(values: AddBoardValues): Promise<boolean> {
 
     if (!token) throw new Error("No auth token found");
 
-    await strapiFetch<void>("boards", {
-      method: "POST",
-      token: token,
-      body: JSON.stringify({
-        data: {
-          name: values.name,
-          columns: values.columns.map((col) => ({
+    const boardResponse = await strapiFetch<{ data: { documentId: string } }>(
+      "boards",
+      {
+        method: "POST",
+        token: token,
+        body: JSON.stringify({
+          data: {
+            name: values.name,
+            // @todo, review shareMode, shareToken
+          },
+        }),
+      },
+    );
+
+    console.log("boardResponse.data", boardResponse.data);
+
+    const boardDocumentId = boardResponse.data.documentId;
+
+    if (!boardDocumentId) throw new Error("Failed to retrieve new Board ID");
+
+    const columnPromises = values.columns.map((col, index) => {
+      return strapiFetch("columns", {
+        method: "POST",
+        token: token,
+        body: JSON.stringify({
+          data: {
             name: col.name,
-            position: col.position || 0,
-          })),
-        },
-      }),
+            position: col.position ?? 0,
+            board: boardDocumentId,
+          },
+        }),
+      });
     });
+
+    try {
+      await Promise.all(columnPromises);
+    } catch (err) {
+      await strapiFetch(`boards/${boardDocumentId}`, {
+        method: "DELETE",
+        token,
+      });
+
+      throw err;
+    }
 
     return true;
   } catch (error) {

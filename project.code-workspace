@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "name": "Frontend (Next.js)",
+      "path": "frontend"
+    },
+    {
+      "name": "Backend (Strapi)",
+      "path": "backend"
+    },
+    {
+      "name": "root",
+      "path": "."
+    }
+  ],
+  "settings": {}
+}

@@ -8,9 +8,6 @@ import { mapStrapiToBoards } from "@/features/board/mappers/board.mapper";
 
 export default async function DashboardRoute() {
   const rawBoards = await getBoards();
-
-  // @todo, remove
-  console.log("rawBoards", JSON.stringify(rawBoards));
   const boards = mapStrapiToBoards(rawBoards);
 
   return (

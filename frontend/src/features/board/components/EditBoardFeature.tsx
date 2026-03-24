@@ -25,13 +25,14 @@ export default function EditBoardFeature({
   open,
   onClose,
 }: EditBoardFeatureProps) {
-  const [isPending, startTransition] = useTransition();
   const router = useRouter();
-
+  const [isPending, startTransition] = useTransition();
   const defaultValues = useMemo(() => boardToForm(board), [board]);
 
   async function handleEdit(values: EditBoardValues) {
     const toastId = toast.loading("Editing board...");
+
+    console.log('handleEdit', values);
 
     startTransition(async () => {
       const success = await editBoard(values);
@@ -44,6 +45,7 @@ export default function EditBoardFeature({
           name: values.name,
           columns: values.columns.map((col) => ({
             id: col.id.toString(),
+            documentId: col.documentId?.toString() || '',
             name: col.name,
             position: col.position ?? 0,
           })),

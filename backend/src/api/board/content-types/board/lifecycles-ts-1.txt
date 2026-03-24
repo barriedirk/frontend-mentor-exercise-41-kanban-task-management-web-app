@@ -1,0 +1,130 @@
+export default {
+  async beforeUpdate(event: any) {
+    const { data, where } = event.params;
+
+    // 1. Si no hay cambios en columnas, no hacemos nada
+    if (!data || !data.columns) return;
+
+    try {
+      // 2. TRADUCCIÓN DE ID DEL BOARD (Igual que en el delete)
+      let boardDocId = where.documentId;
+      if (!boardDocId && where.id) {
+        const boardEntity = await strapi
+          .documents("api::board.board")
+          .findMany({
+            filters: { id: where.id },
+            limit: 1,
+          });
+        boardDocId = boardEntity[0]?.documentId;
+      }
+
+      if (!boardDocId) return;
+
+      // 3. IDs que el Frontend quiere mantener (Normalizados a String/Hash)
+      const columnsSet = data.columns.set || [];
+      const newColumnIds = columnsSet
+        .map((c: any) =>
+          typeof c === "string" ? c : c.documentId || String(c.id),
+        )
+        .filter(Boolean);
+
+      console.log(`🔍 [Update] Board: ${boardDocId}`);
+      console.log(`📥 IDs a mantener:`, newColumnIds);
+
+      // 4. Obtener el Board actual con sus columnas
+      const oldBoard = await strapi.documents("api::board.board").findOne({
+        documentId: boardDocId,
+        populate: ["columns"],
+      });
+
+      if (!oldBoard || !oldBoard.columns) return;
+
+      // 5. IDENTIFICAR HUÉRFANOS (Comparando siempre DocumentIDs)
+      const columnsToDelete = oldBoard.columns.filter((oldCol: any) => {
+        const oldId = String(oldCol.documentId);
+        return !newColumnIds.includes(oldId);
+      });
+
+      // 6. BORRADO FÍSICO
+      if (columnsToDelete.length > 0) {
+        console.log(
+          `🔥 [Update] Detectadas ${columnsToDelete.length} columnas para eliminar.`,
+        );
+
+        for (const col of columnsToDelete) {
+          await strapi.documents("api::column.column").delete({
+            documentId: col.documentId,
+          });
+          console.log(`🗑️ Columna eliminada: ${col.documentId}`);
+        }
+      } else {
+        console.log("✅ No se detectaron columnas para eliminar.");
+      }
+    } catch (err: any) {
+      console.error("❌ Error en beforeUpdate:", err.message);
+    }
+  },
+  async beforeDelete(event: any) {
+    const { where } = event.params;
+
+    // 1. Identificamos qué tenemos a mano
+    let targetDocId = where.documentId;
+    const numericId = where.id;
+
+    try {
+      // 2. TRADUCCIÓN: Si solo tenemos el '1', buscamos el documentId usando filtros
+      if (!targetDocId && numericId) {
+        console.log(`🔍 Buscando DocumentID para el ID numérico: ${numericId}`);
+
+        const entities = await strapi.documents("api::board.board").findMany({
+          filters: {
+            id: numericId, // Aquí TS no se queja porque es un filtro genérico
+          },
+          limit: 1,
+        });
+
+        targetDocId = entities[0]?.documentId;
+      }
+
+      if (!targetDocId) {
+        console.log("⚠️ [Board Delete] No se pudo determinar el DocumentID.");
+        return;
+      }
+
+      console.log(
+        `⚠️ [Board Delete] Limpiando columnas para DocumentID: ${targetDocId}`,
+      );
+
+      // 3. Buscamos y borramos las columnas vinculadas
+      const columnsOfBoard = await strapi
+        .documents("api::column.column")
+        .findMany({
+          filters: {
+            board: {
+              documentId: targetDocId,
+            },
+          },
+        });
+
+      if (columnsOfBoard && columnsOfBoard.length > 0) {
+        console.log(
+          `🔥 [Delete] Encontradas ${columnsOfBoard.length} columnas. Borrando...`,
+        );
+
+        await Promise.all(
+          columnsOfBoard.map((col: any) =>
+            strapi.documents("api::column.column").delete({
+              documentId: col.documentId,
+            }),
+          ),
+        );
+
+        console.log(`✅ Limpieza completa para el board ${targetDocId}.`);
+      } else {
+        console.log(`ℹ️ El board ${targetDocId} no tenía columnas.`);
+      }
+    } catch (err: any) {
+      console.error("❌ Error en beforeDelete:", err.message);
+    }
+  },
+};

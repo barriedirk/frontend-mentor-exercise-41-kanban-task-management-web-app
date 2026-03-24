@@ -4,13 +4,16 @@ const getBoard = async (id: string) => {
   return Promise.reject();
 };
 
-export default async function BoardPage({
-  params,
-}: {
-  params: { id: string };
+export default async function BoardPage(props: {
+  params: Promise<{ id: string }>;
 }) {
-  const board = await getBoard(params.id);
+  const params = await props.params; 
+  const id = params?.id;
 
+  if (!id) return notFound();
+
+  const board = await getBoard(id);
+  
   if (!board) {
     notFound(); // 👈 shows 404 page
   }

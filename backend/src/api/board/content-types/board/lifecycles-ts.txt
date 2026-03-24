@@ -1,0 +1,51 @@
+export default {
+  async beforeDelete(event: any) {
+    const { params } = event;
+
+    // Capturamos el ID numérico que vemos en tus logs
+    const id = params.where?.id || params.id;
+
+    console.log("-----------------------------------------");
+    console.log("🔥 INICIANDO CASCADA PARA BOARD ID:", id);
+
+    if (!id) return;
+
+    try {
+      // 1. Buscamos el Board y sus columnas usando DB Query (Bajo nivel)
+      const boardWithColumns = await strapi.db
+        .query("api::board.board")
+        .findOne({
+          where: { id },
+          populate: { columns: true },
+        });
+
+      if (!boardWithColumns) {
+        console.log("❌ No se encontró el Board en la DB.");
+        return;
+      }
+
+      const columns = boardWithColumns.columns;
+
+      if (columns && columns.length > 0) {
+        console.log(
+          `🗑️ Borrando ${columns.length} columnas vinculadas vía DB Query...`,
+        );
+
+        // 2. Borrado directo en la base de datos
+        // Esto ignora errores de "Draft & Publish" porque va directo a la tabla
+        for (const col of columns) {
+          await strapi.db.query("api::column.column").delete({
+            where: { id: col.id },
+          });
+          console.log(`✅ Columna [${col.name}] (ID: ${col.id}) borrada.`);
+        }
+        console.log("✨ Cascada completada con éxito.");
+      } else {
+        console.log("ℹ️ El Board no tenía columnas.");
+      }
+    } catch (err) {
+      console.error("❌ Error crítico en la cascada:", err);
+    }
+    console.log("-----------------------------------------");
+  },
+};

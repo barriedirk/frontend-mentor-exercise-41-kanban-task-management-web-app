@@ -7,6 +7,7 @@ const columnIdSchema = z.union([
 
 const boardColumnBaseSchema = z.object({
   id: columnIdSchema.optional(),
+  documentId: columnIdSchema.optional(),
   name: z
     .string()
     .trim()
