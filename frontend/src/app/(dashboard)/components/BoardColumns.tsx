@@ -2,14 +2,14 @@
 
 import "./board-columns.css";
 
-import { useState } from "react";
-
 import Button from "@/components/ui/Button";
 import BoardColumn from "./BoardColumn";
 import BoardAddColumn from "./BoardAddColumn";
 
+import { useBoardStore } from "@/features/board/store/useBoardStore";
+
 export default function BoardColumns() {
-  const [hasColumns, setHasColumns] = useState(true);
+  const board = useBoardStore((state) => state.getActiveBoard());
 
   return (
     <div
@@ -19,24 +19,26 @@ export default function BoardColumns() {
       <h2 id="board-columns-title" className="sr-only">
         Board columns
       </h2>
-      {!hasColumns && (
+      {!board?.columns?.length && (
         <div className="board-columns__no-data h-full flex flex-col justify-center items-center gap-4">
           <p className="text-heading-l text-medium-grey p-2 max-w-[24rem] text-center">
             This board is empty. Create a new column to get started.
           </p>
           <Button
             className="flex justify-center items-center text-preset-4"
-            onClick={() => setHasColumns(true)}
+            onClick={() => {
+              // @Todo Add New Column
+            }}
           >
             + Add New Column
           </Button>
         </div>
       )}
-      {hasColumns && (
+      {!!board?.columns?.length && (
         <section className="board-columns__content scrollbar-width-none">
-          <BoardColumn />
-          <BoardColumn />
-          <BoardColumn />
+          {board.columns.map(column => 
+            <BoardColumn key={`${column.id}-{column.name}`} id={column.id!} name={column.name} />
+          )}
           <BoardAddColumn />
         </section>
       )}

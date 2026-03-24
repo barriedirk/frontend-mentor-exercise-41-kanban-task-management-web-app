@@ -7,6 +7,9 @@ import { TaskModel } from "@/features/board/types/task.types";
 import { useId } from "react";
 import { BoardColumnTask } from "./BoardColumnTask";
 
+
+import { useBoardStore } from "@/features/board/store/useBoardStore";
+
 export const mockTasks: TaskModel[] = [
   {
     id: "task-1",
@@ -31,55 +34,14 @@ export const mockTasks: TaskModel[] = [
       { id: "st-2-3", name: "Empty state design", completed: false },
     ],
   },
-  {
-    id: "task-3",
-    name: "Implement drag and drop",
-    description:
-      "Allow tasks to be dragged between columns with smooth animations.",
-    columnId: "doing",
-    subTasks: [
-      { id: "st-3-1", name: "Choose DnD library", completed: true },
-      { id: "st-3-2", name: "Move tasks between columns", completed: false },
-      { id: "st-3-3", name: "Persist column change", completed: false },
-    ],
-  },
-  {
-    id: "task-4",
-    name: "Set up notifications",
-    description: "Show success and error notifications for all CRUD actions.",
-    columnId: "todo",
-    subTasks: [
-      { id: "st-4-1", name: "Install notification library", completed: true },
-      { id: "st-4-2", name: "Success messages", completed: false },
-      { id: "st-4-3", name: "Error handling", completed: false },
-    ],
-  },
-  {
-    id: "task-5",
-    name: "Optimize performance",
-    description:
-      "Reduce unnecessary renders and improve overall app performance.",
-    columnId: "review",
-    subTasks: [
-      { id: "st-5-1", name: "Memoize heavy components", completed: false },
-      { id: "st-5-2", name: "Audit re-renders", completed: false },
-    ],
-  },
-  {
-    id: "task-6",
-    name: "Deploy application",
-    description:
-      "Prepare production build and deploy the app to hosting provider.",
-    columnId: "done",
-    subTasks: [
-      { id: "st-6-1", name: "Environment variables", completed: true },
-      { id: "st-6-2", name: "Production build", completed: true },
-      { id: "st-6-3", name: "Verify deployment", completed: true },
-    ],
-  },
 ];
 
-export default function BoardColumn() {
+interface BoardColumnProps {
+    id: string | number;
+  name: string;
+}
+
+export default function BoardColumn({id, name}:BoardColumnProps) {
   const titleId = useId();
 
   return (
@@ -92,7 +54,7 @@ export default function BoardColumn() {
           aria-hidden="true"
           className="w-3.75 h-3.75 bg-main-purple rounded-full"
         ></span>
-        TODO ({mockTasks.length})
+        {name} ({mockTasks.length})
       </h3>
       <ul className="board-column__tasks flex flex-col gap-6 overflow-y-auto scrollbar-width-none">
         {mockTasks.map((task) => (

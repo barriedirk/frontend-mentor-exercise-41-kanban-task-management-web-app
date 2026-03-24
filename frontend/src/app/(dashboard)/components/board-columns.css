@@ -8,4 +8,5 @@
   grid-auto-flow: column;
   grid-auto-columns: 18rem;
   overflow-x: auto;
+  height: 100%;
 }

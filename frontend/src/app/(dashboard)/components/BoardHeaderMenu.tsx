@@ -29,7 +29,7 @@ export default function BoardHeaderMenu() {
 
   return (
     <div className="board-header__menu">
-      <button onClick={() => setIsMenuOpen(true)} aria-label="Board options">
+      <button className="ml-2 w-3 flex items-center" onClick={() => setIsMenuOpen(true)} aria-label="Board options">
         <Image
           className="board-header__ellipsis object-fit w-0.75 h-4"
           src="/icon-vertical-ellipsis.svg"

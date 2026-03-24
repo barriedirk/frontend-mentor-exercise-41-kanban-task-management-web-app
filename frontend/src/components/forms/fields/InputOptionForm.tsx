@@ -44,7 +44,7 @@ const InputOptionForm = <T extends FieldValues>({
   return (
     <fieldset
       className={clsx(
-        "form-group form-group--row input-text flex flex-row items-center",
+        "form-group form-group--row flex flex-row items-center",
         styleName,
         error && "form-group--error",
       )}
@@ -53,7 +53,7 @@ const InputOptionForm = <T extends FieldValues>({
     >
       <div
         className={clsx(
-          "form-input-group text-body-l relative w-full",
+          "form-input-group input-text text-body-l relative w-full",
           error && "is-invalid",
         )}
       >

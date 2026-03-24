@@ -42,7 +42,7 @@ const InputForm = <T extends FieldValues>({
   return (
     <fieldset
       className={clsx(
-        "form-group input-text",
+        "form-group",
         styleName,
         error && "form-group--error",
       )}
@@ -63,7 +63,7 @@ const InputForm = <T extends FieldValues>({
 
       <div
         className={clsx(
-          "form-input-group text-body-l relative",
+          "form-input-group input-text text-body-l relative",
           error && "is-invalid",
         )}
       >

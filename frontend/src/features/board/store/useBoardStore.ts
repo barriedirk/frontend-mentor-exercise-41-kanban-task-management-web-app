@@ -33,8 +33,6 @@ export const useBoardStore = create<BoardState>((set, get) => ({
     const { boards, activeBoardId } = get();
     const updatedBoards = boards.filter((b) => b.id !== id);
 
-    console.log("removeBoard:", { boards, updatedBoards, id });
-
     set({
       boards: updatedBoards,
       activeBoardId:
