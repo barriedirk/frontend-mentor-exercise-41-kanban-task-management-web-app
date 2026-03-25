@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_layout_sub_tasks",
+  "info": {
+    "displayName": "SubTask",
+    "icon": "alien"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 40,
+      "required": true
+    },
+    "completed": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    }
+  },
+  "config": {}
+}

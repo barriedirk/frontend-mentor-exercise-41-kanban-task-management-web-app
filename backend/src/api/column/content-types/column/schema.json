@@ -26,6 +26,12 @@
       "relation": "manyToOne",
       "target": "api::board.board",
       "inversedBy": "columns"
+    },
+    "tasks": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::task.task",
+      "mappedBy": "column"
     }
   }
 }
