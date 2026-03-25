@@ -1,39 +1,58 @@
 export default {
-  async beforeUpdate(event: any) {
-    const { data, where } = event.params;
-    const docId = where.documentId || where.id;
+  async afterUpdate(event: any) {
+    const { params } = event;
+    const { data } = params;
 
-    console.log(`🕵️ [Column Lifecycle] Update en columna: ${docId}`);
-    console.log(
-      `Value de 'board' recibido:`,
-      JSON.stringify(data.board, null, 2),
-    );
+    // Solo si se intentó modificar la relación con tareas
+    if (!data || !data.tasks) return;
 
-    // Strapi 5 puede mandar null, { disconnect: [...] } o simplemente omitirlo
-    const isDisconnecting =
-      data.board === null ||
-      (data.board?.disconnect && data.board.disconnect.length > 0);
+    try {
+      console.log("🧹 [Column Lifecycle] Limpiando tareas huérfanas...");
 
-    if (isDisconnecting) {
-      console.log(`🚨 ALERTA: Columna ${docId} detectó desvinculación.`);
+      // Buscamos tareas que perdieron su relación con la columna
+      const orphanedTasks = await strapi.documents("api::task.task").findMany({
+        filters: {
+          column: { id: { $null: true } },
+        },
+      });
 
-      // Usamos un pequeño delay para asegurar que la transacción del Board no bloquee el delete
-      setTimeout(async () => {
-        try {
-          console.log(
-            `🪓 Ejecutando borrado forzado de la columna huérfana: ${docId}`,
-          );
-          await strapi
-            .documents("api::column.column")
-            .delete({ documentId: docId });
-          console.log(`✅ Columna ${docId} eliminada del mapa.`);
-        } catch (e: any) {
-          console.log(
-            `ℹ️ Nota: La columna ${docId} ya no existe o no se pudo borrar:`,
-            e.message,
-          );
+      if (orphanedTasks.length > 0) {
+        console.log(`🔥 Borrando ${orphanedTasks.length} tareas huérfanas.`);
+        for (const task of orphanedTasks) {
+          await strapi.documents("api::task.task").delete({
+            documentId: task.documentId,
+          });
         }
-      }, 500);
+      }
+    } catch (err: any) {
+      console.error("❌ Error limpiando tareas:", err.message);
+    }
+  },
+
+  // Importante: Si borras la columna directamente, borra sus tareas
+  async beforeDelete(event: any) {
+    const { where } = event.params;
+    const colDocId = where.documentId || where.id;
+
+    if (!colDocId) return;
+
+    try {
+      const tasksOfCol = await strapi.documents("api::task.task").findMany({
+        filters: { column: { documentId: colDocId } },
+      });
+
+      if (tasksOfCol.length > 0) {
+        await Promise.all(
+          tasksOfCol.map((task: any) =>
+            strapi
+              .documents("api::task.task")
+              .delete({ documentId: task.documentId }),
+          ),
+        );
+        console.log(`✅ Tareas de la columna ${colDocId} eliminadas.`);
+      }
+    } catch (err: any) {
+      console.error("❌ Error en beforeDelete de Column:", err.message);
     }
   },
 };
