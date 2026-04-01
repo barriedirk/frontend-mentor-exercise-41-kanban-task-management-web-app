@@ -1,63 +1,81 @@
 "use client";
 
-import { useId } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useId, memo, useMemo } from "react";
 
 import Modal from "@/components/ui/Modal";
 import { TaskFormBase } from "@/features/board/types/task-form.types";
 import UpdateTaskForm from "./UpdateTaskForm";
 import { SubMenuItem } from "@/features/board/types/sub-menu-item";
+import { BoardColumnModel } from "@/features/board/types/board.types";
 
 interface UpdateTaskModalProps {
   open: boolean;
   task: TaskFormBase;
   loading?: boolean;
   onCancel: () => void;
-  onConfirm: () => void;
+  onConfirm: (values: TaskFormBase) => void;
+  showDeleteModalTask: () => void;
+  showEditModalTask: () => void;
+  status?: BoardColumnModel[];
 }
 
-export default function UpdateTaskModal({
-  open,
-  task,
-  loading,
-  onCancel,
-  onConfirm,
-}: UpdateTaskModalProps) {
-  const formTitleId = useId();
+const UpdateTaskModal = memo(
+  ({
+    open,
+    task,
+    loading,
+    onCancel,
+    onConfirm,
+    showDeleteModalTask,
+    showEditModalTask,
+    status,
+  }: UpdateTaskModalProps) => {
+    const formTitleId = useId();
 
-  const subMenus: SubMenuItem[] = [
-    {
-      label: "Edit Task",
-      onClick: () => {
-        console.log("Edit Task ", task.columnId);
-      },
-    },
-    {
-      label: "Delete Task",
-      onClick: () => {
-        console.log("Delete Task ", task.columnId);
-      },
-    },
-  ];
+    const subMenus: SubMenuItem[] = useMemo(
+      () => [
+        {
+          label: "Edit Task",
+          onClick: () => {
+            showEditModalTask();
+          },
+        },
+        {
+          label: "Delete Task",
+          onClick: () => {
+            showDeleteModalTask();
+          },
+        },
+      ],
+      [showEditModalTask, showDeleteModalTask],
+    );
 
-  return (
-    <Modal
-      open={open}
-      titleId={formTitleId}
-      title={task.description}
-      onClose={onCancel}
-      size="large"
-      subMenus={subMenus}
-    >
-      <UpdateTaskForm
-        defaultValues={task}
-        submitLabel="Create Task"
-        onSubmit={async (values) => {
-          // const parsed = addBoardSchema.parse(values);
+    return (
+      <Modal
+        open={open}
+        titleId={formTitleId}
+        title={task.name}
+        onClose={onCancel}
+        size="large"
+        subMenus={subMenus}
+      >
+        <UpdateTaskForm
+          status={status}
+          defaultValues={task}
+          submitLabel="Create Task"
+          onSubmit={async (values) => {
+            // const parsed = addBoardSchema.parse(values);
 
-          onConfirm();
-        }}
-      />
-    </Modal>
-  );
-}
+            console.log("UpdateTaslModal", values);
+
+            onConfirm(values);
+          }}
+        />
+      </Modal>
+    );
+  },
+);
+
+UpdateTaskModal.displayName = "UpdateTaskModal";
+
+export default UpdateTaskModal;

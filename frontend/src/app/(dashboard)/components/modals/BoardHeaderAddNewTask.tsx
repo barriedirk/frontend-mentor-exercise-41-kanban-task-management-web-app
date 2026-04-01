@@ -5,8 +5,11 @@ import { useState } from "react";
 import Button from "@/components/ui/Button";
 import AddTaskFeature from "@/features/board/components/AddTaskFeature";
 
+import { useBoardStore } from "@/features/board/store/useBoardStore";
+
 export default function BoardHeaderAddNewTask() {
   const [openAddModal, setOpenAddModal] = useState(false);
+  const hasActiveBoard = useBoardStore((state) => state.hasActiveBoard());
 
   return (
     <>
@@ -18,6 +21,7 @@ export default function BoardHeaderAddNewTask() {
       )}
       <Button
         className="board-header__add_task ml-auto text-preset-4"
+        disabled={!hasActiveBoard}
         onClick={() => setOpenAddModal(true)}
       >
         <span>+</span>

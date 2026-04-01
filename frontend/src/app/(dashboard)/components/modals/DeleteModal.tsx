@@ -5,15 +5,17 @@ import Button from "@/components/ui/Button";
 
 interface DeleteBoardModalProps {
   open: boolean;
-  boardName: string;
+  title: string;
+  text: React.ReactNode;
   loading?: boolean;
   onCancel: () => void;
   onConfirm: () => void;
 }
 
-export default function DeleteBoardModal({
+export default function DeleteModal({
   open,
-  boardName,
+  title,
+  text,
   loading = false,
   onCancel,
   onConfirm,
@@ -21,14 +23,11 @@ export default function DeleteBoardModal({
   return (
     <Modal
       open={open}
-      title="Delete this board?"
+      title={title}
       titleClassName="text-red"
       onClose={onCancel}
     >
-      <p className="text-body-l text-medium-grey my-6">
-        Are you sure you want to delete the <strong>{boardName}</strong> board?
-        This action will remove all columns and tasks and cannot be reversed.
-      </p>
+      <p className="text-body-l text-medium-grey my-6">{text}</p>
 
       <div className="flex gap-4">
         <Button

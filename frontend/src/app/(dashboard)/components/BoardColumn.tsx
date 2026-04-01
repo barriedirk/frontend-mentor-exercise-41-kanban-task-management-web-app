@@ -2,46 +2,16 @@
 
 import "./board-column.css";
 
-import { TaskModel } from "@/features/board/types/task.types";
-
 import { useId } from "react";
 import { BoardColumnTask } from "./BoardColumnTask";
 
-
-import { useBoardStore } from "@/features/board/store/useBoardStore";
-
-export const mockTasks: TaskModel[] = [
-  {
-    id: "task-1",
-    name: "Build authentication flow",
-    description:
-      "Implement login, logout, and token refresh using Strapi authentication.",
-    columnId: "todo",
-    subTasks: [
-      { id: "st-1-1", name: "Create login page UI", completed: true },
-      { id: "st-1-2", name: "Connect login API", completed: false },
-      { id: "st-1-3", name: "Handle auth errors", completed: false },
-    ],
-  },
-  {
-    id: "task-2",
-    name: "Design board layout",
-    description: "Create the main board UI with columns and draggable tasks.",
-    columnId: "doing",
-    subTasks: [
-      { id: "st-2-1", name: "Column layout", completed: true },
-      { id: "st-2-2", name: "Task card component", completed: true },
-      { id: "st-2-3", name: "Empty state design", completed: false },
-    ],
-  },
-];
+import { BoardColumnModel } from "@/features/board/types/board.types";
 
 interface BoardColumnProps {
-    id: string | number;
-  name: string;
+  column: BoardColumnModel;
 }
 
-export default function BoardColumn({id, name}:BoardColumnProps) {
+export default function BoardColumn({ column }: BoardColumnProps) {
   const titleId = useId();
 
   return (
@@ -54,10 +24,10 @@ export default function BoardColumn({id, name}:BoardColumnProps) {
           aria-hidden="true"
           className="w-3.75 h-3.75 bg-main-purple rounded-full"
         ></span>
-        {name} ({mockTasks.length})
+        {column.name} ({column.tasks?.length})
       </h3>
       <ul className="board-column__tasks flex flex-col gap-6 overflow-y-auto scrollbar-width-none">
-        {mockTasks.map((task) => (
+        {column.tasks?.map((task) => (
           <BoardColumnTask key={task.id} task={task} />
         ))}
       </ul>

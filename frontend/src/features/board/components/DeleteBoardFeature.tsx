@@ -3,7 +3,7 @@
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 
-import DeleteBoardModal from "@/app/(dashboard)/components/modals/DeleteBoardModal";
+import DeleteModal from "@/app/(dashboard)/components/modals/DeleteModal";
 
 import { deleteBoard } from "../services/board.service";
 import { toast } from "sonner";
@@ -32,8 +32,6 @@ export default function DeleteBoardFeature({
     startTransition(async () => {
       const success = await deleteBoard(boardId);
 
-      console.log("to remove", { boardId, success });
-
       if (success) {
         toast.success("Board deleted!", { id: toastId });
 
@@ -50,9 +48,16 @@ export default function DeleteBoardFeature({
   }
 
   return (
-    <DeleteBoardModal
+    <DeleteModal
+      title="Delete this board?"
       open={open}
-      boardName={boardName}
+      text={
+        <>
+          Are you sure you want to delete the &apos;<strong>{boardName}</strong>
+          &apos; board? This action will remove all columns and tasks and cannot
+          be reversed.
+        </>
+      }
       loading={isPending}
       onCancel={onClose}
       onConfirm={handleDelete}

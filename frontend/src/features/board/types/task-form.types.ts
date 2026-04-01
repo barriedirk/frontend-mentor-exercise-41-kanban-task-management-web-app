@@ -5,5 +5,6 @@ export type TaskFormBase = {
   subTasks: {
     id?: string;
     name: string;
+    completed: boolean;
   }[];
 };

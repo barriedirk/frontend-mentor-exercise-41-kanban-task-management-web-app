@@ -1,36 +1,42 @@
 "use client";
+
 import { useId } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Resolver } from "react-hook-form";
 
 import Modal from "@/components/ui/Modal";
 import { TaskFormBase } from "@/features/board/types/task-form.types";
 import TaskForm from "./TaskForm";
 import { BoardColumnModel } from "@/features/board/types/board.types";
 
-interface EditTaskModalProps {
+import { addTaskSchema } from "@/schemas/task.schema";
+
+interface TaskModalProps {
+  status: BoardColumnModel[] | undefined;
   open: boolean;
+  title: string;
   task: TaskFormBase;
   loading?: boolean;
-  status?: BoardColumnModel[] | undefined;
   onCancel: () => void;
-  onConfirm: () => void;
+  onConfirm: (values: TaskFormBase) => void;
 }
 
-export default function EditTaskModal({
+export default function TaskModal({
   open,
+  title,
   task,
   status,
   loading,
   onCancel,
   onConfirm,
-}: EditTaskModalProps) {
+}: TaskModalProps) {
   const formTitleId = useId();
 
   return (
     <Modal
       open={open}
       titleId={formTitleId}
-      title="Edit Task"
+      title={title}
       onClose={onCancel}
       size="large"
     >
@@ -38,12 +44,13 @@ export default function EditTaskModal({
       {!!status?.length && (
         <TaskForm
           defaultValues={task}
+          resolver={
+            zodResolver(addTaskSchema) as unknown as Resolver<TaskFormBase>
+          }
           submitLabel="Create Task"
           status={status}
           onSubmit={async (values) => {
-            // const parsed = addBoardSchema.parse(values);
-
-            onConfirm();
+            onConfirm(values);
           }}
         />
       )}

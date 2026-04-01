@@ -1,9 +1,16 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useTransition } from "react";
+import { useRouter } from "next/navigation";
+
 import { TaskModel } from "../types/task.types";
-import { taskToForm } from "../mappers/task.mapper";
-import AddTaskModal from "@/app/(dashboard)/components/modals/AddTaskModal";
+import { mapStrapiToTask, taskToForm } from "../mappers/task.mapper";
+import TaskModal from "@/app/(dashboard)/components/modals/TaskModal";
+import { useBoardStore } from "../store/useBoardStore";
+import { toast } from "sonner";
+import { AddTaskValues } from "@/schemas/task.schema";
+import { TaskFormBase } from "../types/task-form.types";
+import { addTask } from "../services/task.service";
 
 interface AddTaskFeatureProps {
   open: boolean;
@@ -19,25 +26,40 @@ const emptyTask: TaskModel = {
 };
 
 export default function AddTaskFeature({ open, onClose }: AddTaskFeatureProps) {
-  const [loading, setLoading] = useState(false);
+  const board = useBoardStore((state) => state.activeBoard);
+  const setAddTask = useBoardStore((state) => state.setAddTask);
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const defaultValues = useMemo(() => taskToForm(emptyTask), []);
 
-  async function handleConfirm() {
-    try {
-      setLoading(true);
-      // await editBoard(board.id);
-      // toast.success("Board deleted");
-      onClose();
-      // later: router.push("/boards") or refresh
-    } catch (error) {
-      // toast.error("Failed to delete board");
-    } finally {
-      setLoading(false);
-    }
+  async function handleConfirm(values: TaskFormBase) {
+    const toastId = toast.loading("Adding task...");
+
+    startTransition(async () => {
+      const newTask = await addTask(values as unknown as AddTaskValues);
+
+      if (!!newTask) {
+        console.log("newTask", JSON.stringify(newTask));
+
+        setAddTask(values.columnId, mapStrapiToTask(values.columnId, newTask));
+
+        toast.success("Task created successfully", { id: toastId });
+
+        onClose();
+        router.refresh();
+      } else {
+        toast.error("Failed to create task. Please try again.", {
+          id: toastId,
+        });
+      }
+    });
   }
 
   return (
-    <AddTaskModal
+    <TaskModal
+      loading={isPending}
+      title="Add New Task"
+      status={board?.columns}
       task={defaultValues}
       open={open}
       onCancel={onClose}

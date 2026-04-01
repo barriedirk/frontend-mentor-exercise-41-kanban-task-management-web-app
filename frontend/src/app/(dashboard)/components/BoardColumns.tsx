@@ -9,7 +9,9 @@ import BoardAddColumn from "./BoardAddColumn";
 import { useBoardStore } from "@/features/board/store/useBoardStore";
 
 export default function BoardColumns() {
-  const board = useBoardStore((state) => state.getActiveBoard());
+  const board = useBoardStore((state) => state.activeBoard);
+
+  console.log("BoardColumns", board);
 
   return (
     <div
@@ -36,9 +38,9 @@ export default function BoardColumns() {
       )}
       {!!board?.columns?.length && (
         <section className="board-columns__content scrollbar-width-none">
-          {board.columns.map(column => 
-            <BoardColumn key={`${column.id}-{column.name}`} id={column.id!} name={column.name} />
-          )}
+          {board.columns.map((column) => (
+            <BoardColumn key={`${column.id}-${column.name}`} column={column} />
+          ))}
           <BoardAddColumn />
         </section>
       )}

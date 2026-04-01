@@ -9,9 +9,10 @@ interface StrapiOptions extends RequestInit {
 
 export function strapiFetch<T>(endpoint: string, options?: StrapiOptions) {
   const authToken = options?.token || STRAPI_TOKEN;
+  const { token, headers, ...restOfOptions } = options || {};
 
   return fetcher<T>(`${STRAPI_URL}/api/${endpoint}`, {
-    ...options,
+    ...restOfOptions,
     headers: {
       Authorization: `Bearer ${authToken}`,
       "Content-Type": "application/json",

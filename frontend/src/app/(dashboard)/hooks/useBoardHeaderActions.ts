@@ -6,7 +6,8 @@ export function useBoardMenuActions() {
     null,
   );
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const activeBoard = useBoardStore((state) => state.getActiveBoard());
+  const hasActiveBoard = useBoardStore((state) => state.hasActiveBoard());
+  const activeBoard = useBoardStore((state) => state.activeBoard);
 
   const openModal = (type: "edit" | "delete") => {
     setActiveModal(type);
@@ -22,5 +23,6 @@ export function useBoardMenuActions() {
     activeModal,
     openModal,
     closeModal,
+    hasActiveBoard,
   };
 }

@@ -20,12 +20,21 @@ export const mapStrapiToBoard = (strapiBoard: StrapiBoard): BoardModel => {
   return {
     id: strapiBoard.documentId,
     name: strapiBoard.name || "Untitled Board",
-
     columns: (strapiBoard.columns || []).map((col) => ({
-      id: col.id,
-      documentId: col.documentId,
+      id: col.documentId || "",
       name: col.name,
       position: col.position || 0,
+      tasks: (col.tasks || []).map((task) => ({
+        columnId: col.documentId || "",
+        id: task.documentId,
+        name: task.name,
+        description: task.description,
+        subTasks: (task.subtask || []).map((st) => ({
+          id: st.id || "",
+          name: st.name,
+          completed: st.completed,
+        })),
+      })),
     })),
     shareToken: strapiBoard.shareToken ?? null,
     shareMode: strapiBoard.shareMode ?? null,

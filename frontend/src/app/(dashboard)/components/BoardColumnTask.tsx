@@ -1,6 +1,6 @@
 "use client";
 
-import UpdateTaskFeature from "@/features/board/components/UpdateTaskFeature";
+import TaskFeature from "@/features/board/components/TaskFeature";
 import { TaskModel } from "@/features/board/types/task.types";
 import { useState } from "react";
 
@@ -18,7 +18,7 @@ export function BoardColumnTask({ task }: BoardColumnTaskProps) {
   return (
     <>
       {openSubTaskModal && (
-        <UpdateTaskFeature
+        <TaskFeature
           task={task}
           open={openSubTaskModal}
           onClose={() => setOpenTaskModal(false)}
@@ -33,7 +33,7 @@ export function BoardColumnTask({ task }: BoardColumnTaskProps) {
             className="text-heading-m text-foreground [unicode-bidi:isolate]"
             title="Research pricing points of various competitors and trial different business models"
           >
-            {task.description}
+            {task.name}
           </h4>
           <p
             className="text-medium-grey text-body-m [unicode-bidi:isolate]"

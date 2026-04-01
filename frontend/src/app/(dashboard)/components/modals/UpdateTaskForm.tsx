@@ -1,8 +1,10 @@
+import { useEffect, useRef } from "react";
 import {
   useForm,
   useFieldArray,
   SubmitHandler,
   Resolver,
+  useWatch,
 } from "react-hook-form";
 
 import clsx from "clsx";
@@ -11,55 +13,83 @@ import CheckboxOptionForm from "@/components/forms/fields/CheckboxOptionForm";
 import DropDownForm, {
   type Option,
 } from "@/components/forms/fields/DropDownForm";
+import { BoardColumnModel } from "@/features/board/types/board.types";
+import { useMemo } from "react";
 
 const createEmptyTask = () => ({ id: crypto.randomUUID(), name: "" });
 
 interface UpdateTaskFormProps {
   defaultValues: TaskFormBase;
+  status?: BoardColumnModel[] | undefined;
   resolver?: Resolver<TaskFormBase>;
   onSubmit: SubmitHandler<TaskFormBase>;
   submitLabel: string;
 }
 
-const columnsMockup: Option[] = [
-  {
-    value: "01",
-    label: "TODO",
-  },
-  {
-    value: "02",
-    label: "DONE",
-  },
-  {
-    value: "03",
-    label: "REJECT",
-  },
-];
-
 export default function UpdateTaskForm({
   defaultValues,
+  status,
   resolver,
   onSubmit,
   submitLabel,
 }: UpdateTaskFormProps) {
+  const options: Option[] = useMemo(() => {
+    console.log("status", status);
+    return (status || []).map((item) => ({
+      value: item.id?.toString() ?? "",
+      label: item.name,
+    }));
+  }, [status]);
+
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
+    formState: { errors },
   } = useForm<TaskFormBase>({
     resolver,
-    defaultValues: {
-      ...defaultValues,
-      subTasks:
-        defaultValues.subTasks && defaultValues.subTasks.length > 0
-          ? defaultValues.subTasks
-          : [createEmptyTask()],
-    },
-    mode: "onTouched",
+    defaultValues: defaultValues,
+    mode: "onSubmit",
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const watchedValues = useWatch({
+    control,
+    name: ["subTasks", "columnId"],
+  });
+
+  console.log("UpdateTaskForm");
+
+  const isFirstRender = useRef(true);
+
+  const lastSavedValue = useRef(
+    JSON.stringify([defaultValues.subTasks, defaultValues.columnId]),
+  );
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    const currentValuesString = JSON.stringify(watchedValues);
+
+    if (currentValuesString === lastSavedValue.current) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      handleSubmit((data) => {
+        console.log("setTimeout data", data);
+
+        lastSavedValue.current = JSON.stringify([data.subTasks, data.columnId]);
+
+        onSubmit(data);
+      })();
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [watchedValues, handleSubmit, onSubmit]);
+
+  const { fields } = useFieldArray({
     control,
     name: "subTasks",
   });
@@ -82,7 +112,7 @@ export default function UpdateTaskForm({
           <CheckboxOptionForm
             key={field.id}
             label={field.name}
-            name={`subTasks.${index}.name`}
+            name={`subTasks.${index}.completed`}
             control={control}
             error={errors.subTasks?.[index]?.name}
           />
@@ -95,7 +125,7 @@ export default function UpdateTaskForm({
         label="Current Status"
         placeholder="e.g. ACME"
         error={errors.columnId}
-        options={columnsMockup}
+        options={options}
       />
     </form>
   );

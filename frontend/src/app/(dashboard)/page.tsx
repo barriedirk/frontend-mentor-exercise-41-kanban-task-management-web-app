@@ -1,7 +1,7 @@
 import Board from "./components/Board";
 import BoardHeader from "./components/BoardHeader";
 import BoardMenu from "./components/BoardMenu";
-import BoardColumns from "./components/BoardColumns";
+import BoardBody from "./components/BoardBody";
 import BoardDataInitializer from "./components/BoardDataInitializer";
 import { getBoards } from "@/features/board/services/board.service";
 import { mapStrapiToBoards } from "@/features/board/mappers/board.mapper";
@@ -17,7 +17,7 @@ export default async function DashboardRoute() {
       <Board>
         <BoardHeader />
         <BoardMenu />
-        <BoardColumns />
+        <BoardBody />
       </Board>
     </>
   );

@@ -2,9 +2,11 @@
 
 import EditTaskModal from "@/app/(dashboard)/components/modals/EditTaskModal";
 
-import { useMemo, useState } from "react";
+import { useMemo, useTransition } from "react";
 import { TaskModel } from "../types/task.types";
 import { taskToForm } from "../mappers/task.mapper";
+import { useBoardStore } from "../store/useBoardStore";
+import { toast } from "sonner";
 
 interface EditTaskFeatureProps {
   task: TaskModel;
@@ -17,27 +19,33 @@ export default function EditTaskFeature({
   open,
   onClose,
 }: EditTaskFeatureProps) {
-  const [loading, setLoading] = useState(false);
+  const board = useBoardStore((state) => state.activeBoard);
+  const [isPending, startTransition] = useTransition();
+
   const defaultValues = useMemo(() => taskToForm(task), [task]);
 
   async function handleConfirm() {
-    try {
-      setLoading(true);
-      // await editBoard(board.id);
-      // toast.success("Board deleted");
-      onClose();
-      // later: router.push("/boards") or refresh
-    } catch (error) {
-      // toast.error("Failed to delete board");
-    } finally {
-      setLoading(false);
-    }
+    const toastId = toast.loading("Adding task...");
+    startTransition(async () => {
+      // const success = await addTask(values as unknown as AddTaskValues);
+      // if (success) {
+      //   toast.success("Task created successfully", { id: toastId });
+      //   onClose();
+      //   router.refresh();
+      // } else {
+      //   toast.error("Failed to create task. Please try again.", {
+      //     id: toastId,
+      //   });
+      // }
+    });
   }
 
   return (
     <EditTaskModal
+      status={board?.columns}
       task={defaultValues}
       open={open}
+      loading={!isPending}
       onCancel={onClose}
       onConfirm={handleConfirm}
     />

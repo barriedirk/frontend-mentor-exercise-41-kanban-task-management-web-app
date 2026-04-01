@@ -11,6 +11,7 @@ import { addBoard } from "../services/board.service";
 import { boardToForm } from "../mappers/board.mapper";
 import { AddBoardValues } from "@/schemas/board.schema";
 import { toast } from "sonner";
+import { BoardFormBase } from "../types/board-form.types";
 
 interface AddBoardFeatureProps {
   open: boolean;
@@ -34,11 +35,11 @@ export default function AddBoardFeature({
   const router = useRouter();
   const defaultValues = useMemo(() => boardToForm(emptyBoard), []);
 
-  async function handleAdd(values: AddBoardValues) {
+  async function handleAdd(values: BoardFormBase) {
     const toastId = toast.loading("Adding board...");
 
     startTransition(async () => {
-      const success = await addBoard(values);
+      const success = await addBoard(values as unknown as AddBoardValues);
 
       if (success) {
         toast.success("Board created successfully", { id: toastId });

@@ -27,6 +27,7 @@ interface Props<T extends FieldValues> {
   helperText?: string;
   options: Option[];
   dataTestid?: string;
+  readonly?: boolean;
 }
 
 const DropDownForm = <T extends FieldValues>({
@@ -38,6 +39,7 @@ const DropDownForm = <T extends FieldValues>({
   helperText,
   options,
   dataTestid,
+  readonly = false,
 }: Props<T>) => {
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
@@ -57,11 +59,17 @@ const DropDownForm = <T extends FieldValues>({
   const iconChevron = "/icon-chevron-down.svg";
   const iconCross = "/icon-cross.svg";
 
+  useEffect(() => {}, []);
+
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (selectRef.current && !selectRef.current.contains(e.target as Node)) {
         closeDropdown();
       }
+
+      document.addEventListener("click", handleClickOutside);
+
+      return () => document.removeEventListener("click", handleClickOutside);
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -140,6 +148,7 @@ const DropDownForm = <T extends FieldValues>({
             className={clsx(
               "form-group input-select",
               error && "form-group--error",
+              readonly && "opacity-75 cursor-not-allowed",
               "relative",
             )}
             role="group"
@@ -168,16 +177,25 @@ const DropDownForm = <T extends FieldValues>({
                   ? `${name}-option-${highlightedIndex}`
                   : undefined
               }
-              tabIndex={0}
-              onKeyDown={handleKeyDown}
+              tabIndex={readonly ? -1 : 0}
+              onKeyDown={(e) => {
+                if (readonly) return;
+
+                handleKeyDown(e);
+              }}
               className={clsx(
-                "form-input-group relative cursor-pointer",
+                "form-input-group relative",
+                readonly ? "cursor-default" : "cursor-pointer",
                 "text-body-l",
                 !selected && "bg-background-tertiary",
                 selected && "bg-background",
                 error && "is-invalid",
               )}
-              onClick={toggleDropdown}
+              onClick={(e) => {
+                if (readonly) return;
+
+                toggleDropdown(e);
+              }}
               data-testid={dataTestid ? `${dataTestid}-toggle-dropdown` : null}
             >
               <div
@@ -202,25 +220,29 @@ const DropDownForm = <T extends FieldValues>({
                 </span>
               </div>
 
-              {selected && (
-                <button
-                  type="button"
-                  onClick={clearSelection}
-                  aria-label="Clear selected option"
-                  className="button--simple text-red-500 hover:text-red-550 ml-auto"
-                  data-testid={
-                    dataTestid ? `${dataTestid}-clear-selection` : null
-                  }
-                >
-                  <Image
-                    className="object-fit w-3 h-3"
-                    src={iconCross}
-                    alt=""
-                    width={15}
-                    height={15}
-                    priority
-                  />
-                </button>
+              {!readonly && (
+                <>
+                  {selected && (
+                    <button
+                      type="button"
+                      onClick={clearSelection}
+                      aria-label="Clear selected option"
+                      className="button--simple text-red-500 hover:text-red-550 ml-auto"
+                      data-testid={
+                        dataTestid ? `${dataTestid}-clear-selection` : null
+                      }
+                    >
+                      <Image
+                        className="object-fit w-3 h-3"
+                        src={iconCross}
+                        alt=""
+                        width={15}
+                        height={15}
+                        priority
+                      />
+                    </button>
+                  )}
+                </>
               )}
 
               <button
@@ -230,6 +252,7 @@ const DropDownForm = <T extends FieldValues>({
                 className={clsx(
                   "button--simple w-3 h-2",
                   !selected && "ml-auto",
+                  readonly && "ml-auto",
                 )}
                 data-testid={
                   dataTestid
@@ -258,7 +281,7 @@ const DropDownForm = <T extends FieldValues>({
               <p className="text-preset-4 text-grey-500">{helperText}</p>
             )}
 
-            {isOpen && (
+            {isOpen && !readonly && (
               <div
                 id={listboxId}
                 role="listbox"
@@ -276,12 +299,16 @@ const DropDownForm = <T extends FieldValues>({
 
                   return (
                     <div
-                      key={option.value}
+                      key={`${option.value}-option-${index}`}
                       id={`${name}-option-${index}`}
                       role="option"
                       aria-selected={isSelected}
                       data-index={index}
-                      onClick={() => handleSelect(option)}
+                      onClick={(e) => {
+                        //e.preventDefault();
+                        // e.stopPropagation();
+                        handleSelect(option);
+                      }}
                       data-testid={
                         dataTestid ? `${dataTestid}-option-${index}` : null
                       }

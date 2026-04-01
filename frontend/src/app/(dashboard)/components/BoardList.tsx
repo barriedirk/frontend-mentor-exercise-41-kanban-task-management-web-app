@@ -9,17 +9,18 @@ import AddBoardFeature from "@/features/board/components/AddBoardFeature";
 
 import BoardListButton from "./BoardListButton";
 import { useBoardStore } from "@/features/board/store/useBoardStore";
+import { useBoardActions } from "../hooks/useBoardActions";
 
 export default function BoardList() {
-  const setActiveBoardId = useBoardStore((state) => state.setActiveBoardId);
-  const activeBoardId = useBoardStore((state) => state.activeBoardId);
+  const activeBoard = useBoardStore((state) => state.activeBoard);
   const boards = useBoardStore((state) => state.boards);
-
-  const nBoards: number = boards?.length ?? 0;
+  const { selectBoard } = useBoardActions();
 
   const [openAddModal, setOpenAddModal] = useState(false);
 
-  console.log("setActiveBoardId", setActiveBoardId);
+  const nBoards: number = boards?.length ?? 0;
+
+  console.log("activeBoard", activeBoard);
 
   return (
     <>
@@ -40,15 +41,15 @@ export default function BoardList() {
                     "board-list__item",
                     "text-heading-m flex",
                     "items-center",
-                    board.id !== activeBoardId && "text-medium-grey",
-                    board.id === activeBoardId && "text-main-purple",
+                    board.id !== activeBoard?.id && "text-medium-grey",
+                    board.id === activeBoard?.id && "text-main-purple",
                   )}
                 >
                   <BoardListButton
                     board={board}
                     onClick={() => {
                       console.log("active", board.id);
-                      setActiveBoardId(board.id!);
+                      selectBoard(board.id!);
                     }}
                   />
                 </li>

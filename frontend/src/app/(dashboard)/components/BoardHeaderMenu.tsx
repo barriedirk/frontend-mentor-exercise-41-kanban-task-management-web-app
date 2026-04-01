@@ -17,19 +17,14 @@ export default function BoardHeaderMenu() {
     closeModal,
   } = useBoardMenuActions();
 
-  if (!activeBoard) {
-    return (
-      <div className="board-header__menu">
-        <p className="text-body-l text-foreground">
-          Please, select a board first.
-        </p>
-      </div>
-    );
-  }
-
   return (
     <div className="board-header__menu">
-      <button className="ml-2 w-3 flex items-center" onClick={() => setIsMenuOpen(true)} aria-label="Board options">
+      <button 
+        disabled={!activeBoard}
+        className="ml-2 w-3 flex items-center"
+        title={!activeBoard ? 'Please, select a board first.': ''}
+        aria-label={!activeBoard ? 'Please, select a board first.': 'Board options'}
+        onClick={() => setIsMenuOpen(true)}>
         <Image
           className="board-header__ellipsis object-fit w-0.75 h-4"
           src="/icon-vertical-ellipsis.svg"
@@ -39,8 +34,7 @@ export default function BoardHeaderMenu() {
           priority
         />
       </button>
-
-      {isMenuOpen && (
+      {isMenuOpen && activeBoard && (
         <BoardHeaderMenuOptions
           onEdit={() => openModal("edit")}
           onDelete={() => openModal("delete")}
@@ -48,7 +42,7 @@ export default function BoardHeaderMenu() {
         />
       )}
 
-      {activeModal === "edit" && (
+      {activeModal === "edit" && activeBoard && (
         <EditBoardFeature
           board={activeBoard}
           open={true}
@@ -56,7 +50,7 @@ export default function BoardHeaderMenu() {
         />
       )}
 
-      {activeModal === "delete" && (
+      {activeModal === "delete" && activeBoard && (
         <DeleteBoardFeature
           boardId={activeBoard.id!}
           boardName={activeBoard.name}

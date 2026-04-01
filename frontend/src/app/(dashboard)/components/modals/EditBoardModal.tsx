@@ -26,6 +26,8 @@ export default function EditBoardModal({
 }: EditBoardModalProps) {
   const formTitleId = useId();
 
+  // @todo, remove typescript error
+
   return (
     <Modal
       open={open}
@@ -40,9 +42,15 @@ export default function EditBoardModal({
         submitLabel="Edit Board"
         onSubmit={async (values) => {
           // @todo, need to imrpove
-          const updatePositions = {...values, columns: values.columns.map((c, i) => ({...c, position: (i + 1) * 10}))}
+          const updatePositions = {
+            ...values,
+            columns: values.columns.map((c, i) => ({
+              ...c,
+              position: (i + 1) * 10,
+            })),
+          };
 
-          console.log('updatePositions', updatePositions)
+          console.log("updatePositions", updatePositions);
 
           onConfirm(updatePositions);
         }}
