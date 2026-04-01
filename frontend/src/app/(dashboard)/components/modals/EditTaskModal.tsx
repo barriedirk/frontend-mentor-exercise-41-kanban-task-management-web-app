@@ -1,6 +1,5 @@
 "use client";
 import { useId } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 import Modal from "@/components/ui/Modal";
 import { TaskFormBase } from "@/features/board/types/task-form.types";
