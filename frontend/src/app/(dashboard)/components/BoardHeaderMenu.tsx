@@ -19,12 +19,15 @@ export default function BoardHeaderMenu() {
 
   return (
     <div className="board-header__menu">
-      <button 
+      <button
         disabled={!activeBoard}
         className="ml-2 w-3 flex items-center"
-        title={!activeBoard ? 'Please, select a board first.': ''}
-        aria-label={!activeBoard ? 'Please, select a board first.': 'Board options'}
-        onClick={() => setIsMenuOpen(true)}>
+        title={!activeBoard ? "Please, select a board first." : ""}
+        aria-label={
+          !activeBoard ? "Please, select a board first." : "Board options"
+        }
+        onClick={() => setIsMenuOpen(true)}
+      >
         <Image
           className="board-header__ellipsis object-fit w-0.75 h-4"
           src="/icon-vertical-ellipsis.svg"

@@ -5,13 +5,13 @@
 
 export interface BoardFormColumn {
   id?: string | number;
-  documentId?: string;
+  documentId?: string | number;
   name: string;
   position?: number;
 }
 
 export interface BoardFormBase {
-  id?: string;
+  id?: string | number;
   name: string;
   columns: BoardFormColumn[];
   shareMode?: "read" | "edit" | null;

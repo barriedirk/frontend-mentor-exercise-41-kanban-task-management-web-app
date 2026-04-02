@@ -5,9 +5,9 @@ const columnIdSchema = z.union([
   z.number(),
 ]);
 
+// // documentId: columnIdSchema.optional(),
 const boardColumnBaseSchema = z.object({
   id: columnIdSchema.optional(),
-  documentId: columnIdSchema.optional(),
   name: z
     .string()
     .trim()
@@ -16,16 +16,10 @@ const boardColumnBaseSchema = z.object({
   position: z.number().optional(),
 });
 
-/**
- * Column schema used inside Edit Board
- */
 export const editBoardColumnSchema = boardColumnBaseSchema.extend({
   id: columnIdSchema,
 });
 
-/**
- * Column schema used inside Add Board
- */
 export const addBoardColumnSchema = boardColumnBaseSchema.extend({
   id: columnIdSchema,
 });
@@ -44,7 +38,7 @@ const boardBaseSchema = z.object({
  * Edit Board schema
  */
 export const editBoardSchema = boardBaseSchema.extend({
-  id: z.string().min(1),
+  id: columnIdSchema,
   columns: z
     .array(editBoardColumnSchema)
     .min(1, "At least one column is required"),

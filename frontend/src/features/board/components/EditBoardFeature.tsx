@@ -32,7 +32,7 @@ export default function EditBoardFeature({
   async function handleEdit(values: EditBoardValues) {
     const toastId = toast.loading("Editing board...");
 
-    console.log('handleEdit', values);
+    console.log("handleEdit", values);
 
     startTransition(async () => {
       const success = await editBoard(values);
@@ -40,12 +40,12 @@ export default function EditBoardFeature({
       if (success) {
         toast.success("Board updated successfully!", { id: toastId });
 
-        useBoardStore.getState().updateBoard({
+        useBoardStore.getState().updateActiveBoard({
           id: board.id,
           name: values.name,
           columns: values.columns.map((col) => ({
             id: col.id.toString(),
-            documentId: col.documentId?.toString() || '',
+            documentId: col.documentId?.toString() || "",
             name: col.name,
             position: col.position ?? 0,
           })),

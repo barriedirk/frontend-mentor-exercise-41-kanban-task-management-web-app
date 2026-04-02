@@ -40,7 +40,7 @@ export default function DeleteBoardFeature({
         onClose();
 
         router.refresh();
-        router.push("/dashboard");
+        router.push("/");
       } else {
         toast.error("Something went wrong", { id: toastId });
       }
