@@ -8,7 +8,49 @@ import { StrapiBoard } from "../types/StrapiBoardResponse";
 import { AddBoardValues, EditBoardValues } from "@/schemas/board.schema";
 import { BoardModel } from "../types/board.types";
 import { mapStrapiToBoard } from "../mappers/board.mapper";
-import { NEW_TEMP_ID } from "@/lib/constants";
+
+interface UpdateColumnsOrderProps {
+  boardId: string;
+  columns: { id: string; position: number }[];
+}
+
+export async function updateColumnsOrder({
+  boardId,
+  columns,
+}: UpdateColumnsOrderProps) {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("auth_token")?.value;
+
+    //@todo, remove
+    if (process.env.NODE_ENV !== "development") {
+      console.log("updateColumnsOrder Strapi:", token ? "Present" : "Missing");
+    }
+
+    if (!token) throw new Error("No auth token found");
+
+    await strapiFetch<void>(`boards/${boardId}`, {
+      method: "PUT",
+      token: token,
+      body: JSON.stringify({
+        data: {
+          columns: columns,
+        },
+      }),
+    });
+
+    return true;
+  } catch (error) {
+    if (error instanceof Error) {
+      if (error.name === "AbortError") {
+        throw error;
+      }
+    }
+
+    console.error("Error fetching board details:", error);
+    return null;
+  }
+}
 
 export async function getBoards() {
   const cookieStore = await cookies();

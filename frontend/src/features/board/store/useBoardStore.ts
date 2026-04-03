@@ -7,6 +7,7 @@ interface BoardState {
   activeBoard: BoardModel | null;
   isLoading: boolean;
 
+  moveColumnInStore: (startIndex: number, endIndex: number) => void;
   setBoards: (boards: BoardModel[]) => void;
   setActiveBoard: (board: BoardModel) => void;
   hasActiveBoard: () => boolean;
@@ -23,6 +24,27 @@ export const useBoardStore = create<BoardState>((set, get) => ({
   activeBoard: null,
   isLoading: false,
 
+  moveColumnInStore: (startIndex: number, endIndex: number) => {
+    set((state) => {
+      if (!state.activeBoard) return state;
+
+      const newColumns = [...state.activeBoard.columns];
+      const [removed] = newColumns.splice(startIndex, 1);
+      newColumns.splice(endIndex, 0, removed);
+
+      const updatedColumns = newColumns.map((col, index) => ({
+        ...col,
+        position: (index + 1) * 10,
+      }));
+
+      return {
+        activeBoard: {
+          ...state.activeBoard,
+          columns: updatedColumns,
+        },
+      };
+    });
+  },
   setBoards: (boards) => set({ boards }),
   setLoading: (loading) => set({ isLoading: loading }),
   setActiveBoard: (board) => set({ activeBoard: board, isLoading: false }),
