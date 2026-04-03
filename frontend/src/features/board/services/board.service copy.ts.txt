@@ -8,7 +8,6 @@ import { StrapiBoard } from "../types/StrapiBoardResponse";
 import { AddBoardValues, EditBoardValues } from "@/schemas/board.schema";
 import { BoardModel } from "../types/board.types";
 import { mapStrapiToBoard } from "../mappers/board.mapper";
-import { NEW_TEMP_ID } from "@/lib/constants";
 
 export async function getBoards() {
   const cookieStore = await cookies();
@@ -100,11 +99,7 @@ export async function editBoard(values: EditBoardValues): Promise<boolean> {
     const { id: boardDocumentId, ...dataToUpdate } = values;
 
     const columnIdsFinals = await Promise.all(
-      dataToUpdate.columns.map(async (col) => {
-        if (col.id) {
-          return col.id;
-        }
-
+      dataToUpdate.columns.map(async (col, index) => {
         const newColResponse = await strapiFetch<{
           data: { documentId: string };
         }>(`columns`, {
@@ -114,13 +109,16 @@ export async function editBoard(values: EditBoardValues): Promise<boolean> {
             data: {
               name: col.name,
               board: boardDocumentId,
-              position: col.position ?? 0,
             },
           }),
         });
         return newColResponse.data.documentId;
       }),
     );
+
+    console.log("\n boardDocumentId \n", boardDocumentId);
+    console.log("\n columnIdsFinals \n", JSON.stringify(columnIdsFinals));
+    console.log("\n");
 
     await strapiFetch<void>(`boards/${boardDocumentId}`, {
       method: "PUT",
@@ -133,6 +131,7 @@ export async function editBoard(values: EditBoardValues): Promise<boolean> {
       }),
     });
 
+    // 3. ACTUALIZAR LOS ATRIBUTOS (Nombre/Posición) de las columnas que ya existían
     const columnsToUpdate = dataToUpdate.columns.filter((col) => col.id);
 
     if (columnsToUpdate.length > 0) {

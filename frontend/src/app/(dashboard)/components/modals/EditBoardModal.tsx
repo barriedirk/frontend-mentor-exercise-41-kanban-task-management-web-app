@@ -41,18 +41,7 @@ export default function EditBoardModal({
         resolver={zodResolver(editBoardSchema)}
         submitLabel="Edit Board"
         onSubmit={async (values) => {
-          // @todo, need to imrpove
-          const updatePositions = {
-            ...values,
-            columns: values.columns.map((c, i) => ({
-              ...c,
-              position: (i + 1) * 10,
-            })),
-          };
-
-          console.log("updatePositions", updatePositions);
-
-          onConfirm(updatePositions);
+          onConfirm(values);
         }}
       />
     </Modal>

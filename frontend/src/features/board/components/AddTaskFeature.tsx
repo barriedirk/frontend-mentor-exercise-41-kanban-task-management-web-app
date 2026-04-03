@@ -39,8 +39,6 @@ export default function AddTaskFeature({ open, onClose }: AddTaskFeatureProps) {
       const newTask = await addTask(values as unknown as AddTaskValues);
 
       if (!!newTask) {
-        console.log("newTask", JSON.stringify(newTask));
-
         setAddTask(values.columnId, mapStrapiToTask(values.columnId, newTask));
 
         toast.success("Task created successfully", { id: toastId });

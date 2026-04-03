@@ -19,6 +19,7 @@ import InputOptionForm from "@/components/forms/fields/InputOptionForm";
 import Button from "@/components/ui/Button";
 
 import { BoardFormBase } from "@//features/board/types/board-form.types";
+import { getTempNewId } from "./utils";
 
 type ColumnError = {
   name?: FieldError;
@@ -32,7 +33,7 @@ interface BoardFormProps<T extends FieldValues & BoardFormBase> {
 }
 
 const createEmptyColumn = () => ({
-  id: crypto.randomUUID(),
+  id: getTempNewId(),
   name: "",
   position: 0,
 });

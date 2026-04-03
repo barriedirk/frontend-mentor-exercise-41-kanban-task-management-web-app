@@ -59,8 +59,6 @@ export async function updateTask(
       },
     };
 
-    console.log("updateTask => ", JSON.stringify(body));
-
     return await strapiFetch(`tasks/${taskDocumentId}?populate=subtask`, {
       method: "PUT",
       token,

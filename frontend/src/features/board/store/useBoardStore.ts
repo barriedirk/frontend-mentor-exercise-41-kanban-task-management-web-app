@@ -24,16 +24,6 @@ export const useBoardStore = create<BoardState>((set, get) => ({
   isLoading: false,
 
   setBoards: (boards) => set({ boards }),
-  // @todo, remove comments
-  // former function
-  // setBoards: (boards) => {
-  //   set({ boards });
-
-  //   if (boards.length > 0 && !get().activeBoardId) {
-  //     set({ activeBoardId: boards[0].id });
-  //   }
-  // },
-
   setLoading: (loading) => set({ isLoading: loading }),
   setActiveBoard: (board) => set({ activeBoard: board, isLoading: false }),
   hasActiveBoard: () => !!get().activeBoard,

@@ -26,7 +26,7 @@ export default function BoardBody() {
         className="board-columns pt-2 px-2 flex items-center justify-center"
         aria-labelledby="board-columns-title"
       >
-        Add a Board or active one.
+        <p className="text-heading-l">Add a new Board or active one.</p>
       </div>
     );
   }

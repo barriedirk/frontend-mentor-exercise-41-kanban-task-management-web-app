@@ -12,6 +12,7 @@ export interface TaskModel {
   description: string;
   columnId: string | number;
   subTasks: SubTaskModel[];
+  position?: number;
 }
 
 export interface TaskUpdateModel {

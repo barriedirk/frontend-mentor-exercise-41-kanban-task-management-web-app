@@ -6,13 +6,15 @@ import { useRouter } from "next/navigation";
 import EditBoardModal from "@/app/(dashboard)/components/modals/EditBoardModal";
 
 import { BoardModel } from "../types/board.types";
-import { editBoard } from "../services/board.service";
+import { editBoard, getBoardById } from "../services/board.service";
 
 import { EditBoardValues } from "@/schemas/board.schema";
 
 import { boardToForm } from "../mappers/board.mapper";
 import { toast } from "sonner";
 import { useBoardStore } from "../store/useBoardStore";
+import { orderColumnsTaskBoard } from "../store/utils";
+import { removeNewIdsFromColumns } from "../utils/removeIdFromNewColumns";
 
 interface EditBoardFeatureProps {
   board: BoardModel;
@@ -32,26 +34,19 @@ export default function EditBoardFeature({
   async function handleEdit(values: EditBoardValues) {
     const toastId = toast.loading("Editing board...");
 
-    console.log("handleEdit", values);
-
     startTransition(async () => {
-      const success = await editBoard(values);
+      const success = await editBoard(removeNewIdsFromColumns(values));
 
       if (success) {
         toast.success("Board updated successfully!", { id: toastId });
 
-        useBoardStore.getState().updateActiveBoard({
-          id: board.id,
-          name: values.name,
-          columns: values.columns.map((col) => ({
-            id: col.id.toString(),
-            documentId: col.documentId?.toString() || "",
-            name: col.name,
-            position: col.position ?? 0,
-          })),
-          shareToken: board.shareToken,
-          shareMode: board.shareMode,
-        });
+        const fullBoard = await getBoardById(values.id.toString());
+
+        if (!!fullBoard) {
+          useBoardStore
+            .getState()
+            .updateActiveBoard(orderColumnsTaskBoard(fullBoard));
+        }
 
         onClose();
         router.refresh();

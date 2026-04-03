@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { getBoardById } from "@/features/board/services/board.service";
 import { useBoardStore } from "@/features/board/store/useBoardStore";
+import { orderColumnsTaskBoard } from "@/features/board/store/utils";
 
 export const useBoardActions = () => {
   const setActiveBoard = useBoardStore((state) => state.setActiveBoard);
@@ -17,7 +18,9 @@ export const useBoardActions = () => {
 
       if (lastRequestedIdRef.current === id) {
         if (fullBoard) {
-          setActiveBoard(fullBoard);
+          console.log("fullBoard", fullBoard);
+
+          setActiveBoard(orderColumnsTaskBoard(fullBoard));
         }
       } else {
         console.log(

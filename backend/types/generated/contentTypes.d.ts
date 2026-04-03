@@ -531,6 +531,7 @@ export interface ApiTaskTask extends Struct.CollectionTypeSchema {
         maxLength: 100;
         minLength: 1;
       }>;
+    position: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
     publishedAt: Schema.Attribute.DateTime;
     subtask: Schema.Attribute.Component<'layout.sub-task', true>;
     updatedAt: Schema.Attribute.DateTime;
