@@ -11,8 +11,6 @@ import { useBoardStore } from "@/features/board/store/useBoardStore";
 export default function BoardColumns() {
   const board = useBoardStore((state) => state.activeBoard);
 
-  console.log("BoardColumns", board);
-
   return (
     <div
       className="board-columns pt-2 px-2 overflow-x-scroll"
