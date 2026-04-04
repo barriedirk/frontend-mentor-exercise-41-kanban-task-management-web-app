@@ -1,10 +1,27 @@
 "use server";
 
+// endpoint RPC (Remote Procedure Call)
+
 import { strapiFetch } from "@/lib/strapi/client";
 import { cookies } from "next/headers";
 import { AddTaskValues } from "@/schemas/task.schema";
 import { TaskEditModel, TaskUpdateModel } from "../types/task.types";
 import { StrapiResponse, StrapiTaskResponse } from "@/lib/strapi/type";
+
+interface UpdateTaskPositionProps {
+  taskId: string;
+  newColumnId: string;
+  newPosition: number;
+}
+
+export async function updateTaskPosition({
+  taskId,
+  newColumnId,
+  newPosition,
+}: UpdateTaskPositionProps) {
+  // PUT a /api/tasks/${taskId}
+  // data: { column: newColumnId, position: newPosition }
+}
 
 export async function addTask(
   values: AddTaskValues,

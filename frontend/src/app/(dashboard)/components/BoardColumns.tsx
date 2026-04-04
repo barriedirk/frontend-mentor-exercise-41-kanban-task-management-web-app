@@ -17,19 +17,20 @@ import { useBoardStore } from "@/features/board/store/useBoardStore";
 import { useState } from "react";
 import { updateColumnsOrder } from "@/features/board/services/board.service";
 import { toast } from "sonner";
+import { updateTaskPosition } from "@/features/board/services/task.service";
 
 export default function BoardColumns() {
   const board = useBoardStore((state) => state.activeBoard);
   const activeBoard = useBoardStore((state) => state.activeBoard);
   const [isDraggingColumn, setIsDraggingColumn] = useState(false);
 
+  const setActiveBoard = useBoardStore((state) => state.setActiveBoard);
   const setColumnsInState = useBoardStore((state) => state.setColumnsInState);
   const moveColumnInStore = useBoardStore((state) => state.moveColumnInStore);
+  const moveTaskInStore = useBoardStore((state) => state.moveTaskInStore);
 
-  const isColumnSyncing = useBoardStore((state) => state.isColumnSyncing);
-  const setIsColumnsSyncing = useBoardStore(
-    (state) => state.setIsColumnsSyncing,
-  );
+  const isSyncing = useBoardStore((state) => state.isSyncing);
+  const setIsSyncing = useBoardStore((state) => state.setIsSyncing);
 
   const onDragStart = (start: DragStart) => {
     if (start.type === "column") {
@@ -50,11 +51,41 @@ export default function BoardColumns() {
     )
       return;
 
-    if (type === "column") {
-      const snapshot = [...activeBoard!.columns];
+    if (type === "task") {
+      console.log("Moviendo tarea", { source, destination });
+      setIsSyncing(true);
 
+      const sourceColId = source.droppableId;
+      const destColId = destination.droppableId;
+
+      const boardSnapshot = JSON.parse(JSON.stringify(activeBoard));
+      moveTaskInStore(sourceColId, destColId, source.index, destination.index);
+
+      try {
+        const movedTaskId = result.draggableId;
+        // Calculamos posición (puedes usar la misma lógica de 10, 20, 30)
+        const newPosition = (destination.index + 1) * 10;
+
+        const success = await updateTaskPosition({
+          taskId: movedTaskId,
+          newColumnId: destColId,
+          newPosition: newPosition,
+        });
+
+        // if (!success) throw new Error();
+      } catch (error) {
+        setActiveBoard(boardSnapshot);
+        toast.error("Error al mover la tarea");
+      }
+
+      setIsSyncing(false);
+    }
+
+    if (type === "column") {
+      setIsSyncing(true);
+
+      const snapshot = [...activeBoard!.columns];
       moveColumnInStore(source.index, destination.index);
-      setIsColumnsSyncing(true);
 
       const payload = [...snapshot];
       const [removed] = payload.splice(source.index, 1);
@@ -75,7 +106,7 @@ export default function BoardColumns() {
         toast.error("No se pudo sincronizar el orden con el servidor");
       }
 
-      setIsColumnsSyncing(true);
+      setIsSyncing(false);
     }
   };
 
@@ -120,7 +151,7 @@ export default function BoardColumns() {
                     key={`${column.id}-${column.name}`}
                     column={column}
                     index={index}
-                    isDragDisabled={isColumnSyncing}
+                    isDragDisabled={isSyncing}
                   />
                 ))}
 

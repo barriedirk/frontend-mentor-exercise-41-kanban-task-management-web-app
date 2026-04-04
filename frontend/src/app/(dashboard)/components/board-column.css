@@ -1,6 +1,9 @@
 .board-column__tasks {
   max-height: calc(100vh - var(--header-heigth-mobile) - 80px);
   overflow-y: auto;
+
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 @media screen and (min-width: 48em) {

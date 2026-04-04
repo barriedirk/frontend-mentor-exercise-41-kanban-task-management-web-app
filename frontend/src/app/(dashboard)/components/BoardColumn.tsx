@@ -2,7 +2,7 @@
 
 import "./board-column.css";
 
-import { Draggable } from "@hello-pangea/dnd";
+import { Draggable, Droppable } from "@hello-pangea/dnd";
 
 import { useId } from "react";
 import { BoardColumnTask } from "./BoardColumnTask";
@@ -54,11 +54,29 @@ export default function BoardColumn({
             ></span>
             {column.name} ({column.tasks?.length})
           </h3>
-          <ul className="board-column__tasks flex flex-col gap-6 overflow-y-auto scrollbar-width-none">
-            {column.tasks?.map((task) => (
-              <BoardColumnTask key={task.id} task={task} />
-            ))}
-          </ul>
+
+          <Droppable droppableId={column.id!.toString()} type="task">
+            {(taskProvided, taskSnapshot) => (
+              <ul
+                className={clsx(
+                  "board-column__tasks flex flex-col gap-6",
+                  "min-h-38.5 transition-colors pb-20",
+                  taskSnapshot.isDraggingOver ? "bg-main-purple/5" : "",
+                )}
+                ref={taskProvided.innerRef}
+                {...taskProvided.droppableProps}
+              >
+                {column.tasks?.map((task, taskIndex) => (
+                  <BoardColumnTask
+                    key={task.id}
+                    task={task}
+                    index={taskIndex} // 3. Necesitamos pasar el index
+                  />
+                ))}
+                {taskProvided.placeholder}
+              </ul>
+            )}
+          </Droppable>
         </section>
       )}
     </Draggable>

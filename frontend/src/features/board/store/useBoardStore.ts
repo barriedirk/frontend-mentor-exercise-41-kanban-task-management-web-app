@@ -3,7 +3,7 @@ import { BoardColumnModel, BoardModel } from "../types/board.types";
 import { TaskModel } from "../types/task.types";
 
 interface BoardState {
-  isColumnSyncing: boolean;
+  isSyncing: boolean;
   boards: BoardModel[];
   activeBoard: BoardModel | null;
   isLoading: boolean;
@@ -19,20 +19,51 @@ interface BoardState {
   updateTaskInState: (taskId: string, updatedTask: Partial<TaskModel>) => void;
   deleteTask: (columnId: string | number, taskId: string | number) => void;
   setColumnsInState: (columns: BoardColumnModel[]) => void;
-  setIsColumnsSyncing: (loading: boolean) => void;
+  setIsSyncing: (loading: boolean) => void;
+  moveTaskInStore: (
+    sourceColId: string,
+    destinationColId: string,
+    sourceIndex: number,
+    destinationIndex: number,
+  ) => void;
 }
 
 export const useBoardStore = create<BoardState>((set, get) => ({
-  isColumnSyncing: false,
+  isSyncing: false,
   boards: [],
   activeBoard: null,
   isLoading: false,
 
-  setIsColumnsSyncing: (loading: boolean) => {
-    set(() => {
-      return {
-        isColumnSyncing: loading,
-      };
+  setIsSyncing: (loading: boolean) => {
+    set(() => ({
+      isSyncing: loading,
+    }));
+  },
+
+  moveTaskInStore: (
+    sourceColId: string,
+    destinationColId: string,
+    sourceIndex: number,
+    destinationIndex: number,
+  ) => {
+    set((state) => {
+      if (!state.activeBoard) return state;
+
+      const newColumns = [...state.activeBoard.columns];
+      const sourceCol = newColumns.find((c) => c.id === sourceColId);
+      const destCol = newColumns.find((c) => c.id === destinationColId);
+
+      if (!sourceCol || !destCol) return state;
+
+      const [movedTask] = (sourceCol.tasks ?? []).splice(sourceIndex, 1);
+
+      if (sourceColId !== destinationColId) {
+        movedTask.columnId = destinationColId;
+      }
+
+      destCol.tasks?.splice(destinationIndex, 0, movedTask);
+
+      return { activeBoard: { ...state.activeBoard, columns: newColumns } };
     });
   },
 
