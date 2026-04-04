@@ -1,8 +1,9 @@
 import { create } from "zustand";
-import { BoardModel } from "../types/board.types";
+import { BoardColumnModel, BoardModel } from "../types/board.types";
 import { TaskModel } from "../types/task.types";
 
 interface BoardState {
+  isColumnSyncing: boolean;
   boards: BoardModel[];
   activeBoard: BoardModel | null;
   isLoading: boolean;
@@ -17,12 +18,23 @@ interface BoardState {
   removeBoard: (id: string) => void;
   updateTaskInState: (taskId: string, updatedTask: Partial<TaskModel>) => void;
   deleteTask: (columnId: string | number, taskId: string | number) => void;
+  setColumnsInState: (columns: BoardColumnModel[]) => void;
+  setIsColumnsSyncing: (loading: boolean) => void;
 }
 
 export const useBoardStore = create<BoardState>((set, get) => ({
+  isColumnSyncing: false,
   boards: [],
   activeBoard: null,
   isLoading: false,
+
+  setIsColumnsSyncing: (loading: boolean) => {
+    set(() => {
+      return {
+        isColumnSyncing: loading,
+      };
+    });
+  },
 
   moveColumnInStore: (startIndex: number, endIndex: number) => {
     set((state) => {
@@ -100,6 +112,16 @@ export const useBoardStore = create<BoardState>((set, get) => ({
 
       return {
         activeBoard: { ...state.activeBoard, columns: newColumns },
+      };
+    });
+  },
+
+  setColumnsInState: (columns: BoardColumnModel[]) => {
+    set((state) => {
+      if (!state.activeBoard) return state;
+
+      return {
+        activeBoard: { ...state.activeBoard, columns },
       };
     });
   },

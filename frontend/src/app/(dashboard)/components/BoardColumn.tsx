@@ -13,13 +13,22 @@ import clsx from "clsx";
 interface BoardColumnProps {
   column: BoardColumnModel;
   index: number;
+  isDragDisabled: boolean;
 }
 
-export default function BoardColumn({ column, index }: BoardColumnProps) {
+export default function BoardColumn({
+  column,
+  index,
+  isDragDisabled,
+}: BoardColumnProps) {
   const titleId = useId();
 
   return (
-    <Draggable draggableId={column.id!.toString()} index={index}>
+    <Draggable
+      draggableId={column.id!.toString()}
+      index={index}
+      isDragDisabled={isDragDisabled}
+    >
       {(provided, snapshot) => (
         <section
           className={clsx(

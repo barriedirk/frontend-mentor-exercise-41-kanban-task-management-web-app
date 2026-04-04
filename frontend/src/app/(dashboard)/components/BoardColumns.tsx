@@ -1,13 +1,13 @@
 "use client";
 
-import "./board-columns.css";
-
 import {
   DragDropContext,
   DragStart,
   Droppable,
   DropResult,
 } from "@hello-pangea/dnd";
+
+import "./board-columns.css";
 
 import Button from "@/components/ui/Button";
 import BoardColumn from "./BoardColumn";
@@ -23,7 +23,13 @@ export default function BoardColumns() {
   const activeBoard = useBoardStore((state) => state.activeBoard);
   const [isDraggingColumn, setIsDraggingColumn] = useState(false);
 
+  const setColumnsInState = useBoardStore((state) => state.setColumnsInState);
   const moveColumnInStore = useBoardStore((state) => state.moveColumnInStore);
+
+  const isColumnSyncing = useBoardStore((state) => state.isColumnSyncing);
+  const setIsColumnsSyncing = useBoardStore(
+    (state) => state.setIsColumnsSyncing,
+  );
 
   const onDragStart = (start: DragStart) => {
     if (start.type === "column") {
@@ -45,30 +51,31 @@ export default function BoardColumns() {
       return;
 
     if (type === "column") {
-      const originalColumns = [...activeBoard!.columns];
+      const snapshot = [...activeBoard!.columns];
 
       moveColumnInStore(source.index, destination.index);
+      setIsColumnsSyncing(true);
 
-      try {
-        const newColumnsData = [...activeBoard!.columns];
-        const [removed] = newColumnsData.splice(source.index, 1);
-        newColumnsData.splice(destination.index, 0, removed);
+      const payload = [...snapshot];
+      const [removed] = payload.splice(source.index, 1);
+      payload.splice(destination.index, 0, removed);
 
-        const payload = newColumnsData.map((col, i) => ({
-          id: col.id,
-          position: (i + 1) * 10,
-        })) as { id: string; position: number }[];
+      const formattedPayload = payload.map((col, i) => ({
+        documentId: col.id,
+        position: (i + 1) * 10,
+      })) as { documentId: string; position: number }[];
 
-        await updateColumnsOrder({
-          boardId: activeBoard!.id!,
-          columns: payload,
-        });
-        console.log("Orden guardado en Strapi");
-      } catch (error) {
-        console.error(error);
+      const success = await updateColumnsOrder({
+        columns: formattedPayload,
+      });
+
+      if (!success) {
+        setColumnsInState(snapshot);
 
         toast.error("No se pudo sincronizar el orden con el servidor");
       }
+
+      setIsColumnsSyncing(true);
     }
   };
 
@@ -113,6 +120,7 @@ export default function BoardColumns() {
                     key={`${column.id}-${column.name}`}
                     column={column}
                     index={index}
+                    isDragDisabled={isColumnSyncing}
                   />
                 ))}
 

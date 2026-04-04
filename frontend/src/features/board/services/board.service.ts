@@ -10,45 +10,30 @@ import { BoardModel } from "../types/board.types";
 import { mapStrapiToBoard } from "../mappers/board.mapper";
 
 interface UpdateColumnsOrderProps {
-  boardId: string;
-  columns: { id: string; position: number }[];
+  columns: { documentId: string; position: number }[];
 }
 
-export async function updateColumnsOrder({
-  boardId,
-  columns,
-}: UpdateColumnsOrderProps) {
+export async function updateColumnsOrder({ columns }: UpdateColumnsOrderProps) {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("auth_token")?.value;
 
-    //@todo, remove
-    if (process.env.NODE_ENV !== "development") {
-      console.log("updateColumnsOrder Strapi:", token ? "Present" : "Missing");
-    }
-
-    if (!token) throw new Error("No auth token found");
-
-    await strapiFetch<void>(`boards/${boardId}`, {
-      method: "PUT",
-      token: token,
-      body: JSON.stringify({
-        data: {
-          columns: columns,
-        },
+    const updatePromises = columns.map((col) =>
+      strapiFetch(`columns/${col.documentId}`, {
+        method: "PUT",
+        token: token,
+        body: JSON.stringify({
+          data: { position: col.position },
+        }),
       }),
-    });
+    );
+
+    await Promise.all(updatePromises);
 
     return true;
   } catch (error) {
-    if (error instanceof Error) {
-      if (error.name === "AbortError") {
-        throw error;
-      }
-    }
-
-    console.error("Error fetching board details:", error);
-    return null;
+    console.error("Error al actualizar posiciones individuales", error);
+    return false;
   }
 }
 
@@ -160,6 +145,7 @@ export async function editBoard(values: EditBoardValues): Promise<boolean> {
             },
           }),
         });
+
         return newColResponse.data.documentId;
       }),
     );
@@ -257,27 +243,3 @@ export async function addBoard(values: AddBoardValues): Promise<boolean> {
     return false;
   }
 }
-
-// @todo, remove later
-// export async function getBoardDetails(documentId: string) {
-//   const cookieStore = await cookies();
-//   const token = cookieStore.get("auth_token")?.value;
-
-//   try {
-//     // Query String para Strapi 5 (usando notación de objetos o LHS brackets)
-//     // Queremos: Board -> Columns -> Tasks -> Subtasks
-//     const query = new URLSearchParams({
-//       "populate[columns][populate][tasks][populate]": "subtask",
-//     }).toString();
-
-//     const response = await strapiFetch(`boards/${documentId}?${query}`, {
-//       method: "GET",
-//       token: token,
-//     });
-
-//     return response;
-//   } catch (error) {
-//     console.error("Error adding board:", error);
-//     return false;
-//   }
-// }
