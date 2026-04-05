@@ -11,7 +11,11 @@ import BoardListButton from "./BoardListButton";
 import { useBoardStore } from "@/features/board/store/useBoardStore";
 import { useBoardActions } from "../hooks/useBoardActions";
 
-export default function BoardList() {
+interface BoardListProps {
+  optionWasClicked?: () => void;
+}
+
+export default function BoardList({ optionWasClicked }: BoardListProps) {
   const activeBoard = useBoardStore((state) => state.activeBoard);
   const boards = useBoardStore((state) => state.boards);
   const { selectBoard } = useBoardActions();
@@ -19,8 +23,6 @@ export default function BoardList() {
   const [openAddModal, setOpenAddModal] = useState(false);
 
   const nBoards: number = boards?.length ?? 0;
-
-  console.log("activeBoard", activeBoard);
 
   return (
     <>
@@ -48,7 +50,7 @@ export default function BoardList() {
                   <BoardListButton
                     board={board}
                     onClick={() => {
-                      console.log("active", board.id);
+                      optionWasClicked?.();
                       selectBoard(board.id!);
                     }}
                   />
@@ -61,7 +63,9 @@ export default function BoardList() {
                 type="button"
                 aria-label="+ Create New Board"
                 className="flex items-center gap-2 hover:bg-main-purple rounded-r-4xl py-2.75 px-3 -translate-x-3 w-full hover:text-white overflow-hidden group"
-                onClick={() => setOpenAddModal(true)}
+                onClick={() => {
+                  setOpenAddModal(true);
+                }}
               >
                 <BoardIcon className="board-list__icon object-fit w-4 h-4 group-hover:text-white" />
                 + Create New Board

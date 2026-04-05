@@ -37,6 +37,7 @@ export default function Modal({
           onClick={(e) => e.stopPropagation()}
           className={clsx(
             "w-full max-w-120 mx-auto",
+            "px-4",
             !size && "max-w-md",
             size === "small" && "max-w-md",
             size === "large" && "max-w-120",
