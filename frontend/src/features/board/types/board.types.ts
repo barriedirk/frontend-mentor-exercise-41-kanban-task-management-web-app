@@ -1,3 +1,4 @@
+import { HasPosition } from "./has-position";
 import { TaskModel } from "./task.types";
 
 export type ShareMode = "read" | "edit" | null;
@@ -14,10 +15,9 @@ export interface BoardModel extends BoardModelBase {
   shareMode?: ShareMode;
 }
 
-export interface BoardColumnModel {
+export interface BoardColumnModel extends HasPosition {
   id?: number | string | undefined;
   documentId?: string;
   name: string;
-  position?: number;
   tasks?: TaskModel[];
 }

@@ -5,7 +5,6 @@ const columnIdSchema = z.union([
   z.number(),
 ]);
 
-// // documentId: columnIdSchema.optional(),
 const boardColumnBaseSchema = z.object({
   id: columnIdSchema.optional(),
   name: z

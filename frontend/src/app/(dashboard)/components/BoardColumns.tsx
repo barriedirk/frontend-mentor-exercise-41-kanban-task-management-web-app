@@ -18,6 +18,8 @@ import { useState } from "react";
 import { updateColumnsOrder } from "@/features/board/services/board.service";
 import { toast } from "sonner";
 import { updateTaskPosition } from "@/features/board/services/task.service";
+import { POSITION_STEP } from "@/lib/constants";
+import { fractionalIndexingTask } from "../utils/utils";
 
 export default function BoardColumns() {
   const board = useBoardStore((state) => state.activeBoard);
@@ -52,28 +54,39 @@ export default function BoardColumns() {
       return;
 
     if (type === "task") {
-      console.log("Moviendo tarea", { source, destination });
       setIsSyncing(true);
 
       const sourceColId = source.droppableId;
       const destColId = destination.droppableId;
 
       const boardSnapshot = JSON.parse(JSON.stringify(activeBoard));
-      moveTaskInStore(sourceColId, destColId, source.index, destination.index);
+      const calculatedPosition = moveTaskInStore(
+        sourceColId,
+        destColId,
+        source.index,
+        destination.index,
+      );
+      debugger;
 
-      try {
-        const movedTaskId = result.draggableId;
-        // Calculamos posición (puedes usar la misma lógica de 10, 20, 30)
-        const newPosition = (destination.index + 1) * 10;
+      const movedTaskId = result.draggableId;
 
-        const success = await updateTaskPosition({
-          taskId: movedTaskId,
-          newColumnId: destColId,
-          newPosition: newPosition,
-        });
+      const success = await updateTaskPosition({
+        taskId: movedTaskId,
+        newColumnId: destColId,
+        newPosition: calculatedPosition,
+      });
 
-        // if (!success) throw new Error();
-      } catch (error) {
+      // const updatePromises = (destCol?.tasks || []).map((task, index) =>
+      //   updateTaskPosition({
+      //     taskId: task.id!.toString(),
+      //     newColumnId: destination.droppableId,
+      //     newPosition: (index + 1) * POSITION_STEP,
+      //   }),
+      // );
+      // const results = await Promise.all(updatePromises);
+      // const success = results.every((res) => res === true);
+
+      if (!success) {
         setActiveBoard(boardSnapshot);
         toast.error("Error al mover la tarea");
       }
@@ -93,7 +106,7 @@ export default function BoardColumns() {
 
       const formattedPayload = payload.map((col, i) => ({
         documentId: col.id,
-        position: (i + 1) * 10,
+        position: (i + 1) * POSITION_STEP,
       })) as { documentId: string; position: number }[];
 
       const success = await updateColumnsOrder({

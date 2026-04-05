@@ -61,6 +61,7 @@ export default function BoardColumn({
                 className={clsx(
                   "board-column__tasks flex flex-col gap-6",
                   "min-h-38.5 transition-colors pb-20",
+                  "scrollbar-width-none",
                   taskSnapshot.isDraggingOver ? "bg-main-purple/5" : "",
                 )}
                 ref={taskProvided.innerRef}

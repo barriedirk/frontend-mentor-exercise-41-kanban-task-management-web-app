@@ -1,6 +1,8 @@
 import { create } from "zustand";
 import { BoardColumnModel, BoardModel } from "../types/board.types";
 import { TaskModel } from "../types/task.types";
+import { POSITION_STEP } from "@/lib/constants";
+import { fractionalIndexingTask } from "@/app/(dashboard)/utils/utils";
 
 interface BoardState {
   isSyncing: boolean;
@@ -25,7 +27,7 @@ interface BoardState {
     destinationColId: string,
     sourceIndex: number,
     destinationIndex: number,
-  ) => void;
+  ) => number;
 }
 
 export const useBoardStore = create<BoardState>((set, get) => ({
@@ -46,6 +48,8 @@ export const useBoardStore = create<BoardState>((set, get) => ({
     sourceIndex: number,
     destinationIndex: number,
   ) => {
+    let calculatedPosition = 0;
+
     set((state) => {
       if (!state.activeBoard) return state;
 
@@ -61,10 +65,18 @@ export const useBoardStore = create<BoardState>((set, get) => ({
         movedTask.columnId = destinationColId;
       }
 
+      calculatedPosition = fractionalIndexingTask(
+        destCol.tasks || [],
+        destinationIndex,
+      );
+
+      movedTask.position = calculatedPosition;
       destCol.tasks?.splice(destinationIndex, 0, movedTask);
 
       return { activeBoard: { ...state.activeBoard, columns: newColumns } };
     });
+
+    return calculatedPosition;
   },
 
   moveColumnInStore: (startIndex: number, endIndex: number) => {
@@ -77,7 +89,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
 
       const updatedColumns = newColumns.map((col, index) => ({
         ...col,
-        position: (index + 1) * 10,
+        position: (index + 1) * POSITION_STEP,
       }));
 
       return {

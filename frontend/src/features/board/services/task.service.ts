@@ -19,8 +19,28 @@ export async function updateTaskPosition({
   newColumnId,
   newPosition,
 }: UpdateTaskPositionProps) {
-  // PUT a /api/tasks/${taskId}
-  // data: { column: newColumnId, position: newPosition }
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("auth_token")?.value;
+
+    const payload = {
+      data: {
+        position: newPosition,
+        column: newColumnId,
+      },
+    };
+
+    await strapiFetch<void>(`tasks/${taskId}`, {
+      method: "PUT",
+      token: token,
+      body: JSON.stringify(payload),
+    });
+
+    return true;
+  } catch (error) {
+    console.error("Error updating task:", error);
+    return false;
+  }
 }
 
 export async function addTask(
@@ -37,6 +57,7 @@ export async function addTask(
         name: values.name,
         description: values.description,
         column: values.columnId,
+        position: values.position,
         subtask: values.subTasks.map((st) => ({
           name: st.name,
           completed: st.completed ?? false,

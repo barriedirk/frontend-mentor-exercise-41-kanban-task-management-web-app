@@ -1,31 +1,4 @@
-/*
-export interface StrapiColumnComponent {
-  id: number;
-  name: string;
-  position: number;
-}
-
-export interface StrapiColumn {
-  id: number;
-  attributes: {
-    name: string;
-    position: number;
-  };
-}
-
-export interface StrapiBoard {
-  id: number;
-  documentId: string;
-  attributes: {
-    name: string;
-    shareToken?: string | null;
-    shareMode?: "read" | "edit" | null;
-    columns: StrapiColumnComponent[];
-    createdAt: string;
-    updatedAt: string;
-  };
-}
-*/
+import { HasPosition } from "./has-position";
 
 export interface StrapiSubtask {
   id: number;
@@ -33,7 +6,7 @@ export interface StrapiSubtask {
   completed: boolean;
 }
 
-export interface StrapiTask {
+export interface StrapiTask extends HasPosition {
   id: number;
   documentId: string;
   name: string;
@@ -44,11 +17,10 @@ export interface StrapiTask {
   publishedAt?: string;
 }
 
-export interface StrapiColumn {
+export interface StrapiColumn extends HasPosition {
   id: number;
   documentId: string;
   name: string;
-  position: number;
   tasks?: StrapiTask[];
   createdAt: string;
   updatedAt: string;

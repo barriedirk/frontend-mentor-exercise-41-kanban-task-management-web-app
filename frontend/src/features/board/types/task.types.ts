@@ -1,3 +1,5 @@
+import { HasPosition } from "./has-position";
+
 export interface SubTaskModel {
   id?: string | number;
   documentId?: string | number;
@@ -5,14 +7,13 @@ export interface SubTaskModel {
   completed: boolean;
 }
 
-export interface TaskModel {
+export interface TaskModel extends HasPosition {
   id?: string | number;
   documentId?: string | number;
   name: string;
   description: string;
   columnId: string | number;
   subTasks: SubTaskModel[];
-  position?: number;
 }
 
 export interface TaskUpdateModel {

@@ -9,6 +9,7 @@ import Modal from "@/components/ui/Modal";
 
 import { BoardForm } from "./BoardForm";
 import { BoardFormBase } from "@//features/board/types/board-form.types";
+import { POSITION_STEP } from "@/lib/constants";
 
 interface AddBoardModalProps {
   open: boolean;
@@ -43,7 +44,13 @@ export default function AddBoardModal({
         submitLabel="Create Board"
         onSubmit={async (values) => {
           // @todo, need to imrpove
-          const updatePositions = {...values, columns: values.columns.map((c, i) => ({...c, position: (i + 1) * 10}))}
+          const updatePositions = {
+            ...values,
+            columns: values.columns.map((c, i) => ({
+              ...c,
+              position: (i + 1) * POSITION_STEP,
+            })),
+          };
 
           onConfirm(updatePositions);
         }}

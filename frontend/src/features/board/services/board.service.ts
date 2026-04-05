@@ -8,6 +8,7 @@ import { StrapiBoard } from "../types/StrapiBoardResponse";
 import { AddBoardValues, EditBoardValues } from "@/schemas/board.schema";
 import { BoardModel } from "../types/board.types";
 import { mapStrapiToBoard } from "../mappers/board.mapper";
+import { POSITION_STEP } from "@/lib/constants";
 
 interface UpdateColumnsOrderProps {
   columns: { documentId: string; position: number }[];
@@ -172,7 +173,7 @@ export async function editBoard(values: EditBoardValues): Promise<boolean> {
             body: JSON.stringify({
               data: {
                 name: col.name,
-                position: (index + 1) * 10,
+                position: (index + 1) * POSITION_STEP,
               },
             }),
           }),
@@ -219,7 +220,7 @@ export async function addBoard(values: AddBoardValues): Promise<boolean> {
         body: JSON.stringify({
           data: {
             name: col.name,
-            position: (index + 1) * 10,
+            position: (index + 1) * POSITION_STEP,
             board: boardDocumentId,
           },
         }),
