@@ -11,7 +11,7 @@ export function boardToForm(board: BoardModel): BoardFormBase {
       board.columns?.map((c) => ({
         id: c.id || "",
         documentId: c.documentId || "",
-        name: c.name,
+        name: c.name.toLocaleUpperCase(),
         position: c.position,
       })) ?? [],
   };
@@ -24,7 +24,7 @@ export const mapStrapiToBoard = (strapiBoard: StrapiBoard): BoardModel => {
 
       return {
         id: col.documentId || "",
-        name: col.name,
+        name: col.name.toLocaleUpperCase(),
         position: col.position || 0,
         tasks: taskOrdered.map((task) => ({
           columnId: col.documentId || "",

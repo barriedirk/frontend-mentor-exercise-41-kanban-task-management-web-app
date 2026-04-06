@@ -64,10 +64,6 @@ const UpdateTaskModal = memo(
           defaultValues={task}
           submitLabel="Create Task"
           onSubmit={async (values) => {
-            // const parsed = addBoardSchema.parse(values);
-
-            console.log("UpdateTaslModal", values);
-
             onConfirm(values);
           }}
         />

@@ -71,8 +71,6 @@ export default function TaskFeature({ task, open, onClose }: TaskFeatureProps) {
   async function handleEditConfirm(values: TaskFormBase) {
     const toastId = toast.loading("Editing task...");
 
-    console.log("values => ", JSON.stringify(mapFormToStrapiEdit(values)));
-
     startTransition(async () => {
       const success = await updateTask(
         task.id as string,
@@ -111,7 +109,6 @@ export default function TaskFeature({ task, open, onClose }: TaskFeatureProps) {
     });
   }
 
-  console.log("isPending", isPending);
   return (
     <>
       {showModal === ShowModalEnum.Edit && (

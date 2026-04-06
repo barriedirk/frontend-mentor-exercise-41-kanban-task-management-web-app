@@ -7,8 +7,6 @@ export default function BoardBody() {
   const hasActiveBoard = useBoardStore((state) => state.hasActiveBoard());
   const isLoading = useBoardStore((state) => state.isLoading);
 
-  console.log(hasActiveBoard);
-
   if (isLoading) {
     return (
       <div

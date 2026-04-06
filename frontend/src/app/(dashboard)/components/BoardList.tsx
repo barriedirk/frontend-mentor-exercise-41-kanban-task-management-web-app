@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+// import "./board-list.css";
+
 import clsx from "clsx";
+import { useState } from "react";
 
 import BoardIcon from "@/components/icons/BoardIcon";
 
@@ -34,7 +36,7 @@ export default function BoardList({ optionWasClicked }: BoardListProps) {
           All Boards ({nBoards})
         </h2>
         <nav className="board-list__items">
-          <ul className="flex flex-col gap-2">
+          <ul className="flex flex-col gap-2.5">
             {boards.map((board) => {
               return (
                 <li
@@ -43,8 +45,7 @@ export default function BoardList({ optionWasClicked }: BoardListProps) {
                     "board-list__item",
                     "text-heading-m flex",
                     "items-center",
-                    board.id !== activeBoard?.id && "text-medium-grey",
-                    board.id === activeBoard?.id && "text-main-purple",
+                    board.id === activeBoard?.id && "board-list-selected",
                   )}
                 >
                   <BoardListButton

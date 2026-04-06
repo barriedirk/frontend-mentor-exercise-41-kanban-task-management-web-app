@@ -27,7 +27,7 @@
   .board {
     min-width: 23.4375rem;
     height: 100dvh;
-    max-width: 90rem;
+    max-width: 100rem;
     grid-template-columns: auto 1fr;
     grid-template-rows: var(--header-heigth-tablet) 1fr;
     grid-template-areas:

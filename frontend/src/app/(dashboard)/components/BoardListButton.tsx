@@ -1,5 +1,7 @@
 "use client";
 
+import "./board-list-button.css";
+
 import BoardIcon from "@/components/icons/BoardIcon";
 import { BoardModelBase } from "@/features/board/types/board.types";
 
@@ -16,7 +18,7 @@ export default function BoardListButton({
     <button
       type="button"
       aria-current="page"
-      className="flex items-center gap-2 hover:bg-main-purple rounded-r-4xl py-2.75 px-3 -translate-x-3 w-full hover:text-white overflow-hidden group"
+      className="board-list-button"
       onClick={onClick}
     >
       <BoardIcon className="board-list__icon w-4 h-4 group-hover:text-white" />

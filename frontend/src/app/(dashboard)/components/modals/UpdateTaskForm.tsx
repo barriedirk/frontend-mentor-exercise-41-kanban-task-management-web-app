@@ -16,8 +16,6 @@ import DropDownForm, {
 import { BoardColumnModel } from "@/features/board/types/board.types";
 import { useMemo } from "react";
 
-const createEmptyTask = () => ({ id: crypto.randomUUID(), name: "" });
-
 interface UpdateTaskFormProps {
   defaultValues: TaskFormBase;
   status?: BoardColumnModel[] | undefined;
@@ -34,7 +32,6 @@ export default function UpdateTaskForm({
   submitLabel,
 }: UpdateTaskFormProps) {
   const options: Option[] = useMemo(() => {
-    console.log("status", status);
     return (status || []).map((item) => ({
       value: item.id?.toString() ?? "",
       label: item.name,
@@ -56,8 +53,6 @@ export default function UpdateTaskForm({
     name: ["subTasks", "columnId"],
   });
 
-  console.log("UpdateTaskForm");
-
   const isFirstRender = useRef(true);
 
   const lastSavedValue = useRef(
@@ -78,8 +73,6 @@ export default function UpdateTaskForm({
 
     const timer = setTimeout(() => {
       handleSubmit((data) => {
-        console.log("setTimeout data", data);
-
         lastSavedValue.current = JSON.stringify([data.subTasks, data.columnId]);
 
         onSubmit(data);

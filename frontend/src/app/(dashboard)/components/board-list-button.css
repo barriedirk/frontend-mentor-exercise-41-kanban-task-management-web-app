@@ -1,0 +1,22 @@
+.board-list-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding-top: 0.6875rem;
+  padding-bottom: 0.6875rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  border-top-right-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  transform: translateX(-0.75rem);
+  overflow: hidden;
+  transition: all 0.2s;
+  color: var(--color-main-purple);
+}
+
+.board-list-selected .board-list-button,
+.board-list-button:hover {
+  background-color: var(--color-main-purple);
+  color: var(--color-white);
+}

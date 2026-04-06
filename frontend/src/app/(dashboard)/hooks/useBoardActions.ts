@@ -18,17 +18,15 @@ export const useBoardActions = () => {
 
       if (lastRequestedIdRef.current === id) {
         if (fullBoard) {
-          console.log("fullBoard", fullBoard);
-
           setActiveBoard(orderColumnsTaskBoard(fullBoard));
         }
       } else {
         console.log(
-          `⚡ Race Condition evitada: Descartando respuesta de ${id} porque el usuario cambió a ${lastRequestedIdRef.current}`,
+          `Race Condition avoided: Discarding response from ${id} because the user switched to ${lastRequestedIdRef.current}`,
         );
       }
     } catch (error) {
-      console.error("Error al cargar el detalle del board:", error);
+      console.error("Error loading board details:", error);
     } finally {
       if (lastRequestedIdRef.current === id) {
         setLoading(false);

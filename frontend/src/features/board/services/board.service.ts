@@ -42,11 +42,6 @@ export async function getBoards() {
   const cookieStore = await cookies();
   const token = cookieStore.get("auth_token")?.value;
 
-  //@todo, remove
-  if (process.env.NODE_ENV !== "development") {
-    console.log("getBoards Strapi:", token ? "Present" : "Missing");
-  }
-
   if (!token) throw new Error("No auth token found");
 
   return strapiFetch<{ data: StrapiBoard[] }>("boards", {
@@ -98,11 +93,6 @@ export async function deleteBoard(id: string): Promise<boolean> {
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get("auth_token")?.value;
-
-    //@todo, remove
-    if (process.env.NODE_ENV !== "development") {
-      console.log("deleteBoard Strapi:", token ? "Present" : "Missing", id);
-    }
 
     if (!token) throw new Error("No auth token found");
 

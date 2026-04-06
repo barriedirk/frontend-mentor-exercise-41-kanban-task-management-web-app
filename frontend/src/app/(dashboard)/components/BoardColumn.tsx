@@ -22,6 +22,14 @@ export default function BoardColumn({
   isDragDisabled,
 }: BoardColumnProps) {
   const titleId = useId();
+  const dotColors = [
+    "bg-cyan-400",
+    "bg-indigo-500",
+    "bg-emerald-400",
+    "bg-orange-400",
+    "bg-pink-400",
+  ];
+  const colorClass = dotColors[index % dotColors.length];
 
   return (
     <Draggable
@@ -50,7 +58,7 @@ export default function BoardColumn({
           >
             <span
               aria-hidden="true"
-              className="w-3.75 h-3.75 bg-main-purple rounded-full"
+              className={clsx("w-3.75 h-3.75 rounded-full", colorClass)}
             ></span>
             {column.name} ({column.tasks?.length})
           </h3>
