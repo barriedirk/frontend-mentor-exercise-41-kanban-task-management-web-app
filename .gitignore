@@ -88,10 +88,11 @@ $RECYCLE.BIN/
 ssl
 .idea
 nbproject
-public/uploads/*
-!public/uploads/.gitkeep
 .tsbuildinfo
 .eslintcache
+### Cloudinary
+public/uploads/*
+!public/uploads/.gitkeep
 
 ############################
 # Node.js
@@ -179,5 +180,3 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
-
