@@ -81,6 +81,7 @@ export function BoardForm<T extends FieldValues & BoardFormBase>({
         label="Board Name"
         placeholder="e.g. ACME"
         error={errors.name as FieldError}
+        maxLength={30}
       />
 
       <h3 className="form-label text-grey-900">Board Columns</h3>

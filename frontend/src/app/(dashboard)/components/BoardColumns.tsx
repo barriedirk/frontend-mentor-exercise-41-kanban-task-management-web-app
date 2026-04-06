@@ -19,20 +19,20 @@ import { updateColumnsOrder } from "@/features/board/services/board.service";
 import { toast } from "sonner";
 import { updateTaskPosition } from "@/features/board/services/task.service";
 import { POSITION_STEP } from "@/lib/constants";
-import { fractionalIndexingTask } from "../utils/utils";
 
 export default function BoardColumns() {
   const board = useBoardStore((state) => state.activeBoard);
   const activeBoard = useBoardStore((state) => state.activeBoard);
   const [isDraggingColumn, setIsDraggingColumn] = useState(false);
 
-  const setActiveBoard = useBoardStore((state) => state.setActiveBoard);
-  const setColumnsInState = useBoardStore((state) => state.setColumnsInState);
   const moveColumnInStore = useBoardStore((state) => state.moveColumnInStore);
   const moveTaskInStore = useBoardStore((state) => state.moveTaskInStore);
-
+  const setColumnsInState = useBoardStore((state) => state.setColumnsInState);
   const isSyncing = useBoardStore((state) => state.isSyncing);
   const setIsSyncing = useBoardStore((state) => state.setIsSyncing);
+
+  const saveSnapshot = useBoardStore((state) => state.saveSnapshot);
+  const rollback = useBoardStore((state) => state.rollback);
 
   const onDragStart = (start: DragStart) => {
     if (start.type === "column") {
@@ -59,14 +59,14 @@ export default function BoardColumns() {
       const sourceColId = source.droppableId;
       const destColId = destination.droppableId;
 
-      const boardSnapshot = JSON.parse(JSON.stringify(activeBoard));
+      saveSnapshot();
+
       const calculatedPosition = moveTaskInStore(
         sourceColId,
         destColId,
         source.index,
         destination.index,
       );
-      debugger;
 
       const movedTaskId = result.draggableId;
 
@@ -76,19 +76,9 @@ export default function BoardColumns() {
         newPosition: calculatedPosition,
       });
 
-      // const updatePromises = (destCol?.tasks || []).map((task, index) =>
-      //   updateTaskPosition({
-      //     taskId: task.id!.toString(),
-      //     newColumnId: destination.droppableId,
-      //     newPosition: (index + 1) * POSITION_STEP,
-      //   }),
-      // );
-      // const results = await Promise.all(updatePromises);
-      // const success = results.every((res) => res === true);
-
       if (!success) {
-        setActiveBoard(boardSnapshot);
-        toast.error("Error al mover la tarea");
+        rollback();
+        toast.error("Error moving task");
       }
 
       setIsSyncing(false);
@@ -97,14 +87,18 @@ export default function BoardColumns() {
     if (type === "column") {
       setIsSyncing(true);
 
-      const snapshot = [...activeBoard!.columns];
+      saveSnapshot();
+
+      const currentColumns = board?.columns || [];
+
       moveColumnInStore(source.index, destination.index);
 
-      const payload = [...snapshot];
-      const [removed] = payload.splice(source.index, 1);
-      payload.splice(destination.index, 0, removed);
+      const reorderedColumns = [...currentColumns];
+      const [removed] = reorderedColumns.splice(source.index, 1);
 
-      const formattedPayload = payload.map((col, i) => ({
+      reorderedColumns.splice(destination.index, 0, removed);
+
+      const formattedPayload = reorderedColumns.map((col, i) => ({
         documentId: col.id,
         position: (i + 1) * POSITION_STEP,
       })) as { documentId: string; position: number }[];
@@ -114,9 +108,9 @@ export default function BoardColumns() {
       });
 
       if (!success) {
-        setColumnsInState(snapshot);
+        rollback();
 
-        toast.error("No se pudo sincronizar el orden con el servidor");
+        toast.error("The order could not be synchronized with the server.");
       }
 
       setIsSyncing(false);

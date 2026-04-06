@@ -71,7 +71,7 @@ export default function TaskForm<T extends FieldValues & TaskFormBase>({
   } = useForm<T>({
     resolver,
     defaultValues: initialValues as DefaultValues<T>,
-    mode: "onTouched",
+    mode: "onChange",
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -89,6 +89,7 @@ export default function TaskForm<T extends FieldValues & TaskFormBase>({
         label="Title"
         placeholder="e.g. ACME"
         error={errors.name as FieldError}
+        maxLength={30}
       />
       <TextareaForm
         name={"description" as Path<T>}
@@ -96,6 +97,7 @@ export default function TaskForm<T extends FieldValues & TaskFormBase>({
         label="Description"
         placeholder="e.g. ACME"
         error={errors.description as FieldError}
+        maxLength={2000}
       />
       <h3 className="form-label text-grey-900">Subtasks</h3>
 

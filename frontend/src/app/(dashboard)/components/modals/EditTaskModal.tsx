@@ -39,9 +39,7 @@ export default function EditTaskModal({
           defaultValues={task}
           submitLabel="Create Task"
           status={status}
-          onSubmit={async (values) => {
-            // const parsed = addBoardSchema.parse(values);
-
+          onSubmit={async () => {
             onConfirm();
           }}
         />

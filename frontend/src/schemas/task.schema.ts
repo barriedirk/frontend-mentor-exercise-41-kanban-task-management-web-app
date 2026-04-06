@@ -27,7 +27,7 @@ const taskBaseSchema = z.object({
     .string()
     .trim()
     .min(1, "Task description is required")
-    .max(500, "Description can be detailed"),
+    .max(2000, "Description can be detailed"),
   columnId: z.string().min(1, "Task must belong to a column"),
   position: z.number().optional(),
   subTasks: z.array(subTaskBaseSchema).default([]),

@@ -20,6 +20,7 @@ interface Props<T extends FieldValues> {
   styleName?: "column" | "row" | undefined;
   helperText?: string;
   dataTestid?: string;
+  maxLength?: number;
 }
 
 const TextareaForm = <T extends FieldValues>({
@@ -32,6 +33,7 @@ const TextareaForm = <T extends FieldValues>({
   styleName,
   helperText,
   dataTestid,
+  maxLength = 300,
 }: Props<T>) => {
   const elemId = useId();
   const inputId = `${elemId}-input`;
@@ -39,11 +41,7 @@ const TextareaForm = <T extends FieldValues>({
 
   return (
     <fieldset
-      className={clsx(
-        "form-group",
-        styleName,
-        error && "form-group--error",
-      )}
+      className={clsx("form-group", styleName, error && "form-group--error")}
       role="group"
       aria-labelledby={`${name}-label`}
     >
@@ -69,19 +67,27 @@ const TextareaForm = <T extends FieldValues>({
           name={name}
           control={control}
           render={({ field }) => (
-            <textarea
-              data-testid={dataTestid}
-              id={inputId}
-              {...field}
-              autoComplete={autoComplete}
-              placeholder={placeholder}
-              className={clsx(
-                "form-control w-full h-31.25 resize-none ",
-                error && "is-invalid",
-              )}
-              aria-invalid={!!error}
-              aria-describedby={error ? errorId : undefined}
-            />
+            <>
+              <div className="text-right pr-2 pt-1 absolute bottom-0">
+                <span className="text-[10px] text-medium-grey">
+                  {field.value?.length || 0} / {maxLength}
+                </span>
+              </div>
+              <textarea
+                data-testid={dataTestid}
+                id={inputId}
+                {...field}
+                maxLength={maxLength}
+                autoComplete={autoComplete}
+                placeholder={placeholder}
+                className={clsx(
+                  "form-control w-full h-31.25 resize-none ",
+                  error && "is-invalid",
+                )}
+                aria-invalid={!!error}
+                aria-describedby={error ? errorId : undefined}
+              />
+            </>
           )}
         />
         {error && (

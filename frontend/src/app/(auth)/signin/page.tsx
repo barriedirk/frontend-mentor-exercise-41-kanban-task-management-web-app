@@ -79,6 +79,7 @@ export default function SignInRoute() {
           autoComplete="email"
           placeholder="e.g. alex@email.com"
           dataTestid="email"
+          maxLength={200}
         />
         <InputForm<SignInValues>
           name="password"
@@ -89,6 +90,7 @@ export default function SignInRoute() {
           autoComplete="password"
           placeholder="Enter your password"
           dataTestid="password"
+          maxLength={30}
         />
         <button
           data-testid="button-login-submit"

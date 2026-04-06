@@ -72,6 +72,7 @@ export default function SignUpRoute() {
           autoComplete="email"
           placeholder="e.g. alex@email.com"
           dataTestid="email"
+          maxLength={200}
         />
         <InputForm<SignUpValues>
           name="password"
@@ -82,6 +83,7 @@ export default function SignUpRoute() {
           autoComplete="password"
           placeholder="Enter your password"
           dataTestid="password"
+          maxLength={30}
         />
         <InputForm<SignUpValues>
           name="confirmPassword"
@@ -92,6 +94,7 @@ export default function SignUpRoute() {
           autoComplete="confirmPassword"
           placeholder="Enter your password"
           dataTestid="confirmPassword"
+          maxLength={30}
         />
         <button
           data-testid="button-login-submit"

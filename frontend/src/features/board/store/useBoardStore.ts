@@ -9,6 +9,7 @@ interface BoardState {
   boards: BoardModel[];
   activeBoard: BoardModel | null;
   isLoading: boolean;
+  previousBoardSnapshot: BoardModel | null;
 
   moveColumnInStore: (startIndex: number, endIndex: number) => void;
   setBoards: (boards: BoardModel[]) => void;
@@ -22,6 +23,8 @@ interface BoardState {
   deleteTask: (columnId: string | number, taskId: string | number) => void;
   setColumnsInState: (columns: BoardColumnModel[]) => void;
   setIsSyncing: (loading: boolean) => void;
+  saveSnapshot: () => void;
+  rollback: () => void;
   moveTaskInStore: (
     sourceColId: string,
     destinationColId: string,
@@ -35,6 +38,7 @@ export const useBoardStore = create<BoardState>((set, get) => ({
   boards: [],
   activeBoard: null,
   isLoading: false,
+  previousBoardSnapshot: null,
 
   setIsSyncing: (loading: boolean) => {
     set(() => ({
@@ -59,21 +63,56 @@ export const useBoardStore = create<BoardState>((set, get) => ({
 
       if (!sourceCol || !destCol) return state;
 
-      const [movedTask] = (sourceCol.tasks ?? []).splice(sourceIndex, 1);
-
-      if (sourceColId !== destinationColId) {
-        movedTask.columnId = destinationColId;
-      }
+      const taskToMove = (sourceCol.tasks ?? [])[sourceIndex];
+      if (!taskToMove) return state;
 
       calculatedPosition = fractionalIndexingTask(
         destCol.tasks || [],
         destinationIndex,
       );
 
-      movedTask.position = calculatedPosition;
-      destCol.tasks?.splice(destinationIndex, 0, movedTask);
+      const movedTask: TaskModel = {
+        ...taskToMove,
+        columnId: destinationColId,
+        position: calculatedPosition,
+      };
 
-      return { activeBoard: { ...state.activeBoard, columns: newColumns } };
+      const newSourceTasks = [...(sourceCol.tasks ?? [])];
+
+      newSourceTasks.splice(sourceIndex, 1);
+
+      const targetTasksArray =
+        sourceColId === destinationColId
+          ? newSourceTasks
+          : [...(destCol.tasks ?? [])];
+
+      targetTasksArray.splice(destinationIndex, 0, movedTask);
+
+      const updatedColumns = newColumns.map((col) => {
+        if (col.id === sourceColId) return { ...col, tasks: newSourceTasks };
+        if (col.id === destinationColId)
+          return { ...col, tasks: targetTasksArray };
+        return col;
+      });
+
+      return { activeBoard: { ...state.activeBoard, columns: updatedColumns } };
+
+      // @todo, old code,
+      // const [movedTask] = (sourceCol.tasks ?? []).splice(sourceIndex, 1);
+      //
+      // if (sourceColId !== destinationColId) {
+      //   movedTask.columnId = destinationColId;
+      // }
+      //
+      // calculatedPosition = fractionalIndexingTask(
+      //   destCol.tasks || [],
+      //   destinationIndex,
+      // );
+      //
+      // movedTask.position = calculatedPosition;
+      // destCol.tasks?.splice(destinationIndex, 0, movedTask);
+      //
+      // return { activeBoard: { ...state.activeBoard, columns: newColumns } };
     });
 
     return calculatedPosition;
@@ -168,6 +207,12 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       };
     });
   },
+
+  saveSnapshot: () =>
+    set((state) => ({ previousBoardSnapshot: state.activeBoard })),
+
+  rollback: () =>
+    set((state) => ({ activeBoard: state.previousBoardSnapshot })),
 
   deleteTask: (columnId, taskId) =>
     set((state) => {

@@ -120,6 +120,7 @@ export default function TaskFeature({ task, open, onClose }: TaskFeatureProps) {
           open={open}
           onCancel={onClose}
           onConfirm={handleEditConfirm}
+          submitLabel="Update Task"
         />
       )}
       {showModal === ShowModalEnum.Delete && (

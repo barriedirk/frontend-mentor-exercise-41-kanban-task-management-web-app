@@ -17,6 +17,7 @@ interface TaskModalProps {
   title: string;
   task: TaskFormBase;
   loading?: boolean;
+  submitLabel?: string;
   onCancel: () => void;
   onConfirm: (values: TaskFormBase) => void;
 }
@@ -27,6 +28,7 @@ export default function TaskModal({
   task,
   status,
   loading,
+  submitLabel = "Create Task",
   onCancel,
   onConfirm,
 }: TaskModalProps) {
@@ -47,7 +49,7 @@ export default function TaskModal({
           resolver={
             zodResolver(addTaskSchema) as unknown as Resolver<TaskFormBase>
           }
-          submitLabel="Create Task"
+          submitLabel={submitLabel}
           status={status}
           onSubmit={async (values) => {
             onConfirm(values);

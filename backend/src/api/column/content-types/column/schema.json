@@ -14,7 +14,7 @@
     "name": {
       "type": "string",
       "minLength": 1,
-      "maxLength": 50,
+      "maxLength": 30,
       "required": true
     },
     "position": {

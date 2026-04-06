@@ -20,7 +20,7 @@
     "description": {
       "type": "text",
       "minLength": 1,
-      "maxLength": 400,
+      "maxLength": 2000,
       "required": true
     },
     "column": {

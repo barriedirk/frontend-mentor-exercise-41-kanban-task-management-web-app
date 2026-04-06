@@ -21,6 +21,7 @@ interface Props<T extends FieldValues> {
   styleName?: "column" | "row" | undefined;
   helperText?: string;
   dataTestid?: string;
+  maxLength?: number;
 }
 
 const InputForm = <T extends FieldValues>({
@@ -34,6 +35,7 @@ const InputForm = <T extends FieldValues>({
   styleName,
   helperText,
   dataTestid,
+  maxLength = 100,
 }: Props<T>) => {
   const elemId = useId();
   const inputId = `${elemId}-input`;
@@ -41,11 +43,7 @@ const InputForm = <T extends FieldValues>({
 
   return (
     <fieldset
-      className={clsx(
-        "form-group",
-        styleName,
-        error && "form-group--error",
-      )}
+      className={clsx("form-group", styleName, error && "form-group--error")}
       role="group"
       aria-labelledby={`${name}-label`}
     >
@@ -76,6 +74,7 @@ const InputForm = <T extends FieldValues>({
               id={inputId}
               type={type}
               {...field}
+              maxLength={maxLength}
               autoComplete={autoComplete}
               placeholder={placeholder}
               className={`form-control ${error ? "is-invalid" : ""}`}

@@ -489,7 +489,7 @@ export interface ApiColumnColumn extends Struct.CollectionTypeSchema {
     name: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{
-        maxLength: 50;
+        maxLength: 30;
         minLength: 1;
       }>;
     position: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<10>;
@@ -519,7 +519,7 @@ export interface ApiTaskTask extends Struct.CollectionTypeSchema {
     description: Schema.Attribute.Text &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{
-        maxLength: 400;
+        maxLength: 2000;
         minLength: 1;
       }>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
