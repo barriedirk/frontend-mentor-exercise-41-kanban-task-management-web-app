@@ -89,7 +89,7 @@ export default function TaskForm<T extends FieldValues & TaskFormBase>({
         label="Title"
         placeholder="e.g. ACME"
         error={errors.name as FieldError}
-        maxLength={30}
+        maxLength={100}
       />
       <TextareaForm
         name={"description" as Path<T>}
