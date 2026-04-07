@@ -3,7 +3,7 @@
 ![Preview](./preview.jpg)
 
 - [Github](https://github.com/barriedirk/frontend-mentor-exercise-41-kanban-task-management-web-app)
-- [Live Demo](https://kanban-task-management-web-app-frontend.vercel.app/)
+- [Live Demo](https://frontend-mentor-exercise-41-kanban.vercel.app)
 - [Repository Frontend Mentor](https://www.frontendmentor.io/profile/barriedirk?tab=solutions)
 
 ## Project Overview
