@@ -1,6 +1,7 @@
 import { TaskEditModel, TaskModel, TaskUpdateModel } from "../types/task.types";
 import { TaskFormBase } from "../types/task-form.types";
 import { StrapiTaskResponse } from "@/lib/strapi/type";
+import { POSITION_STEP } from "@/lib/constants";
 
 export function taskToForm(task: TaskModel): TaskFormBase {
   return {
@@ -21,6 +22,7 @@ export function formToTask(form: TaskFormBase, taskId: string): TaskModel {
     name: form.name,
     description: form.description,
     columnId: form.columnId,
+    position: form.position || 0,
     subTasks: form.subTasks.map((c) => ({
       id: c.id ?? crypto.randomUUID(),
       name: c.name,
@@ -62,6 +64,7 @@ export const mapStrapiToTask = (
     id: task.documentId,
     name: task.name,
     description: task.description,
+    position: task.position ?? POSITION_STEP,
     subTasks: (task.subtask || []).map((st) => ({
       id: st.id || "",
       name: st.name,

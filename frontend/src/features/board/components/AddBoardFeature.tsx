@@ -12,6 +12,7 @@ import { boardToForm } from "../mappers/board.mapper";
 import { AddBoardValues } from "@/schemas/board.schema";
 import { toast } from "sonner";
 import { BoardFormBase } from "../types/board-form.types";
+import { POSITION_STEP } from "@/lib/constants";
 
 interface AddBoardFeatureProps {
   open: boolean;
@@ -23,7 +24,14 @@ const emptyBoard: BoardModel = {
   name: "",
   shareToken: null,
   shareMode: null,
-  columns: [{ id: crypto.randomUUID(), documentId: crypto.randomUUID(), name: "" }],
+  columns: [
+    {
+      id: crypto.randomUUID(),
+      documentId: crypto.randomUUID(),
+      name: "",
+      position: POSITION_STEP,
+    },
+  ],
 };
 
 export default function AddBoardFeature({

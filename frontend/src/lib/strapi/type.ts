@@ -15,6 +15,7 @@ export interface StrapiTaskResponse {
   documentId: string;
   name: string;
   description: string;
+  position: number;
   subtask: StrapiSubtaskResponse[];
 }
 
