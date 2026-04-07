@@ -7,7 +7,10 @@ export default ({ env }) => [
     config: {
       origin: [
         "http://localhost:3000",
-        env("FRONTEND_URL", "http://localhost:3000"),
+        env(
+          "FRONTEND_URL",
+          "https://frontend-mentor-exercise-41-kanban-rose.vercel.app",
+        ),
         env(
           "STRAPI_ADMIN_URL",
           "https://acceptable-broccoli-3189c05601.strapiapp.com",
