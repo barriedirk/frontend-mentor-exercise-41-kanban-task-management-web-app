@@ -18,7 +18,7 @@ export default function BoardListButton({
     <button
       type="button"
       aria-current="page"
-      className="board-list-button"
+      className="board-list-button text-left"
       onClick={onClick}
     >
       <BoardIcon className="board-list__icon w-4 h-4 group-hover:text-white" />

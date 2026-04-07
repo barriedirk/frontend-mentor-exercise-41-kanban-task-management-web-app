@@ -11,10 +11,6 @@ export default ({ env }) => [
           "FRONTEND_URL",
           "https://frontend-mentor-exercise-41-kanban-rose.vercel.app",
         ),
-        env(
-          "STRAPI_ADMIN_URL",
-          "https://acceptable-broccoli-3189c05601.strapiapp.com",
-        ),
       ],
       methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
       headers: ["Content-Type", "Authorization", "Origin", "Accept"],

@@ -41,9 +41,9 @@ export default function AddBoardModal({
         resolver={
           zodResolver(addBoardSchema) as unknown as Resolver<BoardFormBase>
         }
+        isLoading={loading}
         submitLabel="Create Board"
         onSubmit={async (values) => {
-          // @todo, need to imrpove
           const updatePositions = {
             ...values,
             columns: values.columns.map((c, i) => ({

@@ -20,6 +20,7 @@ import Button from "@/components/ui/Button";
 
 import { BoardFormBase } from "@//features/board/types/board-form.types";
 import { getTempNewId } from "./utils";
+import Spinner from "@/components/ui/Spinner";
 
 type ColumnError = {
   name?: FieldError;
@@ -30,6 +31,7 @@ interface BoardFormProps<T extends FieldValues & BoardFormBase> {
   resolver: Resolver<T>;
   onSubmit: SubmitHandler<T>;
   submitLabel: string;
+  isLoading?: boolean;
 }
 
 const createEmptyColumn = () => ({
@@ -43,6 +45,7 @@ export function BoardForm<T extends FieldValues & BoardFormBase>({
   resolver,
   onSubmit,
   submitLabel,
+  isLoading = false,
 }: BoardFormProps<T>) {
   const initialValues = useMemo(
     () =>
@@ -72,6 +75,8 @@ export function BoardForm<T extends FieldValues & BoardFormBase>({
   });
 
   const columnErrors = errors.columns as unknown as (ColumnError | undefined)[];
+
+  const isWorking = isSubmitting || isLoading;
 
   return (
     <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
@@ -113,6 +118,7 @@ export function BoardForm<T extends FieldValues & BoardFormBase>({
         type="button"
         size="small"
         variant="secondary"
+        disabled={!isLoading}
         onClick={() =>
           append(createEmptyColumn() as Parameters<typeof append>[0])
         }
@@ -120,8 +126,9 @@ export function BoardForm<T extends FieldValues & BoardFormBase>({
         + Add New Column
       </Button>
 
-      <Button size="small" type="submit" disabled={!isValid || isSubmitting}>
-        {submitLabel}
+      <Button size="small" type="submit" disabled={!isValid || isWorking}>
+        {isWorking && <Spinner className="h-4 w-4" />}
+        {isWorking ? "Creating..." : submitLabel}
       </Button>
     </form>
   );
