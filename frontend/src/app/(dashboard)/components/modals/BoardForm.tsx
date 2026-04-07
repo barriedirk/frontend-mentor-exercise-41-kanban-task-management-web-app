@@ -118,7 +118,7 @@ export function BoardForm<T extends FieldValues & BoardFormBase>({
         type="button"
         size="small"
         variant="secondary"
-        disabled={!isLoading}
+        disabled={isLoading}
         onClick={() =>
           append(createEmptyColumn() as Parameters<typeof append>[0])
         }
@@ -128,7 +128,7 @@ export function BoardForm<T extends FieldValues & BoardFormBase>({
 
       <Button size="small" type="submit" disabled={!isValid || isWorking}>
         {isWorking && <Spinner className="h-4 w-4" />}
-        {isWorking ? "Creating..." : submitLabel}
+        {isWorking ? "Processing..." : submitLabel}
       </Button>
     </form>
   );

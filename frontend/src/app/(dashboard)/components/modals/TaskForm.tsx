@@ -22,6 +22,7 @@ import DropDownForm, {
 } from "@/components/forms/fields/DropDownForm";
 import { BoardColumnModel } from "@/features/board/types/board.types";
 import { useMemo } from "react";
+import Spinner from "@/components/ui/Spinner";
 
 const createEmptyTask = () => ({ id: crypto.randomUUID(), name: "" });
 
@@ -35,6 +36,7 @@ interface TaskFormProps<T extends FieldValues & TaskFormBase> {
   onSubmit: SubmitHandler<T>;
   submitLabel: string;
   status: BoardColumnModel[];
+  isLoading?: boolean;
 }
 
 export default function TaskForm<T extends FieldValues & TaskFormBase>({
@@ -43,6 +45,7 @@ export default function TaskForm<T extends FieldValues & TaskFormBase>({
   onSubmit,
   submitLabel,
   status,
+  isLoading = false,
 }: TaskFormProps<T>) {
   const initialValues = useMemo(
     () =>
@@ -57,7 +60,6 @@ export default function TaskForm<T extends FieldValues & TaskFormBase>({
   );
 
   const options: Option[] = useMemo(() => {
-    console.log("status", status);
     return (status || []).map((item) => ({
       value: item.id?.toString() ?? "",
       label: item.name,
@@ -80,6 +82,8 @@ export default function TaskForm<T extends FieldValues & TaskFormBase>({
   });
 
   const columnErrors = errors.columns as unknown as (ColumnError | undefined)[];
+
+  const isWorking = isSubmitting || isLoading;
 
   return (
     <form className="flex flex-col gap-5" onSubmit={handleSubmit(onSubmit)}>
@@ -127,6 +131,7 @@ export default function TaskForm<T extends FieldValues & TaskFormBase>({
         type="button"
         size="small"
         variant="secondary"
+        disabled={isLoading}
         onClick={() =>
           append(createEmptyTask() as Parameters<typeof append>[0])
         }
@@ -142,8 +147,9 @@ export default function TaskForm<T extends FieldValues & TaskFormBase>({
         error={errors.columnId as FieldError}
         options={options}
       />
-      <Button size="small" type="submit" disabled={!isValid || isSubmitting}>
-        {submitLabel}
+      <Button size="small" type="submit" disabled={!isValid || isWorking}>
+        {isWorking && <Spinner className="h-4 w-4" />}
+        {isWorking ? "Processing..." : submitLabel}
       </Button>
     </form>
   );

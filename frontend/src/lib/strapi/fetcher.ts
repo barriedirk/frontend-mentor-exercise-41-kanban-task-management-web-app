@@ -8,8 +8,19 @@ export async function fetcher<T>(
     });
 
     if (!res.ok) {
-      const text = await res.text();
-      throw new Error(`Fetch failed: ${res.status} - ${text}`);
+      if (res.status >= 500) {
+        throw new Error("SERVER_UNDER_MAINTENANCE");
+      }
+
+      const contentType = res.headers.get("content-type");
+
+      if (contentType && contentType.includes("application/json")) {
+        const errorData = await res.json();
+
+        throw new Error(errorData?.error?.message || `Error ${res.status}`);
+      }
+
+      throw new Error(`Fetch failed: ${res.status}`);
     }
 
     if (res.status === 204) {

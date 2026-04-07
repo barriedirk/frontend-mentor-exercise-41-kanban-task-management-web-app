@@ -15,13 +15,14 @@ import DropDownForm, {
 } from "@/components/forms/fields/DropDownForm";
 import { BoardColumnModel } from "@/features/board/types/board.types";
 import { useMemo } from "react";
+import Spinner from "@/components/ui/Spinner";
 
 interface UpdateTaskFormProps {
   defaultValues: TaskFormBase;
   status?: BoardColumnModel[] | undefined;
   resolver?: Resolver<TaskFormBase>;
   onSubmit: SubmitHandler<TaskFormBase>;
-  submitLabel: string;
+  isLoading?: boolean;
 }
 
 export default function UpdateTaskForm({
@@ -29,7 +30,7 @@ export default function UpdateTaskForm({
   status,
   resolver,
   onSubmit,
-  submitLabel,
+  isLoading = false,
 }: UpdateTaskFormProps) {
   const options: Option[] = useMemo(() => {
     return (status || []).map((item) => ({
@@ -93,7 +94,10 @@ export default function UpdateTaskForm({
         {defaultValues.description}
       </p>
 
-      <h3 className="form-label">Subtasks</h3>
+      <h3 className="form-label flex">
+        Subtasks
+        {!isLoading && <Spinner className="h-4 w-4 ml-2" />}
+      </h3>
 
       <div
         className={clsx(

@@ -39,6 +39,7 @@ export default function EditTaskModal({
           defaultValues={task}
           submitLabel="Create Task"
           status={status}
+          isLoading={loading}
           onSubmit={async () => {
             onConfirm();
           }}

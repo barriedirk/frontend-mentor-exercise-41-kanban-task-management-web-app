@@ -51,6 +51,7 @@ export default function TaskModal({
           }
           submitLabel={submitLabel}
           status={status}
+          isLoading={loading}
           onSubmit={async (values) => {
             onConfirm(values);
           }}

@@ -501,6 +501,37 @@ export interface ApiColumnColumn extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiPingPing extends Struct.CollectionTypeSchema {
+  collectionName: 'pings';
+  info: {
+    displayName: 'Ping';
+    pluralName: 'pings';
+    singularName: 'ping';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::ping.ping'> &
+      Schema.Attribute.Private;
+    ping: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.SetMinMaxLength<{
+        maxLength: 4;
+        minLength: 4;
+      }> &
+      Schema.Attribute.DefaultTo<'entry'>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiTaskTask extends Struct.CollectionTypeSchema {
   collectionName: 'tasks';
   info: {
@@ -1052,6 +1083,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::board.board': ApiBoardBoard;
       'api::column.column': ApiColumnColumn;
+      'api::ping.ping': ApiPingPing;
       'api::task.task': ApiTaskTask;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

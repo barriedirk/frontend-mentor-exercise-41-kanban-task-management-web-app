@@ -62,7 +62,7 @@ const UpdateTaskModal = memo(
         <UpdateTaskForm
           status={status}
           defaultValues={task}
-          submitLabel="Create Task"
+          isLoading={loading}
           onSubmit={async (values) => {
             onConfirm(values);
           }}
