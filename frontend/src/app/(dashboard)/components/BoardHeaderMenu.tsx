@@ -20,12 +20,9 @@ export default function BoardHeaderMenu() {
   return (
     <div className="board-header__menu">
       <button
-        disabled={!activeBoard}
         className="ml-2 w-3 flex items-center"
-        title={!activeBoard ? "Please, select a board first." : ""}
-        aria-label={
-          !activeBoard ? "Please, select a board first." : "Board options"
-        }
+        title="Board options"
+        aria-label="Board options"
         onClick={() => setIsMenuOpen(true)}
       >
         <Image
@@ -37,23 +34,22 @@ export default function BoardHeaderMenu() {
           priority
         />
       </button>
-      {isMenuOpen && activeBoard && (
+      {isMenuOpen && (
         <BoardHeaderMenuOptions
+          activeBoard={!!activeBoard}
           onEdit={() => openModal("edit")}
           onDelete={() => openModal("delete")}
           onClose={() => setIsMenuOpen(false)}
         />
       )}
-
-      {activeModal === "edit" && activeBoard && (
+      {activeBoard && activeModal === "edit" && (
         <EditBoardFeature
           board={activeBoard}
           open={true}
           onClose={closeModal}
         />
       )}
-
-      {activeModal === "delete" && activeBoard && (
+      {activeBoard && activeModal === "delete" && (
         <DeleteBoardFeature
           boardId={activeBoard.id!}
           boardName={activeBoard.name}

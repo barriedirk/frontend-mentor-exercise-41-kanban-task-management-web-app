@@ -6,6 +6,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 
 import { ThemeProvider } from "./ThemeProvider";
 import PortalRoot from "@/components/ui/PortalRoot";
+import { Toaster } from "@/components/ui/sonner";
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -38,6 +39,7 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${plusJakarta.className} ${plusJakarta.variable}`}
+      suppressHydrationWarning
     >
       <head>
         <script
@@ -66,6 +68,7 @@ export default function RootLayout({
         <ThemeProvider>
           {children}
           <PortalRoot />
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

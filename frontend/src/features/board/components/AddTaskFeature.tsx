@@ -35,7 +35,7 @@ export default function AddTaskFeature({ open, onClose }: AddTaskFeatureProps) {
   const defaultValues = useMemo(() => taskToForm(emptyTask), []);
 
   async function handleConfirm(values: TaskFormBase) {
-    const toastId = toast.loading("Adding task...");
+    const toastId = toast.loading("Adding task...", { duration: 2000 });
 
     const columnSelected = board?.columns.find(
       (col) => col.id === values.columnId,
@@ -50,13 +50,17 @@ export default function AddTaskFeature({ open, onClose }: AddTaskFeatureProps) {
       if (!!newTask) {
         setAddTask(values.columnId, mapStrapiToTask(values.columnId, newTask));
 
-        toast.success("Task created successfully", { id: toastId });
+        toast.success("Task created successfully", {
+          id: toastId,
+          duration: 2000,
+        });
 
         onClose();
         router.refresh();
       } else {
         toast.error("Failed to create task. Please try again.", {
           id: toastId,
+          duration: 2000,
         });
       }
     });

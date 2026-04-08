@@ -7,7 +7,6 @@ export default async function DashboardLayout({
   readonly children: React.ReactNode;
 }) {
   const cookieStore = await cookies();
-  // const cookiesGetAll = (await cookies()).getAll(); // @todo, remove
   const isLoggedIn = cookieStore.get("auth_token");
 
   if (!isLoggedIn) {

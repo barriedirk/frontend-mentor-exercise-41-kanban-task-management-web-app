@@ -43,69 +43,96 @@ export default function TaskFeature({ task, open, onClose }: TaskFeatureProps) {
   const defaultValues = useMemo(() => initialTaskData, [initialTaskData]);
 
   async function handleDeleteConfirm() {
-    const toastId = toast.loading("Delete task...");
-
     startTransition(async () => {
-      if (!task.id) {
-        onClose();
-        router.refresh();
-      }
+      toast.promise(
+        async () => {
+          if (!task.id) {
+            onClose();
+            router.refresh();
 
-      const success = await deleteTask(task.id!.toString());
+            throw new Error("No task ID");
+          }
 
-      if (success) {
-        toast.success("Task created successfully", { id: toastId });
+          const success = await deleteTask(task.id.toString());
+          if (!success) throw new Error("Delete failed");
 
-        deleteTaskStore(task.columnId, task.id!);
+          deleteTaskStore(task.columnId, task.id);
+          onClose();
+          router.refresh();
 
-        onClose();
-        router.refresh();
-      } else {
-        toast.error("Failed to create task. Please try again.", {
-          id: toastId,
-        });
-      }
+          return success;
+        },
+        {
+          loading: "Deleting task...",
+          success: "Task deleted successfully",
+          error: "Failed to delete task",
+          duration: 2000,
+        },
+      );
     });
   }
 
   async function handleEditConfirm(values: TaskFormBase) {
-    const toastId = toast.loading("Editing task...");
-
     startTransition(async () => {
-      const success = await updateTask(
-        task.id as string,
-        mapFormToStrapiEdit(values),
+      toast.promise(
+        async () => {
+          if (!task.id) {
+            onClose();
+            router.refresh();
+
+            throw new Error("No task ID");
+          }
+
+          const success = await updateTask(
+            task.id as string,
+            mapFormToStrapiEdit(values),
+          );
+          if (!success) throw new Error("Edited failed");
+
+          updateTaskInState(task.id as string, values);
+
+          onClose();
+          router.refresh();
+
+          return success;
+        },
+        {
+          loading: "Editing task...",
+          success: "Task edited successfully",
+          error: "Failed to edit task",
+          duration: 2000,
+        },
       );
-
-      if (success) {
-        updateTaskInState(task.id as string, values);
-
-        onClose();
-        router.refresh();
-      } else {
-        toast.error("Failed to edit task. Please try again.", {
-          id: toastId,
-        });
-      }
     });
   }
 
   async function handleUpdateConfirm(values: TaskFormBase) {
-    const toastId = toast.loading("Adding task...");
-
     startTransition(async () => {
-      const success = await updateTask(
-        task.id as string,
-        mapFormToStrapiUpdate(values),
-      );
+      toast.promise(
+        async () => {
+          if (!task.id) {
+            onClose();
+            router.refresh();
 
-      if (success) {
-        updateTaskInState(task.id as string, values);
-      } else {
-        toast.error("Failed to create task. Please try again.", {
-          id: toastId,
-        });
-      }
+            throw new Error("No task ID");
+          }
+
+          const success = await updateTask(
+            task.id as string,
+            mapFormToStrapiUpdate(values),
+          );
+
+          if (success) updateTaskInState(task.id as string, values);
+
+          return success;
+        },
+        {
+          loading: "Updating task...",
+          success: "Task Updated successfully",
+          error: "Failed to update task",
+          duration: 2000,
+        },
+      );
     });
   }
 
