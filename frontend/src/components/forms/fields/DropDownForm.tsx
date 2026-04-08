@@ -59,8 +59,6 @@ const DropDownForm = <T extends FieldValues>({
   const iconChevron = "/icon-chevron-down.svg";
   const iconCross = "/icon-cross.svg";
 
-  useEffect(() => {}, []);
-
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (selectRef.current && !selectRef.current.contains(e.target as Node)) {

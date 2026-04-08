@@ -29,7 +29,7 @@
 .form-control {
   line-height: 1.5;
   font-family: var(--ff);
-  font-weight: var(--fw-bold§);
+  font-weight: var(--fw-bold);
   font-size: var(--fs-12);
 }
 
