@@ -10,7 +10,6 @@ export interface BoardModelBase {
 
 export interface BoardModel extends BoardModelBase {
   columns: BoardColumnModel[];
-  // @todo, shareToken and shareMode will be implemented later
   shareToken?: string | null;
   shareMode?: ShareMode;
 }

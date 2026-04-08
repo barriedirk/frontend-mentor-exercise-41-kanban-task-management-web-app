@@ -46,8 +46,14 @@ const UpdateTaskModal = memo(
             showDeleteModalTask();
           },
         },
+        {
+          label: "Close Modal",
+          onClick: () => {
+            onCancel();
+          },
+        },
       ],
-      [showEditModalTask, showDeleteModalTask],
+      [showEditModalTask, showDeleteModalTask, onCancel],
     );
 
     return (

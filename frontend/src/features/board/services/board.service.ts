@@ -193,7 +193,6 @@ export async function addBoard(values: AddBoardValues): Promise<boolean> {
         body: JSON.stringify({
           data: {
             name: values.name,
-            // @todo, review shareMode, shareToken
           },
         }),
       },

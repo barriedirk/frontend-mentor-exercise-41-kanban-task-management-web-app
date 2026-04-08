@@ -96,23 +96,6 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       });
 
       return { activeBoard: { ...state.activeBoard, columns: updatedColumns } };
-
-      // @todo, old code,
-      // const [movedTask] = (sourceCol.tasks ?? []).splice(sourceIndex, 1);
-      //
-      // if (sourceColId !== destinationColId) {
-      //   movedTask.columnId = destinationColId;
-      // }
-      //
-      // calculatedPosition = fractionalIndexingTask(
-      //   destCol.tasks || [],
-      //   destinationIndex,
-      // );
-      //
-      // movedTask.position = calculatedPosition;
-      // destCol.tasks?.splice(destinationIndex, 0, movedTask);
-      //
-      // return { activeBoard: { ...state.activeBoard, columns: newColumns } };
     });
 
     return calculatedPosition;

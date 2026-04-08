@@ -1,10 +1,11 @@
 "use client";
-import { useId } from "react";
+import { useId, useMemo } from "react";
 
 import Modal from "@/components/ui/Modal";
 import { TaskFormBase } from "@/features/board/types/task-form.types";
 import TaskForm from "./TaskForm";
 import { BoardColumnModel } from "@/features/board/types/board.types";
+import { SubMenuItem } from "@/features/board/types/sub-menu-item";
 
 interface EditTaskModalProps {
   open: boolean;
@@ -24,6 +25,17 @@ export default function EditTaskModal({
   onConfirm,
 }: EditTaskModalProps) {
   const formTitleId = useId();
+  const subMenus: SubMenuItem[] = useMemo(
+    () => [
+      {
+        label: "Close Modal",
+        onClick: () => {
+          onCancel();
+        },
+      },
+    ],
+    [onCancel],
+  );
 
   return (
     <Modal
@@ -32,6 +44,7 @@ export default function EditTaskModal({
       title="Edit Task"
       onClose={onCancel}
       size="large"
+      subMenus={subMenus}
     >
       {!status?.length && <p>Please, add a columns before you add a task.</p>}
       {!!status?.length && (

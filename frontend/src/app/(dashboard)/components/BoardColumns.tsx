@@ -9,7 +9,6 @@ import {
 
 import "./board-columns.css";
 
-import Button from "@/components/ui/Button";
 import BoardColumn from "./BoardColumn";
 import BoardAddColumn from "./BoardAddColumn";
 
@@ -22,12 +21,12 @@ import { POSITION_STEP } from "@/lib/constants";
 
 export default function BoardColumns() {
   const board = useBoardStore((state) => state.activeBoard);
-  const activeBoard = useBoardStore((state) => state.activeBoard);
+
   const [isDraggingColumn, setIsDraggingColumn] = useState(false);
 
   const moveColumnInStore = useBoardStore((state) => state.moveColumnInStore);
   const moveTaskInStore = useBoardStore((state) => state.moveTaskInStore);
-  const setColumnsInState = useBoardStore((state) => state.setColumnsInState);
+
   const isSyncing = useBoardStore((state) => state.isSyncing);
   const setIsSyncing = useBoardStore((state) => state.setIsSyncing);
 
@@ -131,14 +130,6 @@ export default function BoardColumns() {
             <p className="text-heading-l text-medium-grey p-2 max-w-[24rem] text-center">
               This board is empty. Create a new column to get started.
             </p>
-            <Button
-              className="flex justify-center items-center text-preset-4"
-              onClick={() => {
-                // @Todo Add New Column
-              }}
-            >
-              + Add New Column
-            </Button>
           </div>
         )}
         {!!board?.columns?.length && (

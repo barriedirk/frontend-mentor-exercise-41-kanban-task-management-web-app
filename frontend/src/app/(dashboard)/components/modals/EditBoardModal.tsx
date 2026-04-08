@@ -1,6 +1,6 @@
 "use client";
 
-import { useId } from "react";
+import { useId, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { editBoardSchema, EditBoardValues } from "@/schemas/board.schema";
 
@@ -8,6 +8,7 @@ import Modal from "@/components/ui/Modal";
 
 import { BoardForm } from "./BoardForm";
 import { BoardFormBase } from "@//features/board/types/board-form.types";
+import { SubMenuItem } from "@/features/board/types/sub-menu-item";
 
 interface EditBoardModalProps {
   open: boolean;
@@ -25,8 +26,17 @@ export default function EditBoardModal({
   onConfirm,
 }: EditBoardModalProps) {
   const formTitleId = useId();
-
-  // @todo, remove typescript error
+  const subMenus: SubMenuItem[] = useMemo(
+    () => [
+      {
+        label: "Close Modal",
+        onClick: () => {
+          onCancel();
+        },
+      },
+    ],
+    [onCancel],
+  );
 
   return (
     <Modal
@@ -34,9 +44,11 @@ export default function EditBoardModal({
       titleId={formTitleId}
       title="Edit Board"
       onClose={onCancel}
+      subMenus={subMenus}
       size="large"
     >
       <BoardForm<EditBoardValues>
+        isLoading={loading}
         defaultValues={board as EditBoardValues}
         resolver={zodResolver(editBoardSchema)}
         submitLabel="Edit Board"

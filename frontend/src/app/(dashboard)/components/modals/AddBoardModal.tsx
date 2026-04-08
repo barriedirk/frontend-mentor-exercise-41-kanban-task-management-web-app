@@ -1,6 +1,6 @@
 "use client";
 
-import { useId } from "react";
+import { useId, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addBoardSchema } from "@/schemas/board.schema";
 import { Resolver } from "react-hook-form";
@@ -10,6 +10,7 @@ import Modal from "@/components/ui/Modal";
 import { BoardForm } from "./BoardForm";
 import { BoardFormBase } from "@//features/board/types/board-form.types";
 import { POSITION_STEP } from "@/lib/constants";
+import { SubMenuItem } from "@/features/board/types/sub-menu-item";
 
 interface AddBoardModalProps {
   open: boolean;
@@ -27,6 +28,17 @@ export default function AddBoardModal({
   onConfirm,
 }: AddBoardModalProps) {
   const formTitleId = useId();
+  const subMenus: SubMenuItem[] = useMemo(
+    () => [
+      {
+        label: "Close Modal",
+        onClick: () => {
+          onCancel();
+        },
+      },
+    ],
+    [onCancel],
+  );
 
   return (
     <Modal
@@ -35,6 +47,7 @@ export default function AddBoardModal({
       title="Add Board"
       onClose={onCancel}
       size="large"
+      subMenus={subMenus}
     >
       <BoardForm
         defaultValues={board}

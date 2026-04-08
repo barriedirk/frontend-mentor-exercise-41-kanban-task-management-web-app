@@ -1,6 +1,6 @@
 "use client";
 
-import { useId } from "react";
+import { useId, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Resolver } from "react-hook-form";
 
@@ -10,6 +10,7 @@ import TaskForm from "./TaskForm";
 import { BoardColumnModel } from "@/features/board/types/board.types";
 
 import { addTaskSchema } from "@/schemas/task.schema";
+import { SubMenuItem } from "@/features/board/types/sub-menu-item";
 
 interface TaskModalProps {
   status: BoardColumnModel[] | undefined;
@@ -33,6 +34,17 @@ export default function TaskModal({
   onConfirm,
 }: TaskModalProps) {
   const formTitleId = useId();
+  const subMenus: SubMenuItem[] = useMemo(
+    () => [
+      {
+        label: "Close Modal",
+        onClick: () => {
+          onCancel();
+        },
+      },
+    ],
+    [onCancel],
+  );
 
   return (
     <Modal
@@ -40,6 +52,7 @@ export default function TaskModal({
       titleId={formTitleId}
       title={title}
       onClose={onCancel}
+      subMenus={subMenus}
       size="large"
     >
       {!status?.length && <p>Please, add a columns before you add a task.</p>}
