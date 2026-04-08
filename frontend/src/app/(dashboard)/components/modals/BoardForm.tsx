@@ -84,6 +84,7 @@ export function BoardForm<T extends FieldValues & BoardFormBase>({
         name={"name" as Path<T>}
         control={control}
         label="Board Name"
+        autoComplete="board-name"
         placeholder="e.g. ACME"
         error={errors.name as FieldError}
         maxLength={30}

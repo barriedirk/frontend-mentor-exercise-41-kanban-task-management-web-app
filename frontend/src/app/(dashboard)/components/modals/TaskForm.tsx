@@ -92,6 +92,7 @@ export default function TaskForm<T extends FieldValues & TaskFormBase>({
         control={control}
         label="Title"
         placeholder="e.g. ACME"
+        autoComplete="title-task"
         error={errors.name as FieldError}
         maxLength={100}
       />
