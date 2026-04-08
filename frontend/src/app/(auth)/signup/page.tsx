@@ -47,7 +47,7 @@ export default function SignUpRoute() {
   };
 
   return (
-    <div className="signup">
+    <main className="signup">
       <h1
         id="signup-heading"
         className="text-preset-2 md:text-preset-1 text-grey-900 mb-2.5"
@@ -113,6 +113,6 @@ export default function SignUpRoute() {
           Sign In
         </Link>
       </p>
-    </div>
+    </main>
   );
 }

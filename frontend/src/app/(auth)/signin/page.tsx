@@ -54,7 +54,7 @@ export default function SignInRoute() {
   };
 
   return (
-    <div className="login">
+    <main className="login">
       <h1
         id="login-heading"
         className="text-preset-2 md:text-preset-1 text-grey-900 mb-2.5"
@@ -123,6 +123,6 @@ export default function SignInRoute() {
         </button>
         <span>to explore the demo.</span>
       </div>
-    </div>
+    </main>
   );
 }

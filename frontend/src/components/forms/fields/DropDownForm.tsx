@@ -8,7 +8,7 @@ import {
 
 import Image from "next/image";
 
-import React, { useState, useRef, useEffect, useId } from "react";
+import React, { useState, useRef, useEffect, useId, useCallback } from "react";
 
 import clsx from "clsx";
 
@@ -51,10 +51,10 @@ const DropDownForm = <T extends FieldValues>({
 
     setIsOpen((prev) => !prev);
   };
-  const closeDropdown = () => {
+  const closeDropdown = useCallback(() => {
     setIsOpen(false);
     setHighlightedIndex(-1);
-  };
+  }, []);
 
   const iconChevron = "/icon-chevron-down.svg";
   const iconCross = "/icon-cross.svg";
@@ -64,16 +64,12 @@ const DropDownForm = <T extends FieldValues>({
       if (selectRef.current && !selectRef.current.contains(e.target as Node)) {
         closeDropdown();
       }
-
-      document.addEventListener("click", handleClickOutside);
-
-      return () => document.removeEventListener("click", handleClickOutside);
     };
 
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [closeDropdown]);
 
   useEffect(() => {
     if (isOpen && highlightedIndex >= 0 && dropdownRef.current) {

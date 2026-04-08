@@ -9,23 +9,23 @@ export default function BoardBody() {
 
   if (isLoading) {
     return (
-      <div
+      <main
         className="board-columns pt-2 px-2 flex items-center justify-center"
         aria-labelledby="board-columns-title"
       >
         Loading ...
-      </div>
+      </main>
     );
   }
 
   if (!hasActiveBoard) {
     return (
-      <div
+      <main
         className="board-columns pt-2 px-2 flex items-center justify-center"
         aria-labelledby="board-columns-title"
       >
         <p className="text-heading-l">Add a new Board or active one.</p>
-      </div>
+      </main>
     );
   }
 
