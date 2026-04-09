@@ -17,7 +17,7 @@ export function BoardHeaderMenuOptions({
   onClose,
 }: Props) {
   const router = useRouter();
-  const resetBoards = useBoardStore(state => state.resetBoards);
+  const resetBoards = useBoardStore((state) => state.resetBoards);
 
   return (
     <div className="fixed inset-0 z-40 bg-black/50" onClick={onClose}>
@@ -50,7 +50,7 @@ export function BoardHeaderMenuOptions({
             <button
               className="text-preset-3 text-red hover:font-bold"
               onClick={async () => {
-                try {                
+                try {
                   toast.promise(logoutAction(), {
                     loading: "Closing session...",
                     success: "See you soon!",
@@ -60,12 +60,13 @@ export function BoardHeaderMenuOptions({
 
                   router.push("/signin");
                   router.refresh();
-
                 } catch (error) {
-                    console.error("Logout failed", error);
+                  console.error("Logout failed", error);
                 }
               }}
-            >Logout</button>
+            >
+              Logout
+            </button>
           </li>
         </ul>
       </div>
