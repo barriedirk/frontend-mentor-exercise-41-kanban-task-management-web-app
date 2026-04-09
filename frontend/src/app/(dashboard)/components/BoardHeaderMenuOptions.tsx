@@ -1,4 +1,6 @@
 import { logoutAction } from "@/features/auth/actions/logout";
+import { useBoardStore } from "@/features/board/store/useBoardStore";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 interface Props {
@@ -14,6 +16,9 @@ export function BoardHeaderMenuOptions({
   onDelete,
   onClose,
 }: Props) {
+  const router = useRouter();
+  const resetBoards = useBoardStore(state => state.resetBoards);
+
   return (
     <div className="fixed inset-0 z-40 bg-black/50" onClick={onClose}>
       <div
@@ -45,15 +50,22 @@ export function BoardHeaderMenuOptions({
             <button
               className="text-preset-3 text-red hover:font-bold"
               onClick={async () => {
-                toast.promise(logoutAction(), {
-                  loading: "Closing session...",
-                  success: "See you soon!",
-                  error: "Closing session...",
-                });
+                try {                
+                  toast.promise(logoutAction(), {
+                    loading: "Closing session...",
+                    success: "See you soon!",
+                    error: "Closing session...",
+                  });
+                  resetBoards();
+
+                  router.push("/signin");
+                  router.refresh();
+
+                } catch (error) {
+                    console.error("Logout failed", error);
+                }
               }}
-            >
-              Logout
-            </button>
+            >Logout</button>
           </li>
         </ul>
       </div>

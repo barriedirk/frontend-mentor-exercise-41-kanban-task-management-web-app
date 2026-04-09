@@ -25,6 +25,7 @@ interface BoardState {
   setIsSyncing: (loading: boolean) => void;
   saveSnapshot: () => void;
   rollback: () => void;
+  resetBoards: () => void;
   moveTaskInStore: (
     sourceColId: string,
     destinationColId: string,
@@ -190,6 +191,9 @@ export const useBoardStore = create<BoardState>((set, get) => ({
       };
     });
   },
+
+  resetBoards: () =>
+    set({ boards: [], activeBoard: null, previousBoardSnapshot: null }),
 
   saveSnapshot: () =>
     set((state) => ({ previousBoardSnapshot: state.activeBoard })),
