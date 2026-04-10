@@ -78,3 +78,12 @@ NEXT_PUBLIC_STRAPI_URL="<your_strapi_remote_or_local_url>"
 ```
 
 _(Ensure environmental keys remain untracked by source control to prevent unauthorized exposure of credentials.)_
+
+
+### Note:
+Additionally, inside of Strapi, make sure that the roles for the tables under the authenticated menu are set:
+
+![Strapi](./strapi-01.png)
+![Strapi](./strapi-02.png)
+![Strapi](./strapi-03.png)
+![Strapi](./strapi-04.png)
