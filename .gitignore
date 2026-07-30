@@ -180,3 +180,6 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# copias de seguridad locales
+kanban-backup.tar.gz
